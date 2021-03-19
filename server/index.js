@@ -10,8 +10,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
 
-// api.connect(app, '/api')
-
 app.get('*', function (req, res) {
     res.status(404).send()
 })
