@@ -1,63 +1,135 @@
 .home-container{
-    padding-top:10%;
-}
-.button-container {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.button {
-    font-family:'Montserrat' ,  'sans-serif';
-    color:#464646;
-    padding: 8px 10%;
-    line-height: 1.75;
-    background-color: white;
-    border: 0;
-    cursor: pointer;
-    margin: 8px;
-    display: inline-flex;
-    outline: 0;
-    position: relative;
-    border-radius: 25px;
-    box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
-    background-color: #fcfcfd;
-    &:hover {
-        background-color: #007dd1;
-        transition:0.7s;
-    }
-}
-
-.logo-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-self: center;
-    padding: 1% 2% 1%;
-    margin-top: 1%;
-    margin-bottom: 0.5%;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    border-top: 1px solid rgb(232, 232, 232);
-    border-left: 0.2px solid rgb(232, 232, 232);
-    border-right: 0.2px solid rgb(232, 232, 232);
-    margin: auto;
-    width: 70%;
-    background: rgb(255,255,255);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    background-color: #fcfcfd;
-    .logo-image{
-        width:20%;
+    padding-top: 10%;
+    .main-container{
         display:flex;
-        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 3% 2% 3%;
+        margin-top: 1%;
+        margin-bottom: 0.5%;
+        border-bottom: 1px solid rgb(232, 232, 232);
+        border-top: 1px solid rgb(232, 232, 232);
+        border-left: 0.2px solid rgb(232, 232, 232);
+        border-right: 0.2px solid rgb(232, 232, 232);
+        background: rgb(255,255,255);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        background-color: #fafbff;
+        width:70%;
+        margin: auto;
+        .button-container {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        
+        .button {
+            font-family:'Yanone Kaffeesatz' ,  'sans-serif';
+            color:#464646;
+            padding: 8px 10%;
+            line-height: 1.75;
+            background-color: white;
+            border: 0;
+            cursor: pointer;
+            margin: 10px;
+            display: inline-flex;
+            justify-content: center;
+            outline: 0;
+            border-radius: 25px;
+            box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
+            background-color: #fcfcfd;
+            width:25%;
+            &:hover {
+                background-color: #007dd1;
+                transition:0.7s;
+            }
+        }
+        
+        .logo-container{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-self: center;
+            padding: 1% 2% 1%;
+            margin-top: 1%;
+            margin-bottom: 0.5%;
+            border-bottom: 1px solid rgb(232, 232, 232);
+            border-top: 1px solid rgb(232, 232, 232);
+            border-left: 0.2px solid rgb(232, 232, 232);
+            border-right: 0.2px solid rgb(232, 232, 232);
+            margin: auto;
+            width: 70%;
+            background: rgb(255,255,255);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            background-color: #fcfcfd;
+            .logo-image{
+                width:20%;
+                display:flex;
+                align-items: flex-start;
+            }
+            .logo-sign{
+                font-family: 'Yanone Kaffeesatz', sans-serif;
+                font-size: 4rem;
+                padding-top: 3%;
+                padding-left: 5%;
+            }
+        }
+        
     }
-    .logo-sign{
-        font-family: 'Yanone Kaffeesatz', sans-serif;
-        font-size: 4rem;
-        padding-top: 3%;
-        padding-left: 5%;
+}
+
+
+@media only screen and (max-width:560px){
+    .home-container{
+        padding-top:45% !important;
+    }
+    .main-container{
+       display: flex;
+       justify-content: center;
+       
+    }
+    .button{
+        width:45% !important;
+        font-size: 0.6rem !important;
+    }
+    .logo-container{
+        flex-direction: column !important;
+        align-items: center;
+        .logo-image{
+            width:100% !important;
+        }
+        .logo-sign{
+            font-size: 0.6rem !important;
+        }
+    }
+}
+
+@media only screen and (max-width:1310px){
+    .home-container{
+        padding-top:15%;
+    }
+    .main-container{
+        display: flex;
+        justify-content: center;
+    }
+    .logo-container{
+        flex-direction: row;
+        .logo-image{
+            width:20% !important;
+        }
+        .logo-sign{
+            font-size: 2rem !important;
+        }
+    }
+    .button{
+        width:45% !important;
+        font-size: 1rem !important;
     }
 }
