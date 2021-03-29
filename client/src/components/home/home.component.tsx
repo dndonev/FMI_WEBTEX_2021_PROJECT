@@ -4,13 +4,15 @@ import logo from '../../assets/logo.png'
 const HomeComponent = () => {
     return (
         <div className='home-container'>
-            <div className='logo-container'>
-                <img className='logo-image' src={logo} />
-                <span className='logo-sign'>Personal Cloud</span>
-            </div>
-            <div className='button-container'>
-                <button className='button'>LOG IN</button>
-                <button className='button'>REGISTER</button>
+            <div className='main-container'>
+                <div className='logo-container'>
+                    <img className='logo-image' src={logo} />
+                    <span className='logo-sign'>Personal Cloud</span>
+                </div>
+                <div className='button-container'>
+                    <button className='sign-button'>log in</button>
+                    <button className='sign-button'>register</button>
+                </div>
             </div>
         </div>
     )
