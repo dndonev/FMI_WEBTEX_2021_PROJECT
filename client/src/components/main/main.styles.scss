@@ -44,7 +44,26 @@
 		}
 	}
 
-	.sidebar {
+	.middle-container {
+		display: flex;
 		margin-top: 25px;
+		justify-content: space-evenly;
+	}
+
+	.sidebar {
+		width: 20%;
+	}
+
+	.files-container {
+		width: 80%;
+		min-height: 600px;
+		margin-left: 25px;
+		border-bottom: $container-border-bottom;
+		border-top: $container-border-top;
+		border-left: $container-border-left;
+		border-right: $container-border-right;
+		border-color: $button-hover-color;
+		border-radius: 25px;
+
 	}
 }

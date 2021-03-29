@@ -10,12 +10,15 @@ const MainComponent = () => {
 			<div className="header">
 				<button className="login-button" type="button">log out</button>
 			</div>
-			<div className="sidebar">
-				<SideBarComponent />
-			</div>
-			<div className="files-container">
-				<div className="search-box">to be component</div>
-				<div className="file-container"></div>
+			<div className="middle-container">
+				<div className="sidebar">
+					<SideBarComponent />
+				</div>
+				<div className="files-container">
+					<div className="search-box">to be component</div>
+					<div className="file-container"></div>
+				</div>
+
 			</div>
 		</div>
 	)
