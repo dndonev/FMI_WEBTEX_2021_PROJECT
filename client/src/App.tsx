@@ -3,10 +3,10 @@ import './App.scss';
 
 import HomeComponent from './components/home/home.component'
 
-const  App = () => {
+const App = () => {
   return (
     <div className="App">
-      <HomeComponent/>
+      <HomeComponent />
     </div>
   );
 }
