@@ -1,3 +1,6 @@
+@import './../../variables';
+@import './../../fonts';
+
 .home-container{
     padding-top:10%;
 }
@@ -37,10 +40,10 @@
     padding: 1% 2% 1%;
     margin-top: 1%;
     margin-bottom: 0.5%;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    border-top: 1px solid rgb(232, 232, 232);
-    border-left: 0.2px solid rgb(232, 232, 232);
-    border-right: 0.2px solid rgb(232, 232, 232);
+	border-bottom: $container-border-bottom;
+	border-top: $container-border-top;
+	border-left: $container-border-left;
+	border-right: $container-border-right;
     margin: auto;
     width: 70%;
     background: rgb(255,255,255);
@@ -55,7 +58,7 @@
         align-items: flex-start;
     }
     .logo-sign{
-        font-family: 'Yanone Kaffeesatz', sans-serif;
+        font-family: $regular-text-font;
         font-size: 4rem;
         padding-top: 3%;
         padding-left: 5%;
