@@ -1,50 +1,53 @@
+$button-color:#fcfcfd;
+$button-hover-color: #007dd1;
+$font-family:'Yanone Kaffeesatz' ,  'sans-serif';
+
 .home-container{
     padding-top: 10%;
     .main-container{
-        display:flex;
-        justify-content: center;
-        flex-direction: column;
+        width:70%;
+        margin: auto;
         padding: 3% 2% 3%;
         margin-top: 1%;
         margin-bottom: 0.5%;
+        display:flex;
+        justify-content: center;
+        flex-direction: column;
         border-bottom: 1px solid rgb(232, 232, 232);
         border-top: 1px solid rgb(232, 232, 232);
         border-left: 0.2px solid rgb(232, 232, 232);
         border-right: 0.2px solid rgb(232, 232, 232);
         background: rgb(255,255,255);
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
+        border-radius: 20px;
         background-color: #fafbff;
-        width:70%;
-        margin: auto;
+    
         .button-container {
             display:flex;
+            margin-top: 20px;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            margin-top: 20px;
         }
         
-        .button {
-            font-family:'Yanone Kaffeesatz' ,  'sans-serif';
-            color:#464646;
+        .sign-button {
+            width:25%;
             padding: 8px 10%;
-            line-height: 1.75;
-            background-color: white;
-            border: 0;
-            cursor: pointer;
             margin: 10px;
             display: inline-flex;
             justify-content: center;
+            font-family:$font-family;
+            text-transform: capitalize;
+            color:#464646;
+            line-height: 1.75;
+            border: 0;
+            cursor: pointer;
             outline: 0;
             border-radius: 25px;
             box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
-            background-color: #fcfcfd;
-            width:25%;
+            background-color:  $button-color;
+            
             &:hover {
-                background-color: #007dd1;
+                background-color: $button-hover-color;
                 transition:0.7s;
             }
         }
@@ -68,17 +71,17 @@
             border-bottom-right-radius: 20px;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
-            background-color: #fcfcfd;
+            background-color: $button-color;
             .logo-image{
                 width:20%;
                 display:flex;
                 align-items: flex-start;
             }
             .logo-sign{
-                font-family: 'Yanone Kaffeesatz', sans-serif;
-                font-size: 4rem;
                 padding-top: 3%;
                 padding-left: 5%;
+                font-family: $font-family;
+                font-size: 4rem;
             }
         }
         
@@ -95,7 +98,7 @@
        justify-content: center;
        
     }
-    .button{
+    .sign-button{
         width:45% !important;
         font-size: 0.6rem !important;
     }
@@ -128,7 +131,7 @@
             font-size: 2rem !important;
         }
     }
-    .button{
+    .sign-button{
         width:45% !important;
         font-size: 1rem !important;
     }

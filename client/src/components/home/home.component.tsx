@@ -10,8 +10,8 @@ const HomeComponent = () => {
                     <span className='logo-sign'>Personal Cloud</span>
                 </div>
                 <div className='button-container'>
-                    <button className='button'>LOG IN</button>
-                    <button className='button'>REGISTER</button>
+                    <button className='sign-button'>log in</button>
+                    <button className='sign-button'>register</button>
                 </div>
             </div>
         </div>
