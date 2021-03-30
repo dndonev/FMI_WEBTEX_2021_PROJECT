@@ -5,14 +5,14 @@
 	min-height: 180px;
 	min-width: 200px;
 	border-radius: 25px;
-	width: 20%;
+	width: 100%;
 	height: 15%;
 	text-transform: capitalize;
 	border-bottom: $container-border-bottom;
 	border-top: $container-border-top;
 	border-left: $container-border-left;
 	border-right: $container-border-right;
-
+	border-color: $button-hover-color;
 
 	.nav-list {
 		list-style:  none;
@@ -25,7 +25,6 @@
 		}
 		li:hover {
 			font-weight: bold;
-
 		}
 	}
 }
