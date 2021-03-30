@@ -9,4 +9,13 @@
 	border-right: $container-border-right;
 	border-color: $button-hover-color;
 	border-radius: 25px;
+
+	.search-text {
+		font-style: italic;
+	}
+
+	&:hover {
+		background-color: lightblue;
+		transition: $hover-transition;
+	}
 }
