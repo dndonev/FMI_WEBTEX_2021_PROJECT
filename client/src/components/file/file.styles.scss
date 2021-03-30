@@ -1,0 +1,30 @@
+@import './../../variables';
+
+.file-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 10em;
+	min-width: 10em;
+	border-radius: 25px;
+	width: 100%;
+    margin-top: 10px;
+    max-width: 10em;
+    padding: 10px;
+    border-bottom: $container-border-bottom;
+	border-top: $container-border-top;
+	border-left: $container-border-left;
+	border-right: $container-border-right;
+	border-color: $button-hover-color;
+    cursor: pointer;
+
+    &:hover {
+        background-color: lightblue;
+    }
+    .file-image {
+        flex-grow: 0.9;
+        height: 2.5em;
+        width: 9.5em;
+    }
+}
