@@ -6,7 +6,7 @@ const FileComponent = () => {
     return (
         <div className="file-box">
             <img src={logo} className="file-image" />
-            <span>filename.pdf</span>
+            <span><strong>filename.pdf</strong></span>
             <span>Shared by user</span>
         </div>
     )
