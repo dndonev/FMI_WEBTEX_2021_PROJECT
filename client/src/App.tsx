@@ -4,7 +4,7 @@ import './App.scss';
 import HomeComponent from './components/home/home.component'
 import LoginComponent from './components/login/login.component'
 
-const  App = () => {
+const App = () => {
   return (
     <div className="App">
       <LoginComponent />
