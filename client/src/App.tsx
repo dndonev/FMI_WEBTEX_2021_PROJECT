@@ -1,13 +1,17 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import './App.scss';
 
 import HomeComponent from './components/home/home.component'
 import LoginComponent from './components/login/login.component'
+import { store } from './redux/store';
 
 const App = () => {
   return (
     <div className="App">
-      <LoginComponent />
+      <Provider store={store}>
+        <HomeComponent />
+      </Provider>
     </div>
   );
 }
