@@ -14,9 +14,9 @@ export const rootConfig = {
     storage: storage,
 }
 
-export const publicStore = createStore(
+export const store = createStore(
     rootReducer(history),
     applyMiddleware(thunk, logger, routerMiddleware(history))
 )
 
-export const persistedStore = persistStore(publicStore)
+export const persistedStore = persistStore(store)
