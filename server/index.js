@@ -1,23 +1,30 @@
-require('dotenv').config({ path: __dirname + '/.env' })
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+import dotenv from 'dotenv';
+import express from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
+import { connect } from './api/index.js'
+
+dotenv.config({ path: __dirname + '/.env' });
+
 const app = express()
-const appConfig = require('./app-config.json')
-const api = require('./api')
 
 app.use(express.json())
 app.use(cors())
 
-api.connect(app, '/api');
+connect(app, '/api');
 
 app.get('*', function (req, res) {
     res.status(404).send()
 })
 
-app.listen(appConfig.server.port, () => {
-    mongoose.connect(appConfig.mongodb.connectionString, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => console.log(`Server listening on port ${appConfig.server.port}`))
+app.listen(process.env.PORT, () => {
+    mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => console.log(`Server listening on port ${process.env.PORT}`))
         .catch(err => console.log(err))
 })

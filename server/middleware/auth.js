@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import { verify } from 'jsonwebtoken';
 
 function verifyToken(req, res, next) {
 	const authHeader = req.headers.authorization;
@@ -7,7 +7,7 @@ function verifyToken(req, res, next) {
 		return res.sendStatus(401);
 	}
 
-	const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+	const user = verify(token, process.env.ACCESS_TOKEN_SECRET);
 	if (!user) {
 		return res.sendStatus(403);
 	}
@@ -16,4 +16,4 @@ function verifyToken(req, res, next) {
 	next();
 }
 
-module.exports = verifyToken;
+export default verifyToken;

@@ -1,9 +1,12 @@
-const { Router } = require('express')
-const authController = require('./auth/auth-controller')
-const router = Router()
+import express from 'express'
+import * as authController from './auth/auth-controller.js'
 
-module.exports.connect = (app, path) => {
-    router.use('/auth', authController)
+const { Router } = express;
+
+const router = Router();
+
+export function connect(app, path) {
+    router.use('/auth', authController.default)
 
     app.use(path, router)
 }
