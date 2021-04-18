@@ -1,11 +1,9 @@
-import express from 'express'
+import { Application, Router } from 'express'
 import * as authController from './auth/auth-controller.js'
-
-const { Router } = express;
 
 const router = Router();
 
-export function connect(app, path) {
+export function connect(app: Application, path: string): void {
     router.use('/auth', authController.default)
 
     app.use(path, router)
