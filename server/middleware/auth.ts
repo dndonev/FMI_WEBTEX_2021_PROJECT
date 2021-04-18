@@ -9,9 +9,11 @@ function verifyToken(req: AuthenticatedUserRequest, res: Response, next: NextFun
 		return res.sendStatus(401);
 	}
 
-	const user = verify(token, process.env.ACCESS_TOKEN_SECRET as string) as User;
-	if (!user) {
-		return res.sendStatus(403);
+	let user: User;
+	try {
+		user = verify(token, process.env.ACCESS_TOKEN_SECRET as string) as User;
+	} catch (err) {
+		res.status(403).json(err).send();
 	}
 
 	req.user = user;
