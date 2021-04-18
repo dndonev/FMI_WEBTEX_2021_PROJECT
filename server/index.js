@@ -1,12 +1,16 @@
+require('dotenv').config({ path: __dirname + '/.env' })
 
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 const appConfig = require('./app-config.json')
+const api = require('./api')
 
 app.use(express.json())
 app.use(cors())
+
+api.connect(app, '/api');
 
 app.get('*', function (req, res) {
     res.status(404).send()

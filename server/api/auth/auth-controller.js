@@ -2,6 +2,8 @@ const { Router } = require('express')
 const jwt = require('jsonwebtoken')
 const router = Router();
 
+const refreshTokens = [];
+
 router.post('/token', (req, res) => {
 	const refreshToken = req.body.token;
 
