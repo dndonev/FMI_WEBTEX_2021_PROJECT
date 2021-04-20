@@ -1,5 +1,5 @@
-@import './../../variables';
-@import './../../fonts';
+@import "../../assets/variables";
+@import "../../assets//fonts";
 
 .main-container {
 	height: 100%;
@@ -25,10 +25,10 @@
 		border-right: $container-border-right;
 		border-color: $button-hover-color;
 		border-radius: 25px;
-		padding:25px;
+		padding: 25px;
 
 		.file-container {
-			margin-top: 20px;	
+			margin-top: 20px;
 			display: flex;
 			flex-wrap: wrap;
 			flex-direction: row;

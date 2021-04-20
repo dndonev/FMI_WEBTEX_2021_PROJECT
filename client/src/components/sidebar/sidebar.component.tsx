@@ -1,4 +1,5 @@
-import './sidebar.styles.scss'
+import React from 'react';
+import './sidebar.styles.scss';
 
 const SideBarComponent = () => {
 	return (
@@ -9,7 +10,7 @@ const SideBarComponent = () => {
 				<li>Upload File</li>
 			</ul>
 		</div>
-	)
-}
+	);
+};
 
 export default SideBarComponent;

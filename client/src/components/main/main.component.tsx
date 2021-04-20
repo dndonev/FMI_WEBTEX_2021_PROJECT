@@ -1,9 +1,9 @@
-import './main.styles.scss'
-
-import SideBarComponent from './../sidebar/sidebar.component'
-import HeaderComponent from './../header/header.component'
-import SearchBoxComponent from './../search-box/search-box.component'
-import FileComponent from './../file/file.components'
+import React from 'react';
+import './main.styles.scss';
+import SideBarComponent from './../sidebar/sidebar.component';
+import HeaderComponent from './../header/header.component';
+import SearchBoxComponent from './../search-box/search-box.component';
+import FileComponent from './../file/file.components';
 
 const MainComponent = () => {
 	return (
@@ -29,7 +29,7 @@ const MainComponent = () => {
 
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default MainComponent;

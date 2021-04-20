@@ -1,29 +1,26 @@
-@import './../../variables';
-@import './../../fonts';
+@import "../../assets/variables";
+@import "../../assets/fonts";
 
-$font-family:'Yanone Kaffeesatz' ,  'sans-serif';
+.home-container {
+    padding-top: 13%;
 
-.home-container{
-    padding-top: 10%;
-    .main-container{
-        width:70%;
+    .main-container {
+        width: 70%;
         margin: auto;
         padding: 3% 2% 3%;
-        margin-top: 1%;
-        margin-bottom: 0.5%;
-        display:flex;
+        display: flex;
         justify-content: center;
         flex-direction: column;
         border-bottom: $container-border-bottom;
         border-top: $container-border-top;
         border-left: $container-border-left;
         border-right: $container-border-right;
-        background: rgb(255,255,255);
+        background: rgb(255, 255, 255);
         border-radius: 20px;
         background-color: #fafbff;
 
         .button-container {
-            display:flex;
+            display: flex;
             margin-top: 20px;
             justify-content: center;
             align-items: center;
@@ -31,29 +28,29 @@ $font-family:'Yanone Kaffeesatz' ,  'sans-serif';
         }
 
         .sign-button {
-            width:25%;
+            width: 25%;
             padding: 8px 10%;
             margin: 10px;
             display: inline-flex;
             justify-content: center;
-            font-family:$font-family;
+            font-family: $modals-text-font;
             text-transform: capitalize;
-            color:#464646;
+            color: #464646;
             line-height: 1.75;
             border: 0;
             cursor: pointer;
             outline: 0;
             border-radius: 25px;
             box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
-            background-color:  $button-color;
+            background-color: $button-color;
 
             &:hover {
                 background-color: $button-hover-color;
-                transition:0.7s;
+                transition: 0.7s;
             }
         }
 
-        .logo-container{
+        .logo-container {
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -67,73 +64,80 @@ $font-family:'Yanone Kaffeesatz' ,  'sans-serif';
             border-right: 0.2px solid rgb(232, 232, 232);
             margin: auto;
             width: 70%;
-            background: rgb(255,255,255);
+            background: rgb(255, 255, 255);
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             background-color: $button-color;
-            .logo-image{
-                width:20%;
-                display:flex;
+            .logo-image {
+                width: 20%;
+                display: flex;
                 align-items: flex-start;
             }
-            .logo-sign{
+            .logo-sign {
                 padding-top: 3%;
                 padding-left: 5%;
-                font-family: $font-family;
+                font-family: $modals-text-font;
                 font-size: 4rem;
             }
         }
-
     }
 }
 
-
-@media only screen and (max-width:560px){
-    .home-container{
-        padding-top:45% !important;
+@media only screen and (max-width: 560px) {
+    .home-container {
+        padding-top: 45% !important;
     }
-    .main-container{
-       display: flex;
-       justify-content: center;
 
+    .main-container {
+        display: flex;
+        justify-content: center;
     }
-    .sign-button{
-        width:45% !important;
+
+    .sign-button {
+        width: 45% !important;
         font-size: 0.6rem !important;
     }
-    .logo-container{
+
+    .logo-container {
         flex-direction: column !important;
         align-items: center;
-        .logo-image{
-            width:100% !important;
+
+        .logo-image {
+            width: 100% !important;
         }
-        .logo-sign{
+
+        .logo-sign {
             font-size: 0.6rem !important;
         }
     }
 }
 
-@media only screen and (max-width:1310px){
-    .home-container{
-        padding-top:15%;
+@media only screen and (max-width: 1310px) {
+    .home-container {
+        padding-top: 15%;
     }
-    .main-container{
+
+    .main-container {
         display: flex;
         justify-content: center;
     }
-    .logo-container{
+
+    .logo-container {
         flex-direction: row;
-        .logo-image{
-            width:20% !important;
+
+        .logo-image {
+            width: 20% !important;
         }
-        .logo-sign{
+
+        .logo-sign {
             font-size: 2rem !important;
         }
     }
-    .sign-button{
-        width:45% !important;
+    
+    .sign-button {
+        width: 45% !important;
         font-size: 1rem !important;
     }
 }

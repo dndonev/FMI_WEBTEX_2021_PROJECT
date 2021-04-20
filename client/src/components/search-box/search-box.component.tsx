@@ -1,3 +1,4 @@
+import React from 'react';
 import './search-box.styles.scss';
 
 const SearchBoxComponent = () => {
@@ -5,7 +6,7 @@ const SearchBoxComponent = () => {
 		<div className="search-box">
 			<p className="search-text">Search...</p>
 		</div>
-	)
-}
+	);
+};
 
 export default SearchBoxComponent;

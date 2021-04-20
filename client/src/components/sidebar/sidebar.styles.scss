@@ -1,5 +1,5 @@
-@import './../../variables';
-@import './../../fonts';
+@import "../../assets/variables";
+@import "../../assets/fonts";
 
 .container {
 	min-height: 180px;
@@ -15,9 +15,9 @@
 	border-color: $button-hover-color;
 
 	.nav-list {
-		list-style:  none;
+		list-style: none;
 		text-align: left;
-		line-height:  3em;
+		line-height: 3em;
 
 		li {
 			font-family: $regular-text-font;

@@ -1,29 +1,30 @@
-import clsx from "clsx";
-import React from "react"
+import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { Dispatch } from "redux";
 import { IResetToggles, IToggleLogin, IToggleRegister, TModalReducerActions } from "../../redux/modal-visibility/modal.action";
 import { ModalActionTypes } from "../../redux/modal-visibility/modal.types";
 import { StoreState } from "../../redux/root-reducer";
-import "./register.styles.scss"
-import {RegisterModalProps} from './register.types'
+import "./register.styles.scss";
+import { RegisterModalProps } from './register.types'
 import { connect } from 'react-redux';
+import clsx from "clsx";
 
-const RegisterModal:React.FC<RegisterModalProps> = ({...props}) => {
-const {show, handleClose, toggleRegisterModal, toggleLoginModal, resetTogglesModalAction, toggleLogin, toggleRegister} = props;
+const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
+    const { show, handleClose, toggleRegisterModal, toggleLoginModal, resetTogglesModalAction, toggleLogin, toggleRegister } = props;
 
-const modalVisibilityClassName = show ? "modal display-none" : "modal display-block"
+    const modalVisibilityClassName = show ? "modal display-none" : "modal display-block";
 
-const handleCloseRegister = () => {
-    resetTogglesModalAction();
-    handleClose();
-}
+    const handleCloseRegister = () => {
+        resetTogglesModalAction();
+        handleClose();
+    }
+    
     return (
         <div className={clsx("register-container", modalVisibilityClassName)} onSubmit={handleCloseRegister}>
             <div className="base-container">
-                    <AiFillCloseCircle className='close-button-register' onClick={handleCloseRegister}/>
-                
-                <div className="header">
+                <AiFillCloseCircle className='close-button-register' onClick={handleCloseRegister} />
+
+                <div className="register-header">
                     Register
                 </div>
                 <div className="content">
@@ -46,21 +47,21 @@ const handleCloseRegister = () => {
                         <div className="form-group">
                             <label htmlFor="password">Confirm password</label>
                             <input type="password" name="password" placeholder="Confirm password" />
-                        </div> 
+                        </div>
 
                         <div className="form-group">
                             <label htmlFor="firstName">First name</label>
                             <input type="text" name="firstName" placeholder="First name" />
-                        </div> 
+                        </div>
 
                         <div className="form-group">
-                            <label htmlFor="lstName">Last name</label>
+                            <label htmlFor="lastName">Last name</label>
                             <input type="text" name="lastName" placeholder="Last name" />
-                        </div> 
+                        </div>
 
                         <div className="links">
                             <div className="forgotten-password">
-                                <a href="url">Forgotten password</a>
+                                <a href="url">Forgot password?</a>
                             </div>
                             <div className="dont-have-account-yet">
                                 <a href="url">You already have an account?</a>
@@ -68,7 +69,7 @@ const handleCloseRegister = () => {
                         </div>
 
                         <div className="footer">
-                            <button type="button" className="btn">Register</button>
+                            <button type="button" className="register-button">Register</button>
                         </div>
                     </div>
                 </div>
@@ -76,19 +77,21 @@ const handleCloseRegister = () => {
         </div>
 
     );
-}
+};
 
 const mapStateToProps = (state: StoreState): { toggleLoginModal: boolean, toggleRegisterModal: boolean } => {
     return {
         toggleLoginModal: state.modal.toggleLoginModal,
         toggleRegisterModal: state.modal.toggleRegisterModal
-    }
-}
+    };
+};
+
 const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions>) => {
     return {
         resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
         toggleLogin: () => dispatch<IToggleLogin>({ type: ModalActionTypes.ToggleLoginModal }),
         toggleRegister: () => dispatch<IToggleRegister>({ type: ModalActionTypes.ToggleRegisterModal })
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(RegisterModal);
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterModal);
