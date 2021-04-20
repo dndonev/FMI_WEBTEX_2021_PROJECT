@@ -1,10 +1,10 @@
-import express from 'express'
+import { Request } from 'express'
 
 export interface User {
 	username: string;
 	password: string;
 }
 
-export interface AuthenticatedUserRequest extends express.Request {
+export interface AuthenticatedUserRequest extends Request {
 	user: User
 }

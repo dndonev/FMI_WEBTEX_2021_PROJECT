@@ -1,8 +1,7 @@
 
 import { Router } from 'express'
-import * as jwt from 'jsonwebtoken';
+import { verify, sign } from 'jsonwebtoken';
 import { User } from '../../models/user';
-
 
 const authController = Router();
 
@@ -21,8 +20,8 @@ authController.post('/token', (req, res) => {
 
 	let user: User;
 	try {
-		user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as User;
-		const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string);
+		user = verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as User;
+		const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET as string);
 		res.status(200).json({ accessToken }).send();
 	} catch (err) {
 		res.status(400).json(err).send();
@@ -39,8 +38,8 @@ authController.post('/register', (req, res) => {
 		return res.status(404).send('User not found!')
 	}
 
-	const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '20s' });
-	const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET as string)
+	const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '20s' });
+	const refreshToken = sign(user, process.env.REFRESH_TOKEN_SECRET as string)
 
 	refreshTokens.push(refreshToken);
 	res.status(200).json({ accessToken, refreshToken }).send();
