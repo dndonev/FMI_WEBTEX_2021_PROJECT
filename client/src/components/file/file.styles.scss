@@ -1,4 +1,4 @@
-@import './../../variables';
+@import '../../assets/variables';
 
 .file-box {
     min-height: 10em;
@@ -25,6 +25,7 @@
     &:hover {
         background-color: lightblue;
     }
+    
     .file-image {
         flex-grow: 0.9;
         height: 2.5em;

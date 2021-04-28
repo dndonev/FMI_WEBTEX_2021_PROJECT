@@ -1,6 +1,6 @@
 export interface RegisterModalProps {
     show: boolean;
-    handleClose:()=>void;
+    handleClose: () => void;
     toggleRegisterModal?: boolean;
     toggleLoginModal?: boolean;
     resetTogglesModalAction: () => void;
