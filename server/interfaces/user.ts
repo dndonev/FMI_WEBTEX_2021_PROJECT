@@ -1,8 +1,12 @@
 import { Request } from 'express'
 
 export interface User {
-	username: string;
+	firstName: string;
+	lastName: string;
+	email: string;
 	password: string;
+	username: string;
+	createDate: Date;
 }
 
 export interface AuthenticatedUserRequest extends Request {
