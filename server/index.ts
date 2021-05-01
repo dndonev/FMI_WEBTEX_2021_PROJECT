@@ -1,25 +1,20 @@
-// import { fileURLToPath } from 'url';
-// import { dirname } from 'path';
-
-// const __filename = fileURLToPath('.env');
-// const __dirname = dirname(__filename);
-
-import * as dotenv from 'dotenv';
-import express from 'express'
+import { config } from 'dotenv';
+import { join } from 'path'
+import express, { Application, Request, Response, json } from 'express'
 import { connect } from 'mongoose'
 import cors from 'cors'
-import { connect as connectAPI } from './api/connect.js'
+import { connect as connectAPI } from './api/connect'
 
-dotenv.config();
+config();
 
-const app: express.Application = express();
+const app: Application = express();
 
-app.use(express.json())
+app.use(json())
 app.use(cors())
 
 connectAPI(app, '/api');
 
-app.get('*', function (req: express.Request, res: express.Response) {
+app.get('*', function (req: Request, res: Response) {
     res.status(404).send()
 })
 

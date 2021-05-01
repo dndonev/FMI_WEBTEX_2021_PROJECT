@@ -1,11 +1,11 @@
 
 import { Router } from 'express'
-import verifyToken from '../../middleware/auth';
+import { verifyToken } from '../../middleware/auth';
 
 
 const filesController = Router();
 
-filesController.get('/file', verifyToken, (req, res) => {
+filesController.get('/upload', verifyToken, (req, res) => {
 	res.status(200).send('Nice file!')
 })
 
