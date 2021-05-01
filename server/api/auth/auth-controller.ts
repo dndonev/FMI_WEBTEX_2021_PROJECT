@@ -1,10 +1,11 @@
 
 import { Router } from 'express'
 import { verify, sign } from 'jsonwebtoken';
-import { hash } from 'bcrypt'
+import { compareSync, hash } from 'bcrypt'
 
 import { User } from '../../interfaces/user';
 import { UserModel } from '../../models/user.model';
+import { TokenModel } from '../../models/token.model';
 
 const authController = Router();
 
@@ -31,6 +32,37 @@ authController.post('/token', (req, res) => {
 	}
 });
 
+authController.post('/login', (req, res) => {
+	UserModel.findOne({
+		email: req.body.email
+	})
+		.then(((user: any) => {
+			if (user) {
+				if (compareSync(req.body.password, user.password)) {
+					const payload = {
+						id: user._id,
+						firstName: user.firstName,
+						lastName: user.lastName,
+						email: user.email
+					}
+					const accessToken = sign(payload, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '20m' });
+					const refreshToken = sign(payload, process.env.REFRESH_TOKEN_SECRET as string)
+
+					refreshTokens.push(refreshToken);
+
+					res.send({ accessToken, refreshToken })
+				} else {
+					res.json({ error: 'User does not exist' })
+				}
+			} else {
+				res.json({ error: 'User does not exist' })
+			}
+		}))
+		.catch(err => {
+			res.send('error: ' + err)
+		})
+})
+
 authController.post('/register', (req, res) => {
 
 	const today = new Date()
@@ -54,8 +86,14 @@ authController.post('/register', (req, res) => {
 								const accessToken = sign(newUser, process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '20m' });
 								const refreshToken = sign(newUser, process.env.REFRESH_TOKEN_SECRET as string)
 
-								refreshTokens.push(refreshToken);
-								res.status(200).json({ accessToken, refreshToken, status: newUser.email + ' registered!' }).send();
+
+								const token = new TokenModel({
+									token: refreshToken
+								});
+
+								token.save()
+									.then(() =>
+										res.status(200).json({ accessToken, refreshToken, status: newUser.email + ' registered!' }).send())
 							} catch (err) {
 								res.send('There was an error signing your token');
 							}
@@ -80,8 +118,9 @@ authController.post('/logout', (req, res) => {
 		return res.status(400).send('Invalid token parameter')
 	}
 
-	refreshTokens = refreshTokens.filter(t => t !== token);
-	res.sendStatus(204);
+	TokenModel.findOneAndRemove({ token })
+		.then(() => res.sendStatus(204))
+		.catch(() => res.sendStatus(404))
 })
 
 export default authController;

@@ -4,7 +4,7 @@ import filesController from './files/files-controller';
 
 const router = Router();
 
-export function connect(app: Application, path: string): void {
+export const connect = (app: Application, path: string): void => {
     router.use('/auth', authController);
     router.use('/files', filesController);
 
