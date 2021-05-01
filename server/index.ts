@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import express, { Application, Request, Response, json } from 'express'
 import { connect } from 'mongoose'
 import cors from 'cors'
-import { connect as connectAPI } from './api/connect.js'
+import { connect as connectAPI } from './api/connect'
 
 config();
 
