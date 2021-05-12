@@ -7,8 +7,8 @@ export interface User {
 	password: string;
 	username: string;
 	createDate: Date;
+	id: string;
 }
-
 export interface AuthenticatedUserRequest extends Request {
 	user: User
 }
