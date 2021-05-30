@@ -3,6 +3,7 @@ import express, { Application, Request, Response, json } from 'express'
 import { connect } from 'mongoose'
 import cors from 'cors'
 import { connect as connectAPI } from './api/connect';
+
 config();
 
 const app: Application = express();
