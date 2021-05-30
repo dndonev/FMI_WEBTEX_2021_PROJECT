@@ -31,6 +31,4 @@ statisticsController.get('/shares', verifyToken, (req: AuthenticatedUserRequest,
 	// return the number of shared files;
 });
 
-
-
 export default statisticsController;

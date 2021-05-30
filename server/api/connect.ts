@@ -14,4 +14,3 @@ export const connect = (app: Application, path: string): void => {
 
     app.use(path, router);
 }
-
