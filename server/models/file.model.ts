@@ -13,10 +13,10 @@ const fileSchema = new Schema({
         type: Schema.Types.Date,
         default: Date.now
     },
-    owner: {
+    ownerId: {
         type: Schema.Types.String,
         required: true
     }
 });
 
-export const fileModel = model('fileModel', fileSchema);
+export const FileModel = model('FileModel', fileSchema);

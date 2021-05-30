@@ -1,7 +1,8 @@
 
-import { request, Router } from 'express'
+import { Router } from 'express'
 import { verify, sign } from 'jsonwebtoken';
 import { compareSync, hash } from 'bcrypt'
+import { NativeError } from 'mongoose';
 
 import { User } from '../../interfaces/user';
 import { UserModel } from '../../models/user.model';
@@ -12,7 +13,7 @@ import { RefreshToken, Tokens } from '../../interfaces/tokens';
 const authController = Router();
 
 authController.post('/token', async (req, res) => {
-	const { token } = req.body;
+	const token: string = req.body.token;
 
 	if (!token || token === '') {
 		return res.status(400).json({ error: 'Invalid parameter - token' })
@@ -23,13 +24,13 @@ authController.post('/token', async (req, res) => {
 		return res.sendStatus(403);
 	}
 
-	const refreshToken = (tokenDocument.toJSON() as RefreshToken).refreshToken;
+	const refreshToken: string = (tokenDocument.toJSON() as RefreshToken).refreshToken;
 
 	let user: User;
 	try {
 		user = verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as User;
 
-		const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET as string);
+		const accessToken: string = sign(user, process.env.ACCESS_TOKEN_SECRET as string);
 		res.status(200).json({ accessToken });
 	} catch (err) {
 		res.status(400).json(err);
@@ -37,7 +38,7 @@ authController.post('/token', async (req, res) => {
 });
 
 authController.post('/login', async (req, res) => {
-	const { email } = req.body;
+	const email: string = req.body.email;
 	if (!email || email === '') {
 		return res.status(400).json({ error: 'Invalid email address' })
 	}
@@ -70,7 +71,7 @@ authController.post('/register', async (req, res) => {
 		return res.status(400).json({ error: 'Invalid parameters - email/password' })
 	}
 
-	const today = new Date();
+	const today: Date = new Date();
 	const newUser: User = req.body;
 	newUser.createDate = today;
 
@@ -79,11 +80,11 @@ authController.post('/register', async (req, res) => {
 	});
 
 	if (!userDocument) {
-		const hashed = await hash(newUser.password, 10)
+		const hashed: string = await hash(newUser.password, 10)
 		newUser.password = hashed;
 
 		const user = new UserModel(newUser);
-		const validation = user.validateSync();
+		const validation: NativeError = user.validateSync();
 		if (validation) {
 			return res.status(400).json(validation);
 		}
