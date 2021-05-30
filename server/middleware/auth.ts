@@ -12,7 +12,6 @@ export const verifyToken = (req: AuthenticatedUserRequest, res: Response, next: 
 	let user: User;
 	try {
 		user = verify(token, process.env.ACCESS_TOKEN_SECRET as string) as User;
-		debugger;
 	} catch (err) {
 		res.status(403).json(err);
 	}
