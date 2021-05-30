@@ -1,4 +1,6 @@
-export interface Tokens {
-    accessToken: string;
+export interface RefreshToken {
     refreshToken: string;
+}
+export interface Tokens extends RefreshToken {
+    accessToken: string;
 }

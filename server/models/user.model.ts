@@ -11,7 +11,8 @@ const userSchema = new Schema({
 	},
 	email: {
 		type: Schema.Types.String,
-		reuired: true
+		reuired: true,
+		match: [/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 'Invalid email']
 	},
 	password: {
 		type: Schema.Types.String,
