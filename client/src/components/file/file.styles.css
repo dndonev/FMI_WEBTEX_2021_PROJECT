@@ -1,0 +1,23 @@
+/* COLORS */
+/* STYLE VALUES */
+.file-box {
+  min-height: 10em;
+  min-width: 10em;
+  max-width: 10em;
+  width: 100%;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.file-box:hover {
+  background-color: lightblue;
+}
+.file-box .file-image {
+  flex-grow: 0.9;
+  height: 2.5em;
+  width: 9.5em;
+}/*# sourceMappingURL=file.styles.css.map */

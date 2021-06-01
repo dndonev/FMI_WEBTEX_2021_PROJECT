@@ -1,0 +1,41 @@
+/* COLORS */
+/* STYLE VALUES */
+.main-container {
+  height: 100%;
+  width: 100%;
+}
+.main-container .middle-container {
+  display: flex;
+  margin-top: 45px;
+  justify-content: space-evenly;
+}
+.main-container .sidebar {
+  width: 20%;
+}
+.main-container .files-container {
+  width: 80%;
+  min-height: 600px;
+  margin-left: 25px;
+}
+.main-container .files-container .file-container {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.main-container .files-container .drop-files {
+  font-family: "Montserrat", "sans-serif";
+  font-size: 64px;
+  cursor: pointer;
+  font-weight: 250;
+}
+.main-container .files-container .drop-files p {
+  margin-top: 24px;
+}
+.main-container .files-container .drop-files .upload-image {
+  max-height: 300px;
+  max-width: 300px;
+  width: 250px;
+  height: 250px;
+}/*# sourceMappingURL=main.styles.css.map */

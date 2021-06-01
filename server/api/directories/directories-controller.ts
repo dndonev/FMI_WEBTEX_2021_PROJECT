@@ -20,7 +20,17 @@ directoriesController.post('/create', async (req, res) => {
 	}
 })
 
-// Delete directory
+// Get all directories in root
+directoriesController.get('/', async (req, res) => {
+    try {
+        const allDirectories = await directoryModel.find();
+        res.status(200).json(allDirectories);
+    } catch (err) {
+        res.status(404).json({ message: err });
+    }
+})
+
+// Delete directory by directory's id
 directoriesController.delete('/:directoryId', async (req, res) => {
     try {
         const deletedDirectory = await directoryModel.remove({ _id: req.params.directoryId });
@@ -30,7 +40,7 @@ directoriesController.delete('/:directoryId', async (req, res) => {
     }
 })
 
-// Update directory name
+// Update directory name by directory's id
 directoriesController.patch('/:directoryId', async (req, res) => {
     try {
         const updatedDirectory = await directoryModel.updateOne({ _id: req.params.directoryId }, 

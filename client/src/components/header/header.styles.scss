@@ -3,7 +3,7 @@
 
 .header {
 	min-height: 180px;
-	min-width: 200px;
+	min-width: 250px;
 	padding: 20px;
 	display: flex;
 	justify-content: flex-end;
@@ -13,10 +13,10 @@
 	border-top: $container-border-top;
 	border-left: $container-border-left;
 	border-right: $container-border-right;
-	border-color: $button-hover-color;
+	//border-color: $button-hover-color;
 	background-color: #fafbff;
-	// background-image: url('./../../assets/clouds.png');
-	background-size: contain;
+	background-image: url('./../../assets/big-sur.jpg');
+	background-size: cover;
 	background-position: center;
 	font-family: $regular-text-font;
 
@@ -35,8 +35,8 @@
 		background-color: $button-color;
 
 		&:hover {
-				background-color: $button-hover-color;
-				transition: 0.7s;
+			background-color: $button-hover-color;
+			transition: 0.7s;
 		}
 	}
 }

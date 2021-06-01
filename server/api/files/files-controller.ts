@@ -6,7 +6,7 @@ import { fileModel } from '../../models/file.model';
 const filesController = Router();
 
 // Upload new file
-filesController.post('/upload', verifyToken, async (req, res) => {
+filesController.post('/upload', async (req, res) => {
 	const file = new fileModel ({
 		fileName: req.body.fileName,
 		location: req.body.location,
@@ -63,9 +63,18 @@ filesController.get('/:directory', async (req, res) => {
 		const files = await fileModel.find();
 		res.status(200).json(files);
 	} catch (err) {
-		res.status(404).json({ message: err })
+		res.status(404).json({ message: err });
 	}
 });
 
+// List all files
+filesController.get('/', async (req, res) => {
+	try {
+		const allFiles = await fileModel.find();
+		res.status(200).json(allFiles);
+	} catch (err) { 
+		res.status(404).json({ message: err });
+	}
+});
 
 export default filesController;
