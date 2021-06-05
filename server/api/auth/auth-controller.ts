@@ -2,117 +2,120 @@
 import { Router } from 'express'
 import { verify, sign } from 'jsonwebtoken';
 import { compareSync, hash } from 'bcrypt'
+import { NativeError } from 'mongoose';
 
 import { User } from '../../interfaces/user';
 import { UserModel } from '../../models/user.model';
-import { TokenModel } from '../../models/token.model';
+import { RefreshTokenModel } from '../../models/token.model';
 import { saveRefreshToken, signToken } from '../../utils/token-utils';
-import { Tokens } from '../../interfaces/tokens';
+import { RefreshToken, Tokens } from '../../interfaces/tokens';
 
 const authController = Router();
 
-let refreshTokens: string[] = [];
+authController.post('/token', async (req, res) => {
+	const token: string = req.body.token;
 
-authController.post('/token', (req, res) => {
-	const refreshToken = req.body.token;
-
-	if (!refreshToken) {
-		return res.sendStatus(401);
+	if (!token || token === '') {
+		return res.status(400).json({ error: 'Invalid parameter - token' })
 	}
 
-	if (!refreshTokens.includes(refreshToken)) {
+	const tokenDocument = await RefreshTokenModel.findOne({ token: token });
+	if (!tokenDocument) {
 		return res.sendStatus(403);
 	}
+
+	const refreshToken: string = (tokenDocument.toJSON() as RefreshToken).refreshToken;
 
 	let user: User;
 	try {
 		user = verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as User;
 
-		const accessToken = sign(user, process.env.ACCESS_TOKEN_SECRET as string);
+		const accessToken: string = sign(user, process.env.ACCESS_TOKEN_SECRET as string);
 		res.status(200).json({ accessToken });
 	} catch (err) {
 		res.status(400).json(err);
 	}
 });
 
-authController.post('/login', (req, res) => {
-	UserModel.findOne({
-		email: req.body.email
-	}).exec()
-		.then((result) => {
-			if (result) {
-				const user: User = result.toJSON() as User;
+authController.post('/login', async (req, res) => {
+	const email: string = req.body.email;
+	if (!email || email === '') {
+		return res.status(400).json({ error: 'Invalid email address' })
+	}
 
-				if (compareSync(req.body.password, user.password)) {
+	const userDocument = await UserModel.findOne({ email });
+	if (!userDocument) {
+		return res.status(404).json({ error: 'User does not exist' })
+	}
 
-					const tokens: Tokens = signToken(user);
+	const user: User = userDocument.toJSON() as User;
+	if (!compareSync(req.body.password, user.password)) {
+		return res.status(403).json({ error: 'Invalid credentials' })
+	}
 
-					saveRefreshToken(tokens.refreshToken)
-						.then(() => res.json(tokens))
-						.catch((err: Error) => res.json(err));
-				} else {
-					res.json({ error: 'User does not exist' })
-				}
-			} else {
-				res.json({ error: 'User does not exist' })
-			}
-		})
-		.catch((err: Error) => {
-			res.json(err);
-		})
-})
+	const tokens: Tokens = signToken(user);
 
-authController.post('/register', (req, res) => {
+	try {
+		await saveRefreshToken(tokens.refreshToken);
 
-	const today = new Date()
+		return res.json(tokens);
+	} catch (err) {
+		return res.json(err);
+	};
+});
+
+authController.post('/register', async (req, res) => {
+	const { email, password } = req.body;
+
+	if (!email || email === '' || !password || password === '') {
+		return res.status(400).json({ error: 'Invalid parameters - email/password' })
+	}
+
+	const today: Date = new Date();
 	const newUser: User = req.body;
 	newUser.createDate = today;
 
-	UserModel.findOne({
+	const userDocument = await UserModel.findOne({
 		email: newUser.email
-	})
-		.then(result => {
-			if (!result) {
-				hash(newUser.password, 10)
-					.then((hash: string) => {
-						newUser.password = hash;
+	});
 
-						const user = new UserModel(newUser);
+	if (!userDocument) {
+		const hashed: string = await hash(newUser.password, 10)
+		newUser.password = hashed;
 
-						user.save()
-							.then(() => {
-								try {
-									const tokens: Tokens = signToken(newUser);
+		const user = new UserModel(newUser);
+		const validation: NativeError = user.validateSync();
+		if (validation) {
+			return res.status(400).json(validation);
+		}
+		await user.save();
 
-									saveRefreshToken(tokens.refreshToken)
-										.then(() => res.json(tokens))
-										.catch((err: Error) => res.json(err))	
-								} catch (err) {
-									res.send({ error: 'There was an error signing your token' });
-								}
-							})
-							.catch((err: Error) => res.json(err))
-					})
-					.catch((err: Error) => res.json(err))
-			} else {
-				res.json({ error: 'User already exists' })
-			}
-		})
-		.catch((err: Error) => {
-			res.json(err);
-		})
-});
+		try {
+			const tokens: Tokens = signToken(newUser);
 
-authController.post('/logout', (req, res) => {
-	const token: string = req.body.token;
-
-	if (!token) {
-		return res.status(400).send('Invalid token parameter')
+			await saveRefreshToken(tokens.refreshToken)
+			return res.json(tokens);
+		} catch (err) {
+			res.send({ error: 'There was an error signing your token' });
+		}
 	}
 
-	TokenModel.findOneAndRemove({ token })
-		.then(() => res.send(204).send('You have been logged out'))
-		.catch(() => res.sendStatus(404))
+	return res.json({ error: 'User already exists' });
+});
+
+authController.post('/logout', async (req, res) => {
+	const refreshToken: string = req.body.token;
+
+	if (!refreshToken || refreshToken === '') {
+		return res.status(400).json({ error: 'Invalid parameter - token' })
+	}
+
+	const tokenDocument = await RefreshTokenModel.findOneAndRemove({ refreshToken })
+	if (!tokenDocument) {
+		return res.status(403);
+	}
+
+	return res.status(204).send('You have been logged out');
 });
 
 export default authController;

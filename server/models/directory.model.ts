@@ -13,7 +13,7 @@ const directorySchema = new Schema({
         type: Schema.Types.Date,
         default: Date.now
     },
-    owner: {
+    ownerId: {
         type: Schema.Types.String,
         required: true
     },
