@@ -4,37 +4,50 @@ import logo from '../../assets/logo.png';
 import RegisterModal from '../register/register.componet';
 import LoginComponent from '../login/login.component';
 import { HomeComponentProps } from './home.types';
-import { IResetToggles, IToggleLogin, IToggleRegister, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
+import { IResetToggles, IToggleForgotPassword, IToggleLogin, IToggleRegister, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
 import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import ForgotPasswordModal from '../forgot-password/forgot-password.modal';
 
 const HomeComponent: React.FC<HomeComponentProps> = ({ ...props }) => {
-    const { toggleLogin, toggleRegister, resetTogglesModalAction } = props;
+    const { toggleLoginAction, toggleRegisterAction, resetTogglesModalAction, toggleForgotPasswordAction } = props;
+
     const [loginVisibility, setLoginVisibility] = useState(true);
     const [registerVisibility, setRegisterVisibility] = useState(true);
+    const [forgotPasswordVisibility, setForgotPasswordVisibility] = useState(true);
 
     const handleOpenLogin = () => {
         setLoginVisibility(false);
-        toggleLogin();
+        toggleLoginAction();
         setRegisterVisibility(true);
+        setForgotPasswordVisibility(true);
     }
     const handleOpenRegister = () => {
         setRegisterVisibility(false);
-        toggleRegister();
+        toggleRegisterAction();
         setLoginVisibility(true);
+        setForgotPasswordVisibility(true);
+    }
+
+    const handleOpenForgotPassword = () => {
+        setLoginVisibility(true);
+        setRegisterVisibility(true);
+        setForgotPasswordVisibility(false);
     }
 
     const handleClose = () => {
         setLoginVisibility(true);
         setRegisterVisibility(true);
+        setForgotPasswordVisibility(true);
         resetTogglesModalAction();
     }
 
     return (
         <div className='home-container'>
-            <LoginComponent show={loginVisibility} handleClose={handleClose} />
-            <RegisterModal show={registerVisibility} handleClose={handleClose} />
+            <LoginComponent show={loginVisibility} handleClose={handleClose} handleDontHaveAnAccoutLink={handleOpenRegister} handleOpenForgotPassword={handleOpenForgotPassword}/>
+            <RegisterModal show={registerVisibility} handleClose={handleClose} handleHaveAccountLink={handleOpenLogin} handleOpenForgotPassword={handleOpenForgotPassword}/>
+            <ForgotPasswordModal show={forgotPasswordVisibility} handleClose={handleClose} handleHaveAnAccoutLink={handleOpenLogin} handleDontHaveAnAccountLink={handleOpenRegister}/>
             <div className='main-container'>
                 <div className='logo-container'>
                     <img className='logo-image' src={logo} />
@@ -52,9 +65,10 @@ const HomeComponent: React.FC<HomeComponentProps> = ({ ...props }) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions>) => {
     return {
-        toggleLogin: () => dispatch<IToggleLogin>({ type: ModalActionTypes.ToggleLoginModal }),
-        toggleRegister: () => dispatch<IToggleRegister>({ type: ModalActionTypes.ToggleRegisterModal }),
-        resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal })
+        toggleLoginAction: () => dispatch<IToggleLogin>({ type: ModalActionTypes.ToggleLoginModal }),
+        toggleRegisterAction: () => dispatch<IToggleRegister>({ type: ModalActionTypes.ToggleRegisterModal }),
+        resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
+        toggleForgotPasswordAction: () => dispatch<IToggleForgotPassword>({type: ModalActionTypes.ToggleForgotPasswordModal})
     }
 }
 

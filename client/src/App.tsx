@@ -5,7 +5,7 @@ import './App.scss';
 import HomeComponent from './components/home/home.component'
 import MainComponent from './components/main/main.component';
 import { store } from './redux/store';
-
+import ForgotPasswordModal from './components/forgot-password/forgot-password.modal'
 const App = () => {
 
   return (
