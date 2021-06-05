@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 
-const tokenSchema = new Schema({
-	token: Schema.Types.String
+const refreshTokenSchema = new Schema({
+	refreshToken: Schema.Types.String
 });
 
-export const TokenModel = model('Token', tokenSchema);
+export const RefreshTokenModel = model('Token', refreshTokenSchema);
