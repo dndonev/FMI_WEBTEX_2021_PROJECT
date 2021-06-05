@@ -1,5 +1,5 @@
 export interface SidebarComponentProps {
-    show: () => void;
+    // show: () => void;
     toggleUploadComponent: boolean;
     toggleMyFilesComponent: boolean;
     toggleUpload: () => void;

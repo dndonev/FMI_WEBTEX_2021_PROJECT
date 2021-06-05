@@ -1,16 +1,12 @@
 import './upload.styles.scss';
 import logo from '../../assets/upload-logo.png';
+import React from 'react';
+import { UploadComponentProps } from './upload.types';
+import { CSSProperties } from 'react';
 
-
-const UploadComponent = () => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
     return (
-        // <div className="upload-main-container">
-		// 	<HeaderComponent />
-		// 	<div className="upload-middle-container">
-		// 		<div className="upload-sidebar">
-		// 			<SideBarComponent />
-		// 		</div>
 				<div className="upload-files-container">
                     <div className="drop-files">
 						<div className="drop-logo">

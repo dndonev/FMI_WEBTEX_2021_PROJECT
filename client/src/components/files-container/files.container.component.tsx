@@ -1,8 +1,8 @@
 import SearchBoxComponent from './../search-box/search-box.component';
 import FileComponent from './../file/file.components';
-
-const FilesContainerComponent = () => {
-    
+import React from 'react';
+import { FileComponentProps } from './files.types';
+const FilesContainerComponent: React.FC<FileComponentProps> = ({ ...props }) => {
     return (
         <div className="main-files-container">
             <div className="search-box-container">

@@ -14,30 +14,14 @@ import { selectUploadComponent, selectMyFilesComponent } from '../../redux/compo
 
 const SideBarComponent: React.FC<SidebarComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleUpload, toggleMyFiles, show } = props;
+	const { toggleUpload, toggleMyFiles } = props;
     
-    const handleLoadUpload = () => {
-        toggleUpload();
-	}
-
-	const handleLoadMyFiles = () => {
-		toggleMyFiles();
-	}
-
-	const showSelectedComponent = () => {
-		if (toggleUploadComponent) {
-			toggleUpload();
-		} else if (toggleMyFilesComponent) {
-			toggleMyFiles();
-		}
-	}
-
 	return (
 		<div className="container">
 			<ul className="nav-list">
-				<li onClick={showSelectedComponent}>My Files</li>
+				<li onClick={toggleMyFiles}>My Files</li>
 				<li>Shared with me</li>
-				<li onClick={showSelectedComponent}>Upload File</li>
+				<li onClick={toggleUpload}>Upload File</li>
 			</ul>
 		</div>
 	);

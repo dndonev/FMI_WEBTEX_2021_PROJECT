@@ -20,29 +20,26 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleUpload, toggleMyFiles } = props;
+	const { toggleUploadComponent, toggleMyFilesComponent } = props;
+	let showSelectedComponent;
 
-	console.log(props);
+	if (toggleMyFilesComponent) {
+		showSelectedComponent = <FileContainerComponent/>;
+	}
 
-	const showSelectedContainer = () => {
-		if (toggleUploadComponent) {
-			return <UploadComponent />
-		} else if (toggleMyFilesComponent) {
-			return <FileContainerComponent />
-		}
+	if (toggleUploadComponent) {
+		showSelectedComponent = <UploadComponent/>;
 	}
 
 	return (
 		<div className="main-container">
 			<HeaderComponent />
 			<div className="middle-container">
-				<div className="sidebar">
-					<SideBarComponent show={showSelectedContainer}/>
+				<div className="sidebar">	
+					<SideBarComponent/>
 				</div>
 				<div className="files-container">
-					{ showSelectedContainer }
-					{/* <FileContainerComponent /> */}
-					{/* <UploadComponent /> */}
+					{showSelectedComponent}
 				</div>
 
 			</div>
