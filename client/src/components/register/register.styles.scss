@@ -113,12 +113,14 @@
                 border: 0;
                 border-radius: 25px;
                 box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
-                background-color: #fcfcfd;
+                color: white;
+                background-color: $button-hover-color;
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #007dd1;
-                    transition: 0.7s;
+                    color: black;
+                    box-shadow: 0 14px 9px 0 rgba(0, 0, 0, 0.24), 0 15px 22px rgba(0, 0, 0, 0.19);
+                    background-color: $button-hover-color;
                 }
             }
         }

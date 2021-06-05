@@ -35,7 +35,7 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
             })
             .catch((error: any) => {
                 loginErrorAction(error);
-            })
+            });
     }
 
     const { handleSubmit, handleChange, values, errors } = useFormik({
@@ -46,14 +46,14 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
         onSubmit: (values) => {
             const { email, password } = values;
             handleLogin(values);
+            handleClose();
+            resetTogglesModalAction();
         },
         validateOnBlur: true,
         validationSchema
     });
 
     const handleCloseLogin = () => {
-        handleSubmit();
-        redirectToHome();
         resetTogglesModalAction();
         handleClose();
     }
@@ -72,15 +72,16 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
                     </div>
 
                     <div className="form">
-                        <form onSubmit={handleCloseLogin}>
+                        <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <input type="email" name="email" placeholder="email" onChange={handleChange} value={values.email} />
                         </div>
-
+                            {errors.email && <div className='error'>{errors.email}</div>}
                         <div className="form-group">
                             <input type="password" name="password" placeholder="password" onChange={handleChange} value={values.password}/>
+                           
                         </div>
-
+                            {errors.password && <div className='error'>{errors.password}</div>}
                         <div className="links">
                             <div className="forgotten-password">
                                 <Link to='/' onClick={handleOpenForgotPassword}>Forgot password?</Link>
@@ -91,7 +92,7 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
                         </div>
 
                         <div className="footer">
-                            <button type="submit" className="login-button">Login</button>
+                            <button  className="login-button">Login</button>
                         </div>
                         </form>
                     </div>

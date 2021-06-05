@@ -66,7 +66,7 @@
             background-color: #f3f3f3;
             border: 0;
             border-radius: 25px;
-            margin-bottom: 31px;
+            margin-bottom: 10px;
             transition: all 250ms ease-in-out;
             width: 90%;
 
@@ -147,4 +147,9 @@
   font-size: 36px;
   font-family: $modals-text-font;
   color: $button-hover-color;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
 }

@@ -27,7 +27,6 @@ export interface ILoginSuccess extends IUserBaseAction {
     type: UserActionTypes.LoginSuccess;
     data: User;
 }
-
 export interface ILoginError extends IUserBaseAction {
     type: UserActionTypes.LoginError;
     data: string;

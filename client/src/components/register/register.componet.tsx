@@ -8,14 +8,16 @@ import { RegisterModalProps, validationSchema } from './register.types'
 import { connect } from 'react-redux';
 import clsx from "clsx";
 import { useFormik } from 'formik'
-import { RegisterState, User, UserActionTypes } from "../../redux/user/user.types";
-import { ILoginSuccess, IRegisterError, IRegisterSuccess, IRegisterUser, TUserReducerActions } from "../../redux/user/user.actions";
+import { User, UserActionTypes } from "../../redux/user/user.types";
+import { ILoginSuccess, IRegisterError, IRegisterSuccess, TUserReducerActions } from "../../redux/user/user.actions";
 import { push, CallHistoryMethodAction } from "connected-react-router";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { headers } from "../login/login.types";
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
-    const { show, handleClose, resetTogglesModalAction,
-        registerUserAction, registerUserSuccess, loginSuccessAction, registerUserError, handleHaveAccountLink, handleOpenForgotPassword } = props;
+    const { show, handleClose, resetTogglesModalAction, redirectToHome,
+        registerUserSuccess, loginSuccessAction, registerUserError, handleHaveAccountLink, handleOpenForgotPassword } = props;
 
     const modalVisibilityClassName = show ? "modal display-none" : "modal display-block";
 
@@ -24,71 +26,109 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
         handleClose();
     }
 
+    const handleRegister = (newUser: any) => {
+        return axios
+            .post('http://localhost:3001/api/auth/register', {
+                username: newUser.username,
+                email: newUser.email,
+                password: newUser.password,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName
+            }, { headers: headers })
+            .then((response: any) => {
+                registerUserSuccess();
+                loginSuccessAction(newUser.email);
+                redirectToHome();
+                return response.data;
+            })
+            .catch((error: any) => {
+                registerUserError(error);
+            });
+    }
+
+    const { handleSubmit, handleChange, values, errors } = useFormik({
+        initialValues: {
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            firstName: '',
+            lastName: ''
+        },
+        validateOnBlur: true,
+        validationSchema,
+        onSubmit: (values) => {
+            const { username, email, password, confirmPassword, firstName, lastName } = values;
+            handleRegister(values);
+            handleClose();
+            resetTogglesModalAction();
+        }
+    })
+
     return (
-        <form autoComplete='on'>
-            <div className={clsx("register-container", modalVisibilityClassName)} onSubmit={handleCloseRegister}>
-                <div className="base-container">
-                    <AiFillCloseCircle className='close-button-register' onClick={handleCloseRegister} />
+        <div className={clsx("register-container", modalVisibilityClassName)}>
+            <div className="base-container">
+                <AiFillCloseCircle className='close-button-register' onClick={handleCloseRegister} />
 
-                    <div className="register-header">
-                        Personal Cloud
-                    </div>
-                    <div className="content">
-                        <div className="form">
+                <div className="register-header">
+                    Personal Cloud
+                </div>
+                <div className="content">
+                    <div className="form">
+                        <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <input type="text" name="username" placeholder="username" />
+                                <input type="text" name="username" placeholder="username" onChange={handleChange} value={values.username} />
                             </div>
-
+                            {errors.username && <div className='error'>{errors.username}</div>}
                             <div className="form-group">
-                                <input type="email" name="email" placeholder="email" />
+                                <input type="email" name="email" placeholder="email" onChange={handleChange} value={values.email} />
                             </div>
-
+                            {errors.email && <div className='error'>{errors.email}</div>}
                             <div className="form-group">
-                                <input type="password" name="password" placeholder="password" />
+                                <input type="password" name="password" placeholder="password" onChange={handleChange} value={values.password} />
                             </div>
-
+                            {errors.password && <div className='error'>{errors.password}</div>}
                             <div className="form-group">
-                                <input type="password" name="password" placeholder="Confirm password" />
+                                <input type="password" name="confirmPassword" placeholder="confirm password" onChange={handleChange} value={values.confirmPassword} />
                             </div>
-
+                            {errors.confirmPassword && <div className='error'>{errors.confirmPassword}</div>}
                             <div className="form-group">
-                                <input type="text" name="firstName" placeholder="First name" />
+                                <input type="text" name="firstName" placeholder="first name" onChange={handleChange} value={values.firstName} />
                             </div>
-
+                            {errors.firstName && <div className='error'>{errors.firstName}</div>}
                             <div className="form-group">
-                                <input type="text" name="lastName" placeholder="Last name" />
+                                <input type="text" name="lastName" placeholder="last name" onChange={handleChange} value={values.lastName} />
                             </div>
-
+                            {errors.lastName && <div className='error'>{errors.lastName}</div>}
                             <div className="links">
                                 <div className="forgotten-password">
                                     <Link to='/' onClick={handleOpenForgotPassword}>Forgot password?</Link>
                                 </div>
                                 <div className="dont-have-account-yet">
-                                <Link to='/' onClick={handleHaveAccountLink}>Already have an account?</Link>
+                                    <Link to='/' onClick={handleHaveAccountLink}>Already have an account?</Link>
                                 </div>
                             </div>
 
                             <div className="footer">
                                 <button type="submit" className="register-button">Register</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     );
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions | TUserReducerActions | CallHistoryMethodAction>) => {
     return {
         resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
-        registerUserAction: (data: RegisterState) => dispatch<IRegisterUser>({ type: UserActionTypes.RegisterUser, data: data }),
         registerUserSuccess: () => {
             dispatch<IRegisterSuccess>({ type: UserActionTypes.RegisterSuccess });
             dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal });
         },
         registerUserError: (message: string) => dispatch<IRegisterError>({ type: UserActionTypes.RegisterError, data: message }),
-        loginUserSuccess: (data: User) => dispatch<ILoginSuccess>({ type: UserActionTypes.LoginSuccess, data: data }),
+        loginSuccessAction: (data: User) => dispatch<ILoginSuccess>({ type: UserActionTypes.LoginSuccess, data: data }),
         redirectToHome: () => dispatch(push('/main')),
     };
 };

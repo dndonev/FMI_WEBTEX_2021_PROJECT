@@ -1,13 +1,12 @@
-import { RegisterState } from "../../redux/user/user.types";
+import { RegisterState, User } from "../../redux/user/user.types";
 import * as Yup from 'yup'
 export interface RegisterModalProps {
     show: boolean;
     handleClose: () => void;
     resetTogglesModalAction: () => void;
-    registerUserAction?: (data: RegisterState) => void;
-    registerUserSuccess?: () => any;
-    registerUserError?: (message: any) => any;
-    loginSuccessAction?: (email: string) => any;
+    registerUserSuccess: () => any;
+    registerUserError: (message: any) => any;
+    loginSuccessAction: (data: User) => any;
     redirectToHome: () => void;
     handleHaveAccountLink: () => void;
     handleOpenForgotPassword: () => void;
@@ -28,5 +27,7 @@ export const validationSchema = Yup.object({
             [Yup.ref("password")],
             "The password must be the same"
         )
-    })
+    }),
+    firstName: Yup.string().required("This field is required"),
+    lastName: Yup.string().required("This field is required")
 })

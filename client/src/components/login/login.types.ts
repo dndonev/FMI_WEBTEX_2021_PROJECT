@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { User } from '../../redux/user/user.types'
+import { LoginState, User } from '../../redux/user/user.types'
 export interface LoginModalProps {
     show: boolean;
     handleClose: () => void;
