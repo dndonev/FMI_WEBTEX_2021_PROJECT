@@ -1,4 +1,5 @@
 import { ModalActionTypes } from "./modal.types";
+
 export interface IModalBaseAction {
     type: ModalActionTypes;
 }

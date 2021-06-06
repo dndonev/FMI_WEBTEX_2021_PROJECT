@@ -7,7 +7,8 @@
 
 	.middle-container {
 		display: flex;
-		margin-top: 25px;
+		// Changed marin-top from 25px to 45px
+		margin-top: 45px;
 		justify-content: space-evenly;
 	}
 
@@ -19,13 +20,13 @@
 		width: 80%;
 		min-height: 600px;
 		margin-left: 25px;
-		border-bottom: $container-border-bottom;
-		border-top: $container-border-top;
-		border-left: $container-border-left;
-		border-right: $container-border-right;
-		border-color: $button-hover-color;
-		border-radius: 25px;
-		padding: 25px;
+		// border-bottom: $container-border-bottom;
+		// border-top: $container-border-top;
+		// border-left: $container-border-left;
+		// border-right: $container-border-right;
+		// border-color: $button-hover-color;
+		// border-radius: 25px;
+		//padding: 25px;
 
 		.file-container {
 			margin-top: 20px;
@@ -33,6 +34,24 @@
 			flex-wrap: wrap;
 			flex-direction: row;
 			justify-content: space-between;
+		}
+
+		.drop-files {
+			font-family: $regular-text-font;
+			font-size: 64px;
+			cursor: pointer;
+			font-weight: 250;
+
+			p {
+				margin-top: 24px;
+			}
+
+			.upload-image {
+				max-height: 300px;
+				max-width: 300px;
+				width: 250px;
+				height: 250px;
+			}
 		}
 	}
 }
