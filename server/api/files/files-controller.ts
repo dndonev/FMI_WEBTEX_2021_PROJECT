@@ -69,9 +69,18 @@ filesController.get('/:directory', async (req, res) => {
 		const files = await FileModel.find();
 		res.status(200).json(files);
 	} catch (err) {
-		res.status(404).json({ message: err })
+		res.status(404).json({ message: err });
 	}
 });
 
+// List all files
+filesController.get('/', async (req, res) => {
+	try {
+		const allFiles = await FileModel.find();
+		res.status(200).json(allFiles);
+	} catch (err) { 
+		res.status(404).json({ message: err });
+	}
+});
 
 export default filesController;

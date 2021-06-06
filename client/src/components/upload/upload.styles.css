@@ -1,0 +1,17 @@
+/* COLORS */
+/* STYLE VALUES */
+.drop-files {
+  font-family: "Montserrat", "sans-serif";
+  font-size: 64px;
+  cursor: pointer;
+  font-weight: 250;
+}
+.drop-files p {
+  margin-top: 24px;
+}
+.drop-files .upload-image {
+  max-height: 300px;
+  max-width: 300px;
+  width: 250px;
+  height: 250px;
+}/*# sourceMappingURL=upload.styles.css.map */

@@ -1,0 +1,49 @@
+@import "../../assets/variables";
+@import "../../assets//fonts";
+
+// .upload-main-container {
+// 	height: 100%;
+// 	width: 100%;
+
+// 	.upload-middle-container {
+// 		display: flex;
+// 		justify-content: space-evenly;
+// 		margin-top: 45px;
+// 	}
+
+// 	.upload-sidebar {
+// 		width: 20%;
+// 	}
+
+// 	.upload-files-container {
+// 		width: 80%;
+// 		min-height: 600px;
+// 		margin-left: 25px;
+// 		// border-bottom: $container-border-bottom;
+// 		// border-top: $container-border-top;
+// 		// border-left: $container-border-left;
+// 		// border-right: $container-border-right;
+// 		// border-color: $button-hover-color;
+// 		// border-radius: 25px;
+// 		//padding: 25px;
+
+// 	}
+
+.drop-files {
+	font-family: $regular-text-font;
+	font-size: 64px;
+	cursor: pointer;
+	font-weight: 250;
+
+	p {
+		margin-top: 24px;
+	}
+
+	.upload-image {
+		max-height: 300px;
+		max-width: 300px;
+		width: 250px;
+		height: 250px;
+	}
+}
+//}
