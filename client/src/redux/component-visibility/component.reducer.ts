@@ -3,7 +3,8 @@ import { ComponentActionTypes,  ComponentState} from './component.types';
 
 const InitialState: ComponentState = {
     toggleUploadComponent: false,
-    toggleMyFilesComponent: false
+    toggleMyFilesComponent: false,
+    toggleSharedComponent: false
 };
 
 export const componentReducer = (state = InitialState, action: TComponentReducerActions): ComponentState => {
@@ -11,13 +12,21 @@ export const componentReducer = (state = InitialState, action: TComponentReducer
         case ComponentActionTypes.ToogleUploadComponent:
             return {
                 toggleUploadComponent: true,
-                toggleMyFilesComponent: false
+                toggleMyFilesComponent: false,
+                toggleSharedComponent: false
             };
         case ComponentActionTypes.ToogleMyFilesComponent:
             return {
                 toggleUploadComponent: false,
-                toggleMyFilesComponent: true
+                toggleMyFilesComponent: true,
+                toggleSharedComponent: false
             };
+        case ComponentActionTypes.ToggleSharedComponent:
+            return {
+                toggleUploadComponent: false,
+                toggleMyFilesComponent: false,
+                toggleSharedComponent: true
+            }
         default: 
             return state;
     }

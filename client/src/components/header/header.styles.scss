@@ -2,7 +2,7 @@
 @import '../../assets/variables';
 
 .header {
-	min-height: 180px;
+	min-height: 190px;
 	min-width: 250px;
 	padding: 20px;
 	display: flex;
@@ -23,7 +23,7 @@
 	.login-button {
 		background-color: $button-color;
 		height: 2rem;
-		padding: 8px 10%;
+		padding: 8px 5%;
 		font-family: $regular-text-font;
 		text-transform: capitalize;
 		color: $button-text-color;

@@ -5,18 +5,18 @@ import SearchBoxComponent from './../search-box/search-box.component';
 import FileComponent from './../file/file.components';
 
 import { File } from'../../../../server/interfaces/file';
-import { FileContainerProps } from './files.types';
+import { FileContainerProps } from './../files-container/files.types';
 
-const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => {
+const SharedComponent: React.FC<FileContainerProps> = ({ ...props }) => {
 	
 	const [files, setFiles]: [FileContainerProps[], (files: FileContainerProps[]) => void] = React.useState<FileContainerProps[]>([]);
 
 	const [error, setError]: [string, (error: string) => void] = React.useState("");
 
-	const allFilesUrl = "http://localhost:3001/api/files/";
+	const sharedFilesUrl = "http://localhost:3001/api/files/";
 
-	const getAllFiles = () => {
-		Axios.get<FileContainerProps[]>(allFilesUrl, {
+	const getSharedFiles = () => {
+		Axios.get<FileContainerProps[]>(sharedFilesUrl, {
 			headers: {
 			  "Content-Type": "application/json"
 			}})
@@ -31,13 +31,13 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 	}
 
 	React.useEffect(() => {
-		getAllFiles();
+		getSharedFiles();
 	}, []);
 
 
-	const renderFiles = files.length && files.map(file => {
+	const renderSharedFiles = files.length && files.map(file => {
 		return (
-		<FileComponent file={file}/>
+		    <FileComponent file={file}/>
 		)
 	})
 
@@ -47,10 +47,10 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 				<SearchBoxComponent />
 			</div>
 		    <div className="file-container">
-				{ renderFiles }
+				{ renderSharedFiles }
 			</div>
         </div>
     )
 }
 
-export default FilesContainerComponent;
+export default SharedComponent;
