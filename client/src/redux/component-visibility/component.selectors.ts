@@ -12,3 +12,8 @@ export const selectMyFilesComponent = createSelector(
     [selectComponent],
     (component) => component.toggleMyFilesComponent
 )
+
+export const selectSharedComponent = createSelector(
+    [selectComponent],
+    (component) => component.toggleSharedComponent
+)
