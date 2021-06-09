@@ -1,0 +1,25 @@
+@import '../../assets/fonts';
+@import '../../assets/variables';
+
+.modal-body {
+    position: absolute;
+    width: 400px;
+    padding: 20px 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    border-bottom: $container-border-bottom;
+    border-top: $container-border-top;
+    border-left: $container-border-left;
+    border-right: $container-border-right;
+    border-color: $button-hover-color;
+    background-color: #fafbff;
+    background-size: contain;
+    background-position: center;
+    font-family: $regular-text-font;
+}

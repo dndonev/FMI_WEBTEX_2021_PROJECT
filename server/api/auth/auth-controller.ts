@@ -4,11 +4,12 @@ import { verify, sign } from 'jsonwebtoken';
 import { compareSync, hash } from 'bcrypt'
 import { NativeError } from 'mongoose';
 
-import { User } from '../../interfaces/user';
+import { AuthenticatedUserRequest, User } from '../../interfaces/user';
 import { UserModel } from '../../models/user.model';
 import { RefreshTokenModel } from '../../models/token.model';
 import { saveRefreshToken, signToken } from '../../utils/token-utils';
 import { RefreshToken, Tokens } from '../../interfaces/tokens';
+import { verifyToken } from '../../middleware/auth';
 
 const authController = Router();
 
@@ -116,6 +117,13 @@ authController.post('/logout', async (req, res) => {
 	}
 
 	return res.status(204).send('You have been logged out');
+});
+
+authController.get('/user-info', verifyToken, async (req: AuthenticatedUserRequest, res) => {
+	const user: User = (await UserModel.findOne({ email: req.user.email })).toJSON() as User;
+	return res.json(
+		user
+	);
 });
 
 export default authController;
