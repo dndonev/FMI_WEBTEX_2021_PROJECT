@@ -3,6 +3,7 @@ import './home.styles.scss';
 import logo from '../../assets/logo.png';
 import RegisterModal from '../register/register.componet';
 import LoginComponent from '../login/login.component';
+
 import { HomeComponentProps } from './home.types';
 import { IResetToggles, IToggleLogin, IToggleRegister, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
 import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
@@ -41,7 +42,6 @@ const HomeComponent: React.FC<HomeComponentProps> = ({ ...props }) => {
                     <span className='logo-sign'>Personal Cloud</span>
                 </div>
                 <div className='button-container'>
-
                     <button className='sign-button' onClick={handleOpenLogin}>log in</button>
                     <button className='sign-button' onClick={handleOpenRegister}>register</button>
                 </div>

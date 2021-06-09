@@ -2,8 +2,8 @@
 @import '../../assets/variables';
 
 .header {
-	min-height: 180px;
-	min-width: 200px;
+	min-height: 190px;
+	min-width: 250px;
 	padding: 20px;
 	display: flex;
 	justify-content: space-between;
@@ -13,17 +13,17 @@
 	border-top: $container-border-top;
 	border-left: $container-border-left;
 	border-right: $container-border-right;
-	border-color: $button-hover-color;
+	//border-color: $button-hover-color;
 	background-color: #fafbff;
-	// background-image: url('./../../assets/clouds.png');
-	background-size: contain;
+	background-image: url('./../../assets/big-sur.jpg');
+	background-size: cover;
 	background-position: center;
 	font-family: $regular-text-font;
 
 	.login-button {
 		background-color: $button-color;
 		height: 2rem;
-		padding: 8px 10%;
+		padding: 8px 5%;
 		font-family: $regular-text-font;
 		text-transform: capitalize;
 		color: $button-text-color;
