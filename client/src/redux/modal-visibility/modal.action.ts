@@ -12,8 +12,11 @@ export interface IToggleLogin extends IModalBaseAction {
     type: ModalActionTypes.ToggleLoginModal;
 }
 
+export interface IToggleForgotPassword extends IModalBaseAction {
+    type: ModalActionTypes.ToggleForgotPasswordModal;
+}
 export interface IResetToggles extends IModalBaseAction {
     type: ModalActionTypes.ResetTogglesModal;
 }
 
-export type TModalReducerActions = IToggleLogin | IToggleRegister | IResetToggles;
+export type TModalReducerActions = IToggleLogin | IToggleRegister | IResetToggles | IToggleForgotPassword;

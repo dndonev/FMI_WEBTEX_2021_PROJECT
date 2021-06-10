@@ -1,5 +1,6 @@
 export interface HomeComponentProps {
-    toggleLogin: () => void;
-    toggleRegister: () => void;
-    resetTogglesModalAction:() =>void;
+    toggleLoginAction: () => void;
+    toggleRegisterAction: () => void;
+    toggleForgotPasswordAction: () => void;
+    resetTogglesModalAction:()=>void;
 }

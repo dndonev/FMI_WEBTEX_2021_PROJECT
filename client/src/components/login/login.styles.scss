@@ -1,7 +1,8 @@
-@import '../../assets/fonts';
+@import "../../assets/fonts";
+@import "../../assets/variables";
 
 .login-container {
-  padding-top: 3%;
+  padding-top: 5%;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +14,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 5% 2% 3%;
+    padding: 2% 1% 2%;
     border-bottom: 1px solid rgb(232, 232, 232);
     border-top: 1px solid rgb(232, 232, 232);
     border-left: 0.2px solid rgb(232, 232, 232);
@@ -44,7 +45,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
+        
         .form-group {
           display: flex;
           flex-direction: column;
@@ -59,15 +60,15 @@
           input {
             margin-top: 6px;
             height: 37px;
-            padding: 0px 10px;
-            font-size: 16px;
+            padding: 0px 13px;
+            font-size: 20px;
             font-family: $modals-text-font;
             background-color: #f3f3f3;
             border: 0;
             border-radius: 25px;
-            margin-bottom: 31px;
+            margin-bottom: 10px;
             transition: all 250ms ease-in-out;
-            width: 80%;
+            width: 90%;
 
             &:focus {
               outline: none;
@@ -85,12 +86,14 @@
 
           .dont-have-account-yet {
             padding-top: 20px;
+            text-decoration-color: $button-hover-color;
+            cursor: pointer;
+            text-decoration: underline;
           }
 
           a {
             font-family: $modals-text-font;
             color: black;
-
             &:hover {
               color: #007dd1;
             }
@@ -98,24 +101,26 @@
         }
       }
     }
-    
+
     .footer {
       margin-top: 2em;
       margin-bottom: 2em;
 
-      .login-button{
+      .login-button {
         font-family: $modals-text-font;
         font-size: 21px;
         padding: 5px 50px;
         border: 0;
         border-radius: 25px;
         box-shadow: -0.5px -0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19), 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.19);
-        background-color: #fcfcfd;
-        cursor:pointer;
+        color: white;
+        background-color: $button-hover-color;
+        cursor: pointer;
 
         &:hover {
-          background-color: #007dd1;
-          transition: 0.7s;
+          color: black;
+          box-shadow: 0 14px 9px 0 rgba(0, 0, 0, 0.24), 0 15px 22px rgba(0, 0, 0, 0.19);
+          background-color: $button-hover-color;
         }
       }
     }
@@ -138,7 +143,13 @@
   cursor: pointer;
 }
 
-.login-header{
+.login-header {
   font-size: 36px;
   font-family: $modals-text-font;
+  color: $button-hover-color;
+}
+
+.error {
+  color: red;
+  margin-bottom: 20px;
 }
