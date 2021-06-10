@@ -36,6 +36,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
                 lastName: newUser.lastName
             }, { headers: headers })
             .then((response: any) => {
+                localStorage.setItem('token', response.data.refreshToken);
                 registerUserSuccess();
                 loginSuccessAction(newUser.email);
                 redirectToHome();

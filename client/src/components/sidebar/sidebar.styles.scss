@@ -22,9 +22,16 @@
 		li {
 			font-family: $regular-text-font;
 			cursor: pointer;
+			&:hover {
+				font-weight: bold;
+			}
+			&::-moz-selection {
+				font-weight: bold;
+			}
+			&::selection {
+				font-weight: bold;
+			}
 		}
-		li:hover {
-			font-weight: bold;
-		}
+		
 	}
 }

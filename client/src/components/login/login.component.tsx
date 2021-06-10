@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './login.styles.scss';
 import loginImage from '../../assets/login.svg';
 import { headers, LoginModalProps } from './login.types';
@@ -18,22 +18,29 @@ import { push, CallHistoryMethodAction } from "connected-react-router";
 
 const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
     const { resetTogglesModalAction, show, handleClose, handleDontHaveAnAccoutLink, handleOpenForgotPassword,
-        loginSuccessAction, loginErrorAction,redirectToHome } = props;
+        loginSuccessAction, loginErrorAction, redirectToHome } = props;
 
     const modalVisibilityClassName = show ? "modal display-none" : " modal display-block";
+
+    const [response, setResponseState] = useState("");
 
     const handleLogin = (user: any) => {
         return axios
             .post('http://localhost:3001/api/auth/login', {
                 email: user.email,
                 password: user.password
-            }, {headers: headers})
+            }, { headers: headers })
             .then((response: any) => {
-                loginSuccessAction(user);
-                redirectToHome();
-                return response.data;
+                if (response.data) {
+                    loginSuccessAction(user);
+                    handleClose();
+                    redirectToHome();
+                    localStorage.setItem('token', response.data.refreshToken);
+                    return response.data;
+                }
             })
             .catch((error: any) => {
+                setResponseState("Wrong email or password")
                 loginErrorAction(error);
             });
     }
@@ -43,11 +50,17 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
             email: '',
             password: ''
         },
-        onSubmit: (values) => {
-            const { email, password } = values;
-            handleLogin(values);
-            handleClose();
-            resetTogglesModalAction();
+        onSubmit: (values, { resetForm }) => {
+            try {
+                const { email, password } = values;
+                handleLogin(values);
+                resetTogglesModalAction();
+                resetForm({});
+            }
+            catch {
+                handleClose();
+                resetForm({});
+            }
         },
         validateOnBlur: true,
         validationSchema
@@ -72,28 +85,29 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
                     </div>
 
                     <div className="form">
+                        {response ? <div className='error'>{response}</div> : null}
                         <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <input type="email" name="email" placeholder="email" onChange={handleChange} value={values.email} />
-                        </div>
+                            <div className="form-group">
+                                <input type="email" name="email" placeholder="email" onChange={handleChange} value={values.email} />
+                            </div>
                             {errors.email && <div className='error'>{errors.email}</div>}
-                        <div className="form-group">
-                            <input type="password" name="password" placeholder="password" onChange={handleChange} value={values.password}/>
-                           
-                        </div>
-                            {errors.password && <div className='error'>{errors.password}</div>}
-                        <div className="links">
-                            <div className="forgotten-password">
-                                <Link to='/' onClick={handleOpenForgotPassword}>Forgot password?</Link>
-                            </div>
-                            <div className="dont-have-account-yet">
-                                <Link to='/' onClick={handleDontHaveAnAccoutLink}>Don't have an account yet?</Link>
-                            </div>
-                        </div>
+                            <div className="form-group">
+                                <input type="password" name="password" placeholder="password" onChange={handleChange} value={values.password} />
 
-                        <div className="footer">
-                            <button  className="login-button">Login</button>
-                        </div>
+                            </div>
+                            {errors.password && <div className='error'>{errors.password}</div>}
+                            <div className="links">
+                                <div className="forgotten-password">
+                                    <Link to='/' onClick={handleOpenForgotPassword}>Forgot password?</Link>
+                                </div>
+                                <div className="dont-have-account-yet">
+                                    <Link to='/' onClick={handleDontHaveAnAccoutLink}>Don't have an account yet?</Link>
+                                </div>
+                            </div>
+
+                            <div className="footer">
+                                <button className="login-button">Login</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -106,7 +120,7 @@ const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions | TUserReduc
     return {
         resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
         loginSuccessAction: (data: User) => dispatch<ILoginSuccess>({ type: UserActionTypes.LoginSuccess, data: data }),
-        loginErrorAction: (error: any) => dispatch<ILoginError>({type: UserActionTypes.LoginError, data: error}),
+        loginErrorAction: (error: any) => dispatch<ILoginError>({ type: UserActionTypes.LoginError, data: error }),
         redirectToHome: () => dispatch(push('/main')),
     };
 };
