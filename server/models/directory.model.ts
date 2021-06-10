@@ -1,11 +1,21 @@
 import { Schema, model } from 'mongoose';
 
 const directorySchema = new Schema({
+    id: Schema.Types.ObjectId,
     directoryName: {
+        type: Schema.Types.String,
+        minLength: 3,
+        required: true
+    },
+    path: {
         type: Schema.Types.String,
         required: true
     },
-    location: {
+    isRoot: {
+        type: Schema.Types.Boolean,
+        required: true
+    },
+    type: {
         type: Schema.Types.String,
         required: true
     },
@@ -18,9 +28,8 @@ const directorySchema = new Schema({
         required: true
     },
     description: {
-        type: Schema.Types.String,
-        required: false
+        type: Schema.Types.String
     }
 });
 
-export const directoryModel = model('directoryModel', directorySchema);
+export const DirectoryModel = model('Directory', directorySchema);
