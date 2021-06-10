@@ -11,5 +11,8 @@ export interface IToggleUpload extends IComponentBaseAction {
 export interface IToggleMyFiles extends IComponentBaseAction {
     type: ComponentActionTypes.ToogleMyFilesComponent
 }
+export interface IToggleShared extends IComponentBaseAction {
+    type: ComponentActionTypes.ToggleSharedComponent
+}
 
-export type TComponentReducerActions = IToggleUpload | IToggleMyFiles;
+export type TComponentReducerActions = IToggleUpload | IToggleMyFiles | IToggleShared;

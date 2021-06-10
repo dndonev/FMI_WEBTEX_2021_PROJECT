@@ -7,10 +7,11 @@ import SideBarComponent from './../sidebar/sidebar.component';
 import HeaderComponent from './../header/header.component';
 import FileContainerComponent from '../files-container/files.container.component';
 import UploadComponent from '../upload/upload.component';
+import SharedComponent from '../shared/shared.component';
 
-import { IToggleUpload, IToggleMyFiles, TComponentReducerActions } from './../../redux/component-visibility/component.action';
+import { IToggleUpload, IToggleMyFiles, TComponentReducerActions, IToggleShared } from './../../redux/component-visibility/component.action';
 import { ComponentActionTypes } from './../../redux/component-visibility/component.types';
-import { selectUploadComponent, selectMyFilesComponent } from './../../redux/component-visibility/component.selectors';
+import { selectUploadComponent, selectMyFilesComponent, selectSharedComponent } from './../../redux/component-visibility/component.selectors';
 
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -20,15 +21,20 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent } = props;
+	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId} = props;
+
 	let showSelectedComponent;
 
 	if (toggleMyFilesComponent) {
-		showSelectedComponent = <FileContainerComponent/>;
+		showSelectedComponent = <FileContainerComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />;
 	}
 
 	if (toggleUploadComponent) {
-		showSelectedComponent = <UploadComponent/>;
+		showSelectedComponent = <UploadComponent />;
+	}
+
+	if (toggleSharedComponent) {
+		showSelectedComponent = <SharedComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />
 	}
 
 	return (
@@ -47,17 +53,19 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 	);
 };
 
-const mapStateToProps = (state: StoreState): { toggleUploadComponent: boolean, toggleMyFilesComponent: boolean } => {
+const mapStateToProps = (state: StoreState): { toggleUploadComponent: boolean, toggleMyFilesComponent: boolean, toggleSharedComponent: boolean } => {
 	return {
 		toggleUploadComponent: selectUploadComponent(state),
-		toggleMyFilesComponent: selectMyFilesComponent(state)
+		toggleMyFilesComponent: selectMyFilesComponent(state),
+		toggleSharedComponent: selectSharedComponent(state)
 	};
 };
 
 const mapDispatchToComponentProps = (dispatch: Dispatch<TComponentReducerActions>) => {
 	return {
-		toggleUpload: () => dispatch<IToggleUpload>({ type: ComponentActionTypes.ToogleUploadComponent }),
-		toggleMyFiles: () => dispatch<IToggleMyFiles>({ type: ComponentActionTypes.ToogleMyFilesComponent })
+		toggleUploadAction: () => dispatch<IToggleUpload>({ type: ComponentActionTypes.ToogleUploadComponent }),
+		toggleMyFilesAction: () => dispatch<IToggleMyFiles>({ type: ComponentActionTypes.ToogleMyFilesComponent }),
+		toggleSharedComponentAction: () => dispatch<IToggleShared>({ type: ComponentActionTypes.ToggleSharedComponent })
 	}
 }
 

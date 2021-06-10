@@ -1,19 +1,27 @@
 
 import { Router } from 'express'
+import { CloudObjectType } from '../../enums/cloud-object-type';
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
+import { DirectoryModel } from '../../models/directory.model';
 import { FileModel } from '../../models/file.model';
 
 const filesController = Router();
 
 // Upload new file
 filesController.post('/upload', verifyToken, async (req: AuthenticatedUserRequest, res) => {
-	const userId = req.user.id;
+	const ownerId = req.user.id;
+	const path = req.body.directoryPath;
+	const directory = await DirectoryModel.findOne({ ownerId, path });
+	if (!directory) {
+		return res.send(404).json({error: 'No such directory'});
+	}
 
 	const file = new FileModel({
 		fileName: req.body.fileName,
-		location: req.body.location,
-		ownerId: userId
+		directory: directory.id,
+		ownerId,
+		type: CloudObjectType.File
 	});
 
 	const validation = file.validateSync();

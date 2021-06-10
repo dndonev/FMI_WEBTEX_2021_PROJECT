@@ -2,7 +2,6 @@ import './upload.styles.scss';
 import logo from '../../assets/upload-logo.png';
 import React from 'react';
 import { UploadComponentProps } from './upload.types';
-import { CSSProperties } from 'react';
 
 const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
@@ -15,6 +14,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
                         <div className="drop-message">
 							<p>Drag and Drop files</p>
 						</div>
+						<button className='browse-button'>Browse</button>
                     </div>
 				</div>
 

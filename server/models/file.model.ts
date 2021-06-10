@@ -1,11 +1,16 @@
 import { Schema, model } from 'mongoose';
 
 const fileSchema = new Schema({
+    id: Schema.Types.ObjectId,
     fileName: {
         type: Schema.Types.String,
         required: true
     },
-    location: {
+    directory: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'DirectoryModel'
+    },
+    type: {
         type: Schema.Types.String,
         required: true
     },
@@ -19,4 +24,4 @@ const fileSchema = new Schema({
     }
 });
 
-export const FileModel = model('FileModel', fileSchema);
+export const FileModel = model('File', fileSchema);

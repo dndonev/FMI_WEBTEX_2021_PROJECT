@@ -4,7 +4,7 @@ export interface File {
 	fileName: string;
 	location: string;
 	created: Date;
-	owner: string;
+	ownerId: string;
 }
 export interface FileRequest extends Request {
 	file: File

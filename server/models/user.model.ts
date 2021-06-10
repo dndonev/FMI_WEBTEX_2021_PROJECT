@@ -1,26 +1,27 @@
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
+	id: Schema.Types.ObjectId,
 	firstName: {
 		type: Schema.Types.String,
-		reuired: true
+		required: true
 	},
 	lastName: {
 		type: Schema.Types.String,
-		reuired: true
+		required: true
 	},
 	email: {
 		type: Schema.Types.String,
-		reuired: true,
+		required: true,
 		match: [/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 'Invalid email']
 	},
 	password: {
 		type: Schema.Types.String,
-		reuired: true
+		required: true
 	},
 	username: {
 		type: Schema.Types.String,
-		reuired: true
+		required: true
 	},
 	createDate: {
 		type: Schema.Types.Date,
