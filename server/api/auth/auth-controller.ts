@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import { verify, sign } from 'jsonwebtoken';
 import { compareSync, hash } from 'bcrypt'
-import { NativeError } from 'mongoose';
+import mongoose, { NativeError } from 'mongoose';
 
 import { AuthenticatedUserRequest, User } from '../../interfaces/user';
 import { UserModel } from '../../models/user.model';
@@ -81,8 +81,10 @@ authController.post('/register', async (req, res) => {
 	});
 
 	if (!userDocument) {
-		const hashed: string = await hash(newUser.password, 10)
+		const hashed: string = await hash(newUser.password, 10);
+		const id = new mongoose.Types.ObjectId();
 		newUser.password = hashed;
+		newUser.id = id.toHexString();
 
 		const user = new UserModel(newUser);
 		const validation: NativeError = user.validateSync();
