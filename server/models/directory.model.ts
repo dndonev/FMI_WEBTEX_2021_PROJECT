@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { CloudObjectType } from '../enums/cloud-object-type';
 
 const directorySchema = new Schema({
     id: Schema.Types.ObjectId,
@@ -7,17 +8,27 @@ const directorySchema = new Schema({
         minLength: 3,
         required: true
     },
-    path: {
-        type: Schema.Types.String,
-        required: true
+    parent: {
+        type: Schema.Types.ObjectId,
+        ref: 'Directory'
     },
+    children: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Directory'
+    }],
+    files: [{
+        type: Schema.Types.ObjectId,
+        ref: 'File'
+    }],
     isRoot: {
         type: Schema.Types.Boolean,
-        required: true
+        required: true,
+        default: true
     },
     type: {
         type: Schema.Types.String,
-        required: true
+        required: true,
+        default: CloudObjectType.Folder
     },
     created: {
         type: Schema.Types.Date,
@@ -29,6 +40,9 @@ const directorySchema = new Schema({
     },
     description: {
         type: Schema.Types.String
+    },
+    filesCount: {
+        type: Schema.Types.Number
     }
 });
 
