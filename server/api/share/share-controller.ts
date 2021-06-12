@@ -33,8 +33,7 @@ shareController.get('/:email', verifyToken, async (req: AuthenticatedUserRequest
 });
 
 shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest, res) => {
-    const ownerId = req.user.id;
-    const {path: path, fileName: fileName, email: emailToShareTo} = req.body;
+    const {fileId: fileId, email: emailToShareTo} = req.body;
 
     if (!emailToShareTo && emailToShareTo === '') {
         return res.status(400).json({error: 'Invalid parameter - email'});
@@ -43,7 +42,7 @@ shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest
     try {
         const user = (await UserModel.findOne({email: emailToShareTo})).toJSON() as User;
 
-        await FileModel.findOneAndUpdate({path, fileName, ownerId}, {sharedToIds: [user]});
+        await FileModel.findOneAndUpdate({id: fileId}, {$push: { sharedToIds: user.id }});
 
         return res.sendStatus(204);
 
@@ -51,5 +50,9 @@ shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest
         return res.status(500).json({error: 'There was an error sharing your file'});
     }
 });
+
+shareController.get('/shared-with-me', (req, res) => {
+    
+})
 
 export default shareController;

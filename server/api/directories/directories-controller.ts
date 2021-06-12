@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import { verify } from 'jsonwebtoken';
 import mongoose from 'mongoose'
-import { CloudObjectType } from '../../enums/cloud-object-type';
 import { Directory, NewDirectory } from '../../interfaces/directory';
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
@@ -11,11 +9,9 @@ const directoriesController = Router();
 
 // Create directory
 
-//root/dir1/dir2/dir3/dir1
-//root/dir2/dir1/dir3/dir1
 directoriesController.post('/create', verifyToken, async (req: AuthenticatedUserRequest, res) => {
     const ownerId = req.user.id;
-    const current = req.body.id as string;
+    const currentId = req.body.id as string;
     const toCreate = req.body.newDir as NewDirectory;
 
     const newDirectory = new DirectoryModel({
@@ -23,7 +19,7 @@ directoriesController.post('/create', verifyToken, async (req: AuthenticatedUser
         directoryName: toCreate.directoryName, 
         description: toCreate.description,
         files: [],
-        parent: current,
+        parent: currentId,
         isRoot: false,
         children: [],
         ownerId
@@ -37,7 +33,7 @@ directoriesController.post('/create', verifyToken, async (req: AuthenticatedUser
     try {
         await newDirectory.save();
         const currentDirectory = 
-            (await DirectoryModel.findByIdAndUpdate(current, {
+            (await DirectoryModel.findOneAndUpdate({id: currentId}, {
                 $push: {children: newDirectory.id}
             })).toJSON() as Directory;
         

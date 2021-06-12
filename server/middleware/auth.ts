@@ -13,7 +13,7 @@ export const verifyToken = (req: AuthenticatedUserRequest, res: Response, next: 
 	try {
 		user = verify(token, process.env.ACCESS_TOKEN_SECRET as string) as User;
 	} catch (err) {
-		res.status(403).json(err);
+		res.status(403).json({message: 'Unable to verify token', ...err});
 	}
 
 	req.user = user;

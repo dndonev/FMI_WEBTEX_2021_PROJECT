@@ -25,7 +25,10 @@ const fileSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    sharedToIds: [userSchema]
+    shareToIds: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 });
 
 export const FileModel = model('File', fileSchema);

@@ -1,7 +1,6 @@
 
 import { Router } from 'express'
 import mongoose from 'mongoose'
-import { CloudObjectType } from '../../enums/cloud-object-type';
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
 import { DirectoryModel } from '../../models/directory.model';
