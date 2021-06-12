@@ -31,12 +31,12 @@ filesController.post('/upload', verifyToken, async (req: AuthenticatedUserReques
 	
 	try {
 		const savedFile = await file.save();
-		await directory.updateOne({$push: { files: savedFile.id } });
+		await directory.updateOne({$push: { files: savedFile } });
 		res.status(201).json(savedFile);
 	} catch (err) {
 		res.status(400).json({ message: err });
 	}
-})
+});
 
 // Get single file by ID
 filesController.get('/:fileId', async (req, res) => {

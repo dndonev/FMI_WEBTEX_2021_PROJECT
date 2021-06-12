@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { CloudObjectType } from '../enums/cloud-object-type';
 import { userSchema } from './user.model';
 
-const fileSchema = new Schema({
+export const fileSchema = new Schema({
     id: Schema.Types.ObjectId,
     fileName: {
         type: Schema.Types.String,
