@@ -22,7 +22,8 @@ directoriesController.post('/create', verifyToken, async (req: AuthenticatedUser
         parent: currentId,
         isRoot: false,
         children: [],
-        ownerId
+        ownerId,
+        filesCount: 0
     });
 
     const validation = newDirectory.validateSync();
@@ -34,7 +35,7 @@ directoriesController.post('/create', verifyToken, async (req: AuthenticatedUser
         await newDirectory.save();
         const currentDirectory = 
             (await DirectoryModel.findOneAndUpdate({id: currentId}, {
-                $push: {children: newDirectory.id}
+                $push: {children: newDirectory}
             })).toJSON() as Directory;
         
         return res.status(201).json(newDirectory);
@@ -59,7 +60,9 @@ directoriesController.post('/root', verifyToken, async (req: AuthenticatedUserRe
         parent: null,
         children: [],
         isRoot: true,
-        directoryName: 'root'
+        directoryName: 'root',
+        files: [],
+        filesCount: 0
     });
 
     const validation = root.validateSync();
@@ -75,6 +78,36 @@ directoriesController.post('/root', verifyToken, async (req: AuthenticatedUserRe
     }
 });
 
+directoriesController.post('/shared-with-me', verifyToken,(req: AuthenticatedUserRequest, res) => {
+    const shared = DirectoryModel.findOne({ownerId: req.user.id, directoryName: 'shared'});
+    if (!shared) {
+        const sharedDirectory = new DirectoryModel({
+            id: new mongoose.Types.ObjectId(),
+            parent: null,
+            children: [],
+            directoryName: 'shared',
+            ownerId: req.user.id,
+            description: 'shared',
+            isRoot: false,
+            files: [],
+            filesCount: 0
+        })
+
+        return res.status(201).json({message: 'Shared directory successfully created'});
+    }
+
+    return res.status(200).json({message: 'You already have a shared directory'});
+});
+
+directoriesController.get('/shared-with-me', verifyToken, (req: AuthenticatedUserRequest, res) => {
+    const shared = DirectoryModel.findOne({ownerId: req.user.id, directoryName: 'shared'});
+    if (!shared) {
+        return res.status(404).json({message: 'Shared directory not found'});
+    }
+
+    return res.status(200).json(shared);
+});
+
 directoriesController.get('/:directoryId', verifyToken, async (req: AuthenticatedUserRequest, res) => {
     const directoryId = req.params.directoryId;
     const ownerId = req.user.id;
@@ -85,21 +118,6 @@ directoriesController.get('/:directoryId', verifyToken, async (req: Authenticate
     }
 
     res.status(200).json(directory.toJSON());
-})
-
-
-// Update directory name by directory's id
-directoriesController.patch('/:directory', verifyToken , async (req: AuthenticatedUserRequest, res) => {
-    const ownerId: string = req.user.id;
-    const directoryName: string = req.body.directory as string;
-    
-    try {
-        const updatedDirectory = 
-            await DirectoryModel.findOneAndUpdate({ ownerId }, { directoryName });
-        res.status(200).json(updatedDirectory);
-    } catch (err) {
-        res.status(404).json({ message: err });
-    }
 });
 
 export default directoriesController;
