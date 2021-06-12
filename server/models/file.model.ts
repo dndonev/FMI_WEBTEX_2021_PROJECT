@@ -1,4 +1,6 @@
 import { Schema, model } from 'mongoose';
+import { CloudObjectType } from '../enums/cloud-object-type';
+import { userSchema } from './user.model';
 
 const fileSchema = new Schema({
     id: Schema.Types.ObjectId,
@@ -8,11 +10,12 @@ const fileSchema = new Schema({
     },
     directory: { 
         type: Schema.Types.ObjectId, 
-        ref: 'DirectoryModel'
+        ref: 'Directory'
     },
     type: {
         type: Schema.Types.String,
-        required: true
+        required: true,
+        default: CloudObjectType.File
     },
     created: {
         type: Schema.Types.Date,
@@ -21,7 +24,11 @@ const fileSchema = new Schema({
     ownerId: {
         type: Schema.Types.String,
         required: true
-    }
+    },
+    shareToIds: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 });
 
 export const FileModel = model('File', fileSchema);

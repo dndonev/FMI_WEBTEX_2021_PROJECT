@@ -2,11 +2,11 @@
 import { Router } from 'express'
 import { AuthenticatedUserRequest, User } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
+import { FileModel } from '../../models/file.model';
 import { UserModel } from '../../models/user.model';
 
 const shareController = Router();
 
-// Upload new file
 shareController.get('/:email', verifyToken, async (req: AuthenticatedUserRequest, res) => {
     const email: string = req.params.email;
 
@@ -31,5 +31,28 @@ shareController.get('/:email', verifyToken, async (req: AuthenticatedUserRequest
 
     res.status(200).json(mapped);
 });
+
+shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest, res) => {
+    const {fileId: fileId, email: emailToShareTo} = req.body;
+
+    if (!emailToShareTo && emailToShareTo === '') {
+        return res.status(400).json({error: 'Invalid parameter - email'});
+    }
+
+    try {
+        const user = (await UserModel.findOne({email: emailToShareTo})).toJSON() as User;
+
+        await FileModel.findOneAndUpdate({id: fileId}, {$push: { sharedToIds: user.id }});
+
+        return res.sendStatus(204);
+
+    } catch {
+        return res.status(500).json({error: 'There was an error sharing your file'});
+    }
+});
+
+shareController.get('/shared-with-me', (req, res) => {
+    
+})
 
 export default shareController;
