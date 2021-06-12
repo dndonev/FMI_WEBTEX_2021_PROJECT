@@ -66,35 +66,35 @@ authController.post('/login', async (req, res) => {
 });
 
 authController.post('/register', async (req, res) => {
-	const { email, password } = req.body;
-
-	if (!email || email === '' || !password || password === '') {
-		return res.status(400).json({ error: 'Invalid parameters - email/password' })
-	}
+	const newUser = req.body as User;
 
 	const today: Date = new Date();
-	const newUser: User = req.body;
-	newUser.createDate = today;
 
 	const userDocument = await UserModel.findOne({
-		email: newUser.email
+		email: req.body.email
 	});
 
 	if (!userDocument) {
 		const hashed: string = await hash(newUser.password, 10);
-		const id = new mongoose.Types.ObjectId();
-		newUser.password = hashed;
-		newUser.id = id.toHexString();
 
-		const user = new UserModel(newUser);
+		const user = new UserModel({
+			id: new mongoose.Types.ObjectId(),
+			email: newUser.email,
+			password: hashed,
+			createDate: today,
+			firstName: newUser.firstName,
+			lastName: newUser.lastName,
+			username: newUser.username
+		});
 		const validation: NativeError = user.validateSync();
 		if (validation) {
 			return res.status(400).json(validation);
 		}
+
 		await user.save();
 
 		try {
-			const tokens: Tokens = signToken(newUser);
+			const tokens: Tokens = signToken(user.toJSON() as User);
 
 			await saveRefreshToken(tokens.refreshToken)
 			return res.json(tokens);

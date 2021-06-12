@@ -20,10 +20,10 @@
 	background-position: center;
 	font-family: $regular-text-font;
 
-	.login-button {
+	.logout-button {
 		background-color: $button-color;
 		height: 2rem;
-		padding: 8px 5%;
+		padding: 8px 3%;
 		font-family: $regular-text-font;
 		text-transform: capitalize;
 		color: $button-text-color;
@@ -35,9 +35,10 @@
 		background-color: $button-color;
 
 		&:hover {
+			color: black;
+			box-shadow: 0 14px 9px 0 rgba(0, 0, 0, 0.24), 0 15px 22px rgba(0, 0, 0, 0.19);
 			background-color: $button-hover-color;
-			transition: 0.7s;
-		}
+		  }
 	}
 
 	.user-information {

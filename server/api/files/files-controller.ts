@@ -1,6 +1,6 @@
 
 import { Router } from 'express'
-import { CloudObjectType } from '../../enums/cloud-object-type';
+import mongoose from 'mongoose'
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
 import { DirectoryModel } from '../../models/directory.model';
@@ -11,26 +11,27 @@ const filesController = Router();
 // Upload new file
 filesController.post('/upload', verifyToken, async (req: AuthenticatedUserRequest, res) => {
 	const ownerId = req.user.id;
-	const path = req.body.directoryPath;
-	const directory = await DirectoryModel.findOne({ ownerId, path });
+	const directoryId = req.body.directoryId;
+	const directory = await DirectoryModel.findOne({ id: directoryId });
 	if (!directory) {
-		return res.send(404).json({error: 'No such directory'});
+		return res.status(404).json({error: 'No such directory'});
 	}
-
+	
 	const file = new FileModel({
+		id: new mongoose.Types.ObjectId(),
 		fileName: req.body.fileName,
-		directory: directory.id,
-		ownerId,
-		type: CloudObjectType.File
+		directory: directoryId,
+		ownerId
 	});
 
 	const validation = file.validateSync();
 	if (validation) {
 		return res.status(400).json(validation);
 	}
-
+	
 	try {
 		const savedFile = await file.save();
+		await directory.updateOne({$push: { files: savedFile.id } });
 		res.status(201).json(savedFile);
 	} catch (err) {
 		res.status(400).json({ message: err });
@@ -51,7 +52,7 @@ filesController.get('/:fileId', async (req, res) => {
 })
 
 // Delete single file by ID
-filesController.delete('/:fileId', async (req, res) => {
+filesController.delete('/:directoryId/:fileId', async (req, res) => {
 	try {
 		const deletedFile = await FileModel.remove({ _id: req.params.fileId });
 		res.status(200).json(deletedFile);
