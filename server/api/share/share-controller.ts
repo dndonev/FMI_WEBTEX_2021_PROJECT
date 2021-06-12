@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import { AuthenticatedUserRequest, User } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
+import { DirectoryModel } from '../../models/directory.model';
 import { FileModel } from '../../models/file.model';
 import { UserModel } from '../../models/user.model';
 
@@ -51,8 +52,13 @@ shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest
     }
 });
 
-shareController.get('/shared-with-me', (req, res) => {
-    
+shareController.get('/shared-with-me', verifyToken, (req: AuthenticatedUserRequest, res) => {
+    const ownerId = req.user.id;
+
+    const sharedDirectory = DirectoryModel.findOne({ownerId, directoryName: 'shared'});
+
+    return res.status(200).json(sharedDirectory);
+
 })
 
 export default shareController;
