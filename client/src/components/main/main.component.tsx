@@ -43,7 +43,15 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 	}
 
 	if (toggleUploadComponent) {
-		showSelectedComponent = <UploadComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } type={ type }/>;
+		showSelectedComponent = 
+			<UploadComponent
+				fileName={ file.fileName }
+				ownerId={ file.ownerId }
+				directory={ file.directory }
+				created={ file.created }
+				type={ file.type }
+				id={ file.id }
+			/>;
 	}
 
 	if (toggleSharedComponent) {

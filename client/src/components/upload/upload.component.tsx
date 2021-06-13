@@ -9,7 +9,7 @@ import logo from '../../assets/upload-logo.png';
 
 const UploadComponent: React.FC<File> = ({ ...props }) => {
 
-	const { fileName, location, created, ownerId, type } = props;
+	const { fileName, directory, created, ownerId, type } = props;
 
 	const [file, setFile] = React.useState<any>({});
 	const [filename, setFileName] = useState('No file selected');

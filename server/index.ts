@@ -11,7 +11,6 @@ const app: Application = express();
 
 app.use(json());
 app.use(cors());
-app.use(fileUpload());
 
 connectAPI(app, '/api');
 

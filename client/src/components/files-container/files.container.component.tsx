@@ -38,8 +38,6 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 		getCurrentDir();
 	}, [files]);
 
-	
-
 	const renderFiles = files.map(file => {
 		return (
 			<FileComponent file={file}/>
