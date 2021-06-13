@@ -22,4 +22,10 @@
     background-size: contain;
     background-position: center;
     font-family: $regular-text-font;
+
+    @media (max-width: 576px) {
+        width: 300px;
+    }
+
+
 }
