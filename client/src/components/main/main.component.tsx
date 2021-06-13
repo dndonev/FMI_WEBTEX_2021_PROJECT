@@ -7,7 +7,7 @@ import SideBarComponent from './../sidebar/sidebar.component';
 import HeaderComponent from './../header/header.component';
 import FileContainerComponent from '../files-container/files.container.component';
 import UploadComponent from '../upload/upload.component';
-import SharedComponent from '../shared/shared.component';
+// import SharedComponent from '../shared/shared.component';
 
 import { IToggleUpload, IToggleMyFiles, TComponentReducerActions, IToggleShared } from './../../redux/component-visibility/component.action';
 import { ComponentActionTypes } from './../../redux/component-visibility/component.types';
@@ -32,14 +32,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
 	if (toggleMyFilesComponent) {
 		showSelectedComponent = 
-			<FileContainerComponent 
-				fileName={ file.fileName }
-			 	ownerId={ file.ownerId }
-			 	directory={ file.directory }
-			 	created={ file.created }
-				type={ file.type }
-				id={ file.id }
-			 />;
+			<FileContainerComponent />;
 	}
 
 	if (toggleUploadComponent) {
@@ -49,20 +42,23 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 				ownerId={ file.ownerId }
 				directory={ file.directory }
 				created={ file.created }
+				extention={ file.extention }
 				type={ file.type }
 				id={ file.id }
 			/>;
 	}
 
 	if (toggleSharedComponent) {
-		showSelectedComponent = 
-		<SharedComponent fileName={ file.fileName }
-			ownerId={ file.ownerId }
-			directory={ file.directory }
-			created={ file.created }
-			type={ file.type }
-			id={ file.id }
-		/>
+		// showSelectedComponent = 
+		// <SharedComponent
+		// 	fileName={ file.fileName }
+		// 	ownerId={ file.ownerId }
+		// 	directory={ file.directory }
+		// 	created={ file.created }
+		// 	extention={ file.extention }
+		// 	type={ file.type }
+		// 	id={ file.id }
+		// />
 	}
 
 	return (

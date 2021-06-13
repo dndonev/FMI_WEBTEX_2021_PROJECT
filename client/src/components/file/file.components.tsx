@@ -6,7 +6,7 @@ import { FileComponentProps } from './file.types';
 
 const FileComponent: React.FC<FileComponentProps> = ({...props}) => {
 
-	const { file } = props;
+	const file = props;
 
     return (
 		<div className="file-box">

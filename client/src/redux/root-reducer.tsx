@@ -10,12 +10,15 @@ import {persistReducer} from 'redux-persist';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import componentReducer from './component-visibility/component.reducer';
 import { ComponentState } from './component-visibility/component.types';
+import directoryReducer from './directory/directory.reducer';
+import { DirectoryState } from './directory/directory.types';
 
 export interface StoreState {
     router: RouterState;
     modal: ModalState;
     user: UserState & PersistPartial;
     component: ComponentState;
+    directory: DirectoryState;
 };
 
 const userConfig = {
@@ -27,7 +30,8 @@ export const rootReducer = (history: any) => combineReducers<StoreState>({
     router: connectRouter(history),
     modal: modalReducer,
     user: persistReducer(userConfig, userReducer),
-    component: componentReducer
+    component: componentReducer,
+    directory: directoryReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

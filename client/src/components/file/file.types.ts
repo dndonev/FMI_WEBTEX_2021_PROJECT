@@ -1,5 +1,4 @@
 import { File } from '../../interfaces/file';
-export interface FileComponentProps {
+export interface FileComponentProps extends File {
     
-    file: File;
 }

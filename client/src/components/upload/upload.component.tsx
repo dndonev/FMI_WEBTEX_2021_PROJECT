@@ -30,26 +30,26 @@ const UploadComponent: React.FC<File> = ({ ...props }) => {
 	const token = localStorage.getItem('accessToken');	
 
 	const onSubmit = async () => {
-		const formData = new FormData();
-		formData.append('uploadedFile', file);
+		// const formData = new FormData();
+		// formData.append('uploadedFile', file);
 
 
-		//const file = await Axios.post(fileUploadURL)
-		Axios.post<File>(fileUploadURL, formData, {
-				headers: {
-					"Authorization": `Bearer ${token}`,
-					"Content-Type": "multipart/form-data"
-				}})
-		    .then(res => {
-				const { fileName, location, type} = res.data;
-				setUploadedFile({ fileName, location, type });
-				console.log(res.data);
-		    })
-		    .catch(err => {
-				if (err.status === 500) {
-					console.log("Server error");
-				}
-		    });
+		// //const file = await Axios.post(fileUploadURL)
+		// Axios.post<File>(fileUploadURL, formData, {
+		// 		headers: {
+		// 			"Authorization": `Bearer ${token}`,
+		// 			"Content-Type": "multipart/form-data"
+		// 		}})
+		//     .then(res => {
+		// 		const { fileName, location, type} = res.data;
+		// 		setUploadedFile({ fileName, location, type });
+		// 		console.log(res.data);
+		//     })
+		//     .catch(err => {
+		// 		if (err.status === 500) {
+		// 			console.log("Server error");
+		// 		}
+		//     });
 	}
 
     return (
