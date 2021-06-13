@@ -21,12 +21,25 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId, type} = props;
+	const {
+		toggleUploadComponent,
+		toggleMyFilesComponent,
+		toggleSharedComponent,
+		file,
+	} = props;
 
 	let showSelectedComponent;
 
 	if (toggleMyFilesComponent) {
-		showSelectedComponent = <FileContainerComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />;
+		showSelectedComponent = 
+			<FileContainerComponent 
+				fileName={ file.fileName }
+			 	ownerId={ file.ownerId }
+			 	directory={ file.directory }
+			 	created={ file.created }
+				type={ file.type }
+				id={ file.id }
+			 />;
 	}
 
 	if (toggleUploadComponent) {
@@ -34,7 +47,14 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 	}
 
 	if (toggleSharedComponent) {
-		showSelectedComponent = <SharedComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />
+		showSelectedComponent = 
+		<SharedComponent fileName={ file.fileName }
+			ownerId={ file.ownerId }
+			directory={ file.directory }
+			created={ file.created }
+			type={ file.type }
+			id={ file.id }
+		/>
 	}
 
 	return (
@@ -45,7 +65,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 					<SideBarComponent/>
 				</div>
 				<div className="files-container">
-					{showSelectedComponent}
+					{ showSelectedComponent }
 				</div>
 
 			</div>

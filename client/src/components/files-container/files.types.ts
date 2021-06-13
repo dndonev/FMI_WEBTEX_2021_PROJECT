@@ -1,8 +1,4 @@
-import { File } from '../../../../server/interfaces/file';
+import { File } from '../../interfaces/file';
+export interface FileContainerProps extends File {
 
-export interface FileContainerProps {
-    fileName: string;
-	location: string;
-	created: Date;
-	ownerId: string;
 }

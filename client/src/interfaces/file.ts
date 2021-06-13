@@ -1,7 +1,11 @@
+import { Directory } from "./directory";
+
 export interface File {
 	fileName: string;
-	location: string;
-	created: Date;
 	ownerId: string;
-	type: string;
+
+	id: string;
+    directory: Directory;
+    type: string;
+    created: Date;
 }
