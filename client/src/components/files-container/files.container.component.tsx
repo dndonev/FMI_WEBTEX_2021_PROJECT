@@ -16,7 +16,8 @@ import { selectChildDirectories, selectCurrentDirectory, selectDirectoryFiles } 
 
 const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => {
 	
-	const { getCurrentDirectoryAction,
+	const { 
+		getCurrentDirectoryAction,
 		getCurrentDirectoryActionSuccess,
 		getCurrentDirectoryActionError,
 		directory,

@@ -128,4 +128,13 @@ authController.get('/user-info', verifyToken, async (req: AuthenticatedUserReque
 	);
 });
 
+authController.get('/', async (req, res) => {
+	try {
+		const allFiles = await UserModel.find();
+		res.status(200).json(allFiles);
+	} catch (err) { 
+		res.status(404).json({ message: err });
+	}
+})
+
 export default authController;

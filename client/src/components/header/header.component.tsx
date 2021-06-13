@@ -26,6 +26,7 @@ const HeaderComponent:React.FC<HeaderTypes> = ({...props}) => {
             })
             .catch((error: any) => {
 				logoutUserErrorAction(error);
+				redirectToHome();
             });
 	}
 	return (

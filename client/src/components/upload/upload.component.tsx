@@ -7,13 +7,14 @@ import { File } from '../../interfaces/file';
 import './upload.styles.scss';
 import logo from '../../assets/upload-logo.png';
 
-const UploadComponent: React.FC<File> = ({ ...props }) => {
+const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
-	const { fileName, directory, created, ownerId, type } = props;
+	const { file } = props;
 
-	const [file, setFile] = React.useState<any>({});
+	const [fileToBeUpload, setFile] = React.useState<any>({});
 	const [filename, setFileName] = useState('No file selected');
 	const [uploadedFile, setUploadedFile] = React.useState<any>({});
+	const [fileID, setFileID] = React.useState<any>({});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const fileList = e.target.files!;
@@ -29,27 +30,28 @@ const UploadComponent: React.FC<File> = ({ ...props }) => {
 
 	const token = localStorage.getItem('accessToken');	
 
+
 	const onSubmit = async () => {
-		// const formData = new FormData();
-		// formData.append('uploadedFile', file);
+		const formData = new FormData();
+		formData.append('file', fileToBeUpload);
 
 
-		// //const file = await Axios.post(fileUploadURL)
+		//const file = await Axios.post(fileUploadURL)
 		// Axios.post<File>(fileUploadURL, formData, {
 		// 		headers: {
 		// 			"Authorization": `Bearer ${token}`,
 		// 			"Content-Type": "multipart/form-data"
 		// 		}})
-		//     .then(res => {
-		// 		const { fileName, location, type} = res.data;
-		// 		setUploadedFile({ fileName, location, type });
-		// 		console.log(res.data);
-		//     })
-		//     .catch(err => {
-		// 		if (err.status === 500) {
-		// 			console.log("Server error");
-		// 		}
-		//     });
+		//     	.then(res => {
+		// 			const { fileName, directory, type} = res.data;
+		// 			setUploadedFile({ fileName, directory, type });
+		// 			console.log(res.data);
+		//     	})
+		//     	.catch(err => {
+		// 			if (err.status === 500) {
+		// 				console.log("Server error");
+		// 			}
+		//     	});
 	}
 
     return (
