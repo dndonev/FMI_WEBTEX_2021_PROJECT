@@ -3,13 +3,14 @@ import express, { Application, Request, Response, json } from 'express'
 import { connect } from 'mongoose'
 import cors from 'cors'
 import { connect as connectAPI } from './api/connect';
+import fileUpload from 'express-fileupload';
 
 config();
 
 const app: Application = express();
 
-app.use(json())
-app.use(cors())
+app.use(json());
+app.use(cors());
 
 connectAPI(app, '/api');
 

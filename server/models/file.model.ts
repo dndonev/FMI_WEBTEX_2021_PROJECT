@@ -12,6 +12,10 @@ export const fileSchema = new Schema({
         type: Schema.Types.ObjectId, 
         ref: 'Directory'
     },
+    extention: {
+        type: Schema.Types.String,
+        required: true
+    },
     type: {
         type: Schema.Types.String,
         required: true,

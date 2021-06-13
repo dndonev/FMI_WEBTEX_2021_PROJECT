@@ -9,37 +9,45 @@ import { FileContainerProps } from './../files-container/files.types';
 
 const SharedComponent: React.FC<FileContainerProps> = ({ ...props }) => {
 	
-	const [files, setFiles]: [FileContainerProps[], (files: FileContainerProps[]) => void] = React.useState<FileContainerProps[]>([]);
+	// const [files, setFiles]: [FileContainerProps[], (files: FileContainerProps[]) => void] = React.useState<FileContainerProps[]>([]);
 
-	const [error, setError]: [string, (error: string) => void] = React.useState("");
+	// const [error, setError]: [string, (error: string) => void] = React.useState("");
 
-	const sharedFilesUrl = "http://localhost:3001/api/files/";
+	// const sharedFilesUrl = "http://localhost:3001/api/files/";
 
-	const getSharedFiles = () => {
-		Axios.get<FileContainerProps[]>(sharedFilesUrl, {
-			headers: {
-			  "Content-Type": "application/json"
-			}})
-			.then((res) => {
-				console.log(res.data);
-                setFiles(res.data);
-			})
-			.catch(err => {
-				const error = err.response.status === 404 ? "Source not found" : "Unexpected error";
-				setError(error);
-			})
-	}
+	// const getSharedFiles = () => {
+	// 	Axios.get<FileContainerProps[]>(sharedFilesUrl, {
+	// 		headers: {
+	// 		  "Content-Type": "application/json"
+	// 		}})
+	// 		.then((res) => {
+	// 			console.log(res.data);
+    //             setFiles(res.data);
+	// 		})
+	// 		.catch(err => {
+	// 			const error = err.response.status === 404 ? "Source not found" : "Unexpected error";
+	// 			setError(error);
+	// 		})
+	// }
 
-	React.useEffect(() => {
-		getSharedFiles();
-	}, []);
+	// React.useEffect(() => {
+	// 	getSharedFiles();
+	// }, []);
 
 
-	const renderSharedFiles = files.length && files.map(file => {
-		return (
-		    <FileComponent file={file}/>
-		)
-	})
+	// const renderSharedFiles = files.length && files.map(file => {
+	// 	return (
+	// 	    <FileComponent
+	// 		fileName={ file.fileName }
+	// 		ownerId={ file.ownerId }
+	// 		directory={ file.directory }
+	// 		created={ file.created }
+	// 		extention={ file.extention }
+	// 	   	type={ file.type }
+	// 	  	 id={ file.id }
+	// 	   />
+	// 	)
+	// })
 
     return (
         <div className="main-files-container">
@@ -47,7 +55,7 @@ const SharedComponent: React.FC<FileContainerProps> = ({ ...props }) => {
 				<SearchBoxComponent />
 			</div>
 		    <div className="file-container">
-				{ renderSharedFiles }
+				{/* { renderSharedFiles } */}
 			</div>
         </div>
     )

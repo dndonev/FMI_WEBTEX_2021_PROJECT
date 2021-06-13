@@ -7,7 +7,7 @@ import SideBarComponent from './../sidebar/sidebar.component';
 import HeaderComponent from './../header/header.component';
 import FileContainerComponent from '../files-container/files.container.component';
 import UploadComponent from '../upload/upload.component';
-import SharedComponent from '../shared/shared.component';
+// import SharedComponent from '../shared/shared.component';
 
 import { IToggleUpload, IToggleMyFiles, TComponentReducerActions, IToggleShared } from './../../redux/component-visibility/component.action';
 import { ComponentActionTypes } from './../../redux/component-visibility/component.types';
@@ -21,20 +21,36 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId} = props;
+	const {
+		toggleUploadComponent,
+		toggleMyFilesComponent,
+		toggleSharedComponent,
+		file,
+	} = props;
 
 	let showSelectedComponent;
 
 	if (toggleMyFilesComponent) {
-		showSelectedComponent = <FileContainerComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />;
+		showSelectedComponent = 
+			<FileContainerComponent />;
 	}
 
 	if (toggleUploadComponent) {
-		showSelectedComponent = <UploadComponent />;
+		showSelectedComponent = 
+			<UploadComponent file={ file }/>;
 	}
 
 	if (toggleSharedComponent) {
-		showSelectedComponent = <SharedComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />
+		// showSelectedComponent = 
+		// <SharedComponent
+		// 	fileName={ file.fileName }
+		// 	ownerId={ file.ownerId }
+		// 	directory={ file.directory }
+		// 	created={ file.created }
+		// 	extention={ file.extention }
+		// 	type={ file.type }
+		// 	id={ file.id }
+		// />
 	}
 
 	return (
@@ -45,7 +61,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 					<SideBarComponent/>
 				</div>
 				<div className="files-container">
-					{showSelectedComponent}
+					{ showSelectedComponent }
 				</div>
 
 			</div>
