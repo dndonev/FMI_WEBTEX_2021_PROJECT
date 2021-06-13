@@ -36,6 +36,10 @@
 	cursor: pointer;
 	font-weight: 250;
 
+	@media (max-width: 768px) {
+		padding: 0;
+	}
+
 	p {
 		margin-top: 24px;
 		margin-bottom: 10px;
@@ -69,4 +73,5 @@
 		height: 250px;
 	}
 }
+
 //}
