@@ -47,7 +47,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 		getCurrentDir();
 	}, []);
 
-	const renderFiles = files && files.length && files.map((file: File) => {
+	const renderFiles = files && files.length !== 0 && files.map((file: File) => {
 		return (
 			<FileComponent clicked={null}
 				fileName={ file.fileName }
@@ -60,11 +60,12 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 			/>
 		)
 	});
+
 	const onDirectoryClick: (directory: Directory) => void = (newDir: Directory) => {
 		return function click() { return getCurrentDirectoryActionSuccess(newDir) }
 	}
 
-	const renderChildDirectories = childDirectories && childDirectories.length && childDirectories.map((childDir: Directory) => {
+	const renderChildDirectories = childDirectories && childDirectories.length !== 0 && childDirectories.map((childDir: Directory) => {
 		return (
 			<FileComponent clicked={ onDirectoryClick(childDir) }
 				fileName= {childDir.directoryName}
