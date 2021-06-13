@@ -12,7 +12,7 @@ const FileComponent: React.FC<FileComponentProps> = ({...props}) => {
 		<div className="file-box">
 			<img src={logo} className="file-image" />
 			<span><strong>{file.fileName}</strong></span>
-			<span>{file.ownerId}</span>
+			{/* <span>{file.ownerId}</span> */}
 		</div>
     );
 };

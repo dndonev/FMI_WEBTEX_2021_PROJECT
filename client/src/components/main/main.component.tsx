@@ -21,7 +21,7 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId} = props;
+	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId, type} = props;
 
 	let showSelectedComponent;
 
@@ -30,7 +30,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 	}
 
 	if (toggleUploadComponent) {
-		showSelectedComponent = <UploadComponent />;
+		showSelectedComponent = <UploadComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } type={ type }/>;
 	}
 
 	if (toggleSharedComponent) {

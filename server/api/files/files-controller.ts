@@ -1,13 +1,34 @@
-
 import { Router } from 'express'
+import fileUpload from 'express-fileupload'
+
 import mongoose from 'mongoose'
+
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
+
 import { DirectoryModel } from '../../models/directory.model';
 import { FileModel } from '../../models/file.model';
 
+import { join, resolve } from 'path';
+
 const filesController = Router();
 
+filesController.post('/upload/:fileId', [verifyToken, fileUpload()], async (req: AuthenticatedUserRequest, res) => {
+	const uploadedFile = req.files.file;
+
+	const fileId = req.params.fileId;
+		const downloadPath = join(resolve(), 'upload-files', (uploadedFile as any).name);
+		//const downloadPath = `${__dirname}/server/uploaded-files/${uploadedFile.name}-${fileId}`; 
+	
+		//console.log(uploadedFile. + " " + downloadPath);
+	
+		uploadedFile.mv(downloadPath, () => {
+			res.sendStatus(204).json({ 
+				fileName: (uploadedFile as any).name,
+				directory: downloadPath
+			});
+		})
+}
 // Upload new file
 filesController.post('/upload', verifyToken, async (req: AuthenticatedUserRequest, res) => {
 	const ownerId = req.user.id;
@@ -27,8 +48,8 @@ filesController.post('/upload', verifyToken, async (req: AuthenticatedUserReques
 	const validation = file.validateSync();
 	if (validation) {
 		return res.status(400).json(validation);
-	}
-	
+	} 
+
 	try {
 		const savedFile = await file.save();
 		await directory.updateOne({$push: { files: savedFile } });

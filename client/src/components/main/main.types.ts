@@ -13,4 +13,5 @@ export interface MainComponentProps {
 	location: string;
 	created: Date;
 	ownerId: string;
+    type: string;
 }

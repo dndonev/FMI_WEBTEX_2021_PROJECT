@@ -120,4 +120,13 @@ directoriesController.get('/:directoryId', verifyToken, async (req: Authenticate
     res.status(200).json(directory.toJSON());
 });
 
+directoriesController.get('/', async (req, res) => {
+    try {
+		const allFiles = await DirectoryModel.find();
+		res.status(200).json(allFiles);
+	} catch (err) { 
+		res.status(404).json({ message: err });
+	}
+})
+
 export default directoriesController;
