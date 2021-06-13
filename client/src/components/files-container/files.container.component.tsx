@@ -26,7 +26,6 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 	} = props;
 
 	const getRootDir = 'http://localhost:3001/api/directories/root';
-	const createRootDir = 'http://localhost:3001/api/directories/root';
 	const headers = {
 		headers: {
 		  'Content-Type': 'application/json',
@@ -37,10 +36,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 		let root: Directory;
 		try {
 			getCurrentDirectoryAction();
-			root = (await Axios.get<Directory>(getRootDir, headers)).data;
-			if (!root) {
-				root = (await Axios.post<Directory>(createRootDir, headers)).data;
-			}
+			root = (await Axios.post<Directory>(getRootDir, {},headers)).data;
 			getCurrentDirectoryActionSuccess(root);
 		} catch (e) {
 			getCurrentDirectoryActionError();

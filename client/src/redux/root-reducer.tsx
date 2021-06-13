@@ -12,6 +12,8 @@ import componentReducer from './component-visibility/component.reducer';
 import { ComponentState } from './component-visibility/component.types';
 import directoryReducer from './directory/directory.reducer';
 import { DirectoryState } from './directory/directory.types';
+import { SharedDirectoryState } from './shared-directory/shared-directory.types';
+import sharedDirectoryReducer from './shared-directory/shared-directory.reducer';
 
 export interface StoreState {
     router: RouterState;
@@ -19,6 +21,7 @@ export interface StoreState {
     user: UserState & PersistPartial;
     component: ComponentState;
     directory: DirectoryState;
+    sharedDirectory: SharedDirectoryState;
 };
 
 const userConfig = {
@@ -31,7 +34,8 @@ export const rootReducer = (history: any) => combineReducers<StoreState>({
     modal: modalReducer,
     user: persistReducer(userConfig, userReducer),
     component: componentReducer,
-    directory: directoryReducer
+    directory: directoryReducer,
+    sharedDirectory: sharedDirectoryReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
