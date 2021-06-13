@@ -33,8 +33,10 @@ const FileComponent: React.FC<FileComponentProps> = ({...props}) => {
 		logo = folderLogo;
 	}
 
+	const onClick = file.clicked;
+
     return (
-		<div className="file-box">
+		<div className="file-box" onClick={onClick}>
 			<img src={ logo } className="file-image" />
 			<span className="file-name"><strong>{file.fileName}</strong></span>
 			{/* <span>{file.ownerId}</span> */}

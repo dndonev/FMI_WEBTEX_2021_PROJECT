@@ -53,7 +53,11 @@ directoriesController.get('/root', verifyToken, async (req: AuthenticatedUserReq
 
 directoriesController.post('/root', verifyToken, async (req: AuthenticatedUserRequest, res) => {
     const ownerId = req.user.id;
-
+    const rootDirectory = await DirectoryModel.findOne({ ownerId, isRoot: true });
+    if (rootDirectory) {
+        return res.status(200).json(rootDirectory);
+    }
+    
     const root = new DirectoryModel({
         id: new mongoose.Types.ObjectId(),
         ownerId,

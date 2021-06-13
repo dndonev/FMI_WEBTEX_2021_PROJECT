@@ -53,7 +53,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 
 	const renderFiles = files && files.length && files.map((file: File) => {
 		return (
-			<FileComponent 
+			<FileComponent clicked={null}
 				fileName={ file.fileName }
 				ownerId={ file.ownerId}
 				extention={ file.extention }
@@ -63,14 +63,33 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 				created={ file.created}
 			/>
 		)
-	})
+	});
+	const onDirectoryClick: (directory: Directory) => void = (newDir: Directory) => {
+		return function click() { return getCurrentDirectoryActionSuccess(newDir) }
+	}
+
+	const renderChildDirectories = childDirectories && childDirectories.length && childDirectories.map((childDir: Directory) => {
+		return (
+			<FileComponent clicked={ onDirectoryClick(childDir) }
+				fileName= {childDir.directoryName}
+				ownerId={childDir.ownerId}
+				created={childDir.created}
+				id={childDir.id}
+				directory={directory}
+				type={childDir.type}
+			/>
+		)
+	});
+	
 
     return (
         <div className='main-files-container'>
+			<h1>{ directory.directoryName }</h1>
             <div className='search-box-container'>
 				<SearchBoxComponent />
 			</div>
 		    <div className='file-container'>
+				{ renderChildDirectories }
 				{ renderFiles }
 			</div>
 		</div>
