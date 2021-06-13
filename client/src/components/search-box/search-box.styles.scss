@@ -11,6 +11,12 @@
 	border-color: $button-hover-color;
 	border-radius: 25px;
 
+	@media (max-width: 768px) {
+		width: 80%;
+		margin: 0 auto;
+		padding: 0;
+	}
+
 	.search-text {
 		font-style: italic;
 	}

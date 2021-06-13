@@ -1,4 +1,4 @@
-import React, { useState, useEffect}from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -73,8 +73,8 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 		    <div className='file-container'>
 				{ renderFiles }
 			</div>
-        </div>
-    )
+		</div>
+	)
 }
 
 const mapStateToProps = (state: StoreState): DirectoryState => {

@@ -8,11 +8,13 @@
 	cursor: pointer;
 	font-weight: 250;
 
-	.upload-image {
-		max-height: 300px;
-		max-width: 300px;
-		width: 250px;
-		height: 250px;
+	@media (max-width: 768px) {
+		padding: 0;
+	}
+
+	p {
+		margin-top: 24px;
+		margin-bottom: 10px;
 	}
 
 	.browse-button {
@@ -64,4 +66,5 @@
 		}
 	}
 }
+
 //}
