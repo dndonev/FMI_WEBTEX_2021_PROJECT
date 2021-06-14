@@ -1,79 +1,178 @@
-import React from 'react';
-import Modal from '@material-ui/core/Modal';
+import React, { useEffect, useState } from 'react';
 import './userinfo.styles.scss';
 import axios from 'axios';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { FaUserEdit } from "react-icons/fa"
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { StoreState } from '../../redux/root-reducer';
+import { User } from '../../redux/user/user.types';
+import { connect } from 'react-redux';
+import { UserInfoProps } from './user-info.types';
+import clsx from 'clsx';
+import { headers } from '../login/login.types';
+import { useFormik } from 'formik';
 
-class UserInfoComponent extends React.Component {
-    state = { open: false, filesCount: null, userInfo: { username: null, firstName: null, lastName: null, email: null, createDate: null } };
 
-    componentDidMount() {
-        const token = localStorage.getItem('accessToken');
-        axios.get('/api/auth/user-info', { headers: { Authorization: token } })
-            .then((res) => {
-                const { username, firstName, lastName, email, createDate } = res.data;
-                const userInfo = { username, firstName, lastName, email, createDate: new Date(createDate).toISOString().slice(0, 10) };
-                this.setState({ userInfo })
-            })
-            .catch(err => {
-                console.log(err);
-            })
+const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
+    const { currentUser, show, handleClose } = props;
+    const token = sessionStorage.getItem('accessToken');
+    const modalVisibilityClassName = show ? "modal display-none" : " modal display-block";
+    const [userInfo, setUserInfo] = useState({
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: ''
+    });
+    const [uploadedFiles, setUploadedFiles] = useState(0);
 
-        axios.get('api/statistics/files', { headers: { Authorization: token } })
-            .then((res) => {
-                this.setState({ filesCount: res.data.filesCount })
-            })
-            .catch(err => {
-                console.log(err);
-            })
+    const [editMode, setEditMode] = useState(true);
 
-    }
-
-    handleOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-    renderBody = () => {
-        const { filesCount } = this.state;
-        const { username, firstName, lastName, email, createDate } = this.state.userInfo;
-        let isEmpty = true;
-        Object.keys(this.state.userInfo).forEach(item => {
-            if (item !== null) {
-                isEmpty = false;
-            }
-        })
-        if (isEmpty) {
-            return <div className="modal-body"></div>;
+    useEffect(() => {
+        if (currentUser.email !== undefined) {
+            axios.get('http://localhost:3001/api/auth/user-info', { headers: { Authorization: 'Bearer ' + token } })
+                .then((res) => {
+                    const { username, firstName, lastName, email } = res.data;
+                    const user = { username, firstName, lastName, email };
+                    setUserInfo(user)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
-        return (
-            <div className="modal-body">
-                <h2>User information.</h2>
-                <p>First name: {firstName}</p>
-                <p>Last name: {lastName}</p>
-                <p>Email: {email}</p>
-                <p>Username: {username}</p>
-                <p>Created on: {createDate}</p>
-                <p>Files shared: {filesCount}</p>
-                <p>Files uploaded:</p>
-            </div>
-        );
-    }
-    render() {
-        return (
-            <div>
-                <Modal
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                >
-                    {this.renderBody()}
-                </Modal>
-                <span onClick={this.handleOpen}>{this.props.children}</span>
-            </div>
-        );
-    }
-};
+    }, []);
 
-export default UserInfoComponent;
+    useEffect(() => {
+        if (currentUser.email !== undefined) {
+            axios.get('http://localhost:3001/api/statistics/files', { headers: { Authorization: 'Bearer ' + token } })
+                .then((res) => {
+                    setUploadedFiles(res.data.filesCount)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }, []);
+
+    const handleSaveChanges = () => {
+        return axios
+            .post('http://localhost:3001/api/auth/edit-user', {
+                email: userInfo.email,
+                username: userInfo.username,
+                lastName: userInfo.lastName,
+                firstName: userInfo.firstName
+            }, { headers: { Authorization: 'Bearer ' + token} })
+            .then((response: any) => {
+                handleClose();
+                setEditMode(true);
+            })
+            .catch((error: any) => {
+                console.log(error)
+            })
+    }
+
+    const handleChange = (event: any, valueCorrectType: any, fieldName: string) => {
+        event.preventDefault();
+
+        if(fieldName === 'email') {
+            setUserInfo({
+                ...userInfo,
+                email: valueCorrectType
+            })
+        }
+        else if(fieldName === 'username') {
+            setUserInfo({
+                ...userInfo,
+                username: valueCorrectType
+            })
+        }
+        else if(fieldName === 'firstName') {
+            setUserInfo({
+                ...userInfo,
+                firstName: valueCorrectType
+            })
+        }
+        else if(fieldName === 'lastName') {
+            setUserInfo({
+                ...userInfo,
+                lastName: valueCorrectType
+            })
+        }
+    }
+
+    return (
+        <div className={clsx("login-container", modalVisibilityClassName)}>
+
+            <div className="modal-body">
+                <AiFillCloseCircle className='close-button-user-info' onClick={handleClose} />
+                <h2>User information</h2>
+                <div className="form">
+                    <form onSubmit={() => handleSaveChanges}>
+                        <div className="form-group">
+                            <label>Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={userInfo.username}
+                                disabled={editMode}
+                                onChange={(e: any) => handleChange(e, e.target.value, 'username')}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={userInfo.email}
+                                disabled={editMode}
+                                onChange={(e: any) => handleChange(e, e.target.value, 'email')}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>First name</label>
+                            <input
+                                type="text"
+                                name="firstName"
+                                value={userInfo.firstName}
+                                disabled={editMode}
+                                onChange={(e: any) => handleChange(e, e.target.value, 'firstName')}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Last name</label>
+                            <input
+                                type="text"
+                                name="lastName"
+                                value={userInfo.lastName}
+                                disabled={editMode}
+                                onChange={(e: any) => handleChange(e, e.target.value, 'lastName')}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Uploaded files</label>
+                            <input
+                                type="text"
+                                name="filesCount"
+                                defaultValue={uploadedFiles}
+                                disabled={true}
+                            />
+                        </div>
+                    </form>
+                    {
+                        !editMode ?
+                            <button type='submit' className='save-changes-button' onClick={handleSaveChanges}>Save changes</button>
+                            :
+                            <FaUserEdit className='edit-icon' onClick={() => setEditMode(false)} />
+                    }
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const mapStateToProps = (state: StoreState): { currentUser: User } => {
+    return {
+        currentUser: selectCurrentUser(state)
+    }
+}
+
+export default connect(mapStateToProps, null)(UserInfoComponent);

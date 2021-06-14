@@ -32,7 +32,8 @@ export interface UserState {
 
 export interface User {
     email: string;
-    username: string;
+    password?: string;
+    username?: string;
     firstName?: string;
     lastName?: string;
 }
