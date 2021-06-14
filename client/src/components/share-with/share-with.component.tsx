@@ -38,6 +38,7 @@ const ShareWithModal: React.FC<ShareWithProps> = ({ ...props }) => {
 
     const handleSelect = (event: any) => {
         setSearch(event.target.value);
+        setSelectedUsers([]);
     }
 
 
@@ -66,7 +67,7 @@ const ShareWithModal: React.FC<ShareWithProps> = ({ ...props }) => {
                 <div className="form-group">
                     <input
                         type="text"
-                        name="username"
+                        name="search"
                         placeholder='Search...'
                         value={search}
                         onChange={(e: any) => fetchUsers(e.target.value)}
