@@ -70,11 +70,13 @@
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             background-color: $button-color;
+
             .logo-image {
                 width: 20%;
                 display: flex;
                 align-items: flex-start;
             }
+
             .logo-sign {
                 padding-top: 3%;
                 padding-left: 5%;
@@ -88,11 +90,6 @@
 @media only screen and (max-width: 560px) {
     .home-container {
         padding-top: 45% !important;
-    }
-
-    .main-container {
-        display: flex;
-        justify-content: center;
     }
 
     .sign-button {
@@ -117,11 +114,6 @@
 @media only screen and (max-width: 1310px) {
     .home-container {
         padding-top: 15%;
-    }
-
-    .main-container {
-        display: flex;
-        justify-content: center;
     }
 
     .logo-container {

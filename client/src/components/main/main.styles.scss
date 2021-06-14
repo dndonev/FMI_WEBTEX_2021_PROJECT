@@ -10,16 +10,31 @@
 		// Changed marin-top from 25px to 45px
 		margin-top: 45px;
 		justify-content: space-evenly;
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+		}
 	}
 
 	.sidebar {
 		width: 20%;
+
+
+		@media (max-width: 1200px) {
+			width: 35%;
+		}
+
+
+		@media (max-width: 768px) {
+			width: 100%;
+		}
 	}
 
 	.files-container {
 		width: 80%;
 		min-height: 600px;
 		margin-left: 25px;
+
 		// border-bottom: $container-border-bottom;
 		// border-top: $container-border-top;
 		// border-left: $container-border-left;
@@ -27,6 +42,15 @@
 		// border-color: $button-hover-color;
 		// border-radius: 25px;
 		//padding: 25px;
+
+		@media (max-width: 1200px) {
+			width: 65%;
+		}
+
+		@media (max-width: 768px) {
+			width: 100%;
+			margin: 0;
+		}
 
 		.file-container {
 			margin-top: 20px;
