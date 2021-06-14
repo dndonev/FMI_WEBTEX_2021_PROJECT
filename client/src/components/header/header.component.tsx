@@ -1,50 +1,74 @@
 import axios from 'axios';
 import { CallHistoryMethodAction, push } from 'connected-react-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { IResetToggles, IToggleUserInfo, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
+import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
+import { StoreState } from '../../redux/root-reducer';
 import { ILogoutError, ILogoutSucces, TUserReducerActions } from '../../redux/user/user.actions';
-import { UserActionTypes } from '../../redux/user/user.types';
+import { selectCurrentUser, selectRegisteredUser } from '../../redux/user/user.selectors';
+import { User, UserActionTypes } from '../../redux/user/user.types';
 import { headers } from '../login/login.types';
 import UserInfoComponent from '../user-info/userinfo.component';
 import './header.styles.scss';
 import { HeaderTypes } from './header.types';
 
-const HeaderComponent:React.FC<HeaderTypes> = ({...props}) => {
+const HeaderComponent: React.FC<HeaderTypes> = ({ ...props }) => {
 
-	const {logoutUserSuccessAction, logoutUserErrorAction, redirectToHome} = props;
-
+	const { currentUser, logoutUserSuccessAction, logoutUserErrorAction, redirectToHome, toggleUserInfoModalAction, resetTogglesModalAction, registeredUser } = props;
+	const [modalVisibillity, setModalVisibillity] = useState(true);
 	const handleLogout = () => {
-		const refreshToken = localStorage.getItem('refreshToken')
+		const refreshToken = sessionStorage.getItem('refreshToken')
 		return axios
-            .post('http://localhost:3001/api/auth/logout', {
-                token: refreshToken
-            }, {headers: headers})
-            .then((response: any) => {
+			.post('http://localhost:3001/api/auth/logout', {
+				token: refreshToken
+			}, { headers: headers })
+			.then((response: any) => {
 				logoutUserSuccessAction();
 				redirectToHome();
-            })
-            .catch((error: any) => {
+			})
+			.catch((error: any) => {
 				logoutUserErrorAction(error);
-				redirectToHome();
-            });
+			});
+	}
+
+	const handleOpenUserInfo = () => {
+		setModalVisibillity(false);
+		toggleUserInfoModalAction();
+	}
+
+	const handleClose = () => {
+		setModalVisibillity(true);
+		resetTogglesModalAction();
 	}
 	return (
-		<div className = "header">
-			<UserInfoComponent>
-				<button className="user-information" type="button">User information</button>
-			</UserInfoComponent>
-			<button className = "logout-button" type = "button" onClick={handleLogout}> log out </button>
-		</div>
+		<React.Fragment>
+			<div className="header">
+				<UserInfoComponent currentUser={currentUser} show={modalVisibillity} handleClose={handleClose} />
+				<button className="user-information" type="button" onClick={handleOpenUserInfo}>User information</button>
+				<button className="logout-button" type="button" onClick={handleLogout}> log out </button>
+			</div>
+		</React.Fragment>
+
 	);
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<TUserReducerActions | CallHistoryMethodAction>) => {
-    return {
-		logoutUserSuccessAction: () => dispatch<ILogoutSucces>({type: UserActionTypes.LogoutSuccess}),
-		logoutUserErrorAction: (data: string) => dispatch<ILogoutError>({type: UserActionTypes.LogoutError, data: data}),
-        redirectToHome: () => dispatch(push('/')),
-    };
+const mapStateToProps = (state: StoreState): { currentUser: User, registeredUser: boolean } => {
+	return {
+		currentUser: selectCurrentUser(state),
+		registeredUser: selectRegisteredUser(state)
+	}
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<TUserReducerActions | CallHistoryMethodAction | TModalReducerActions>) => {
+	return {
+		logoutUserSuccessAction: () => dispatch<ILogoutSucces>({ type: UserActionTypes.LogoutSuccess }),
+		logoutUserErrorAction: (data: string) => dispatch<ILogoutError>({ type: UserActionTypes.LogoutError, data: data }),
+		redirectToHome: () => dispatch(push('/')),
+		resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
+		toggleUserInfoModalAction: () => dispatch<IToggleUserInfo>({ type: ModalActionTypes.ToggleUserInfoModal })
+	};
 };
 
-export default connect(null,mapDispatchToProps)(HeaderComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);

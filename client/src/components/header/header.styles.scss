@@ -6,7 +6,7 @@
 	min-width: 250px;
 	padding: 20px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items: flex-end;
 	border-radius: 25px;
 	border-bottom: $container-border-bottom;
@@ -24,6 +24,7 @@
 		background-color: $button-color;
 		height: 2rem;
 		padding: 8px 3%;
+		margin-left: 5px;
 		font-family: $regular-text-font;
 		text-transform: capitalize;
 		color: $button-text-color;
@@ -61,4 +62,5 @@
 			background-color: $button-hover-color;
 		}
 	}
+	
 }

@@ -24,19 +24,22 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
 
     const [response, setResponseState] = useState("");
 
-    const handleLogin = (user: any) => {
+    const handleLogin = (user: User) => {
         return axios
             .post('http://localhost:3001/api/auth/login', {
                 email: user.email,
-                password: user.password
+                password: user.password,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                username: user.username
             }, { headers: headers })
             .then((response: any) => {
                 if (response.data) {
                     loginSuccessAction(user);
                     handleClose();
                     redirectToHome();
-                    localStorage.setItem('refreshToken', response.data.refreshToken);
-                    localStorage.setItem('accessToken', response.data.accessToken);
+                    sessionStorage.setItem('refreshToken', response.data.refreshToken);
+                    sessionStorage.setItem('accessToken', response.data.accessToken);
                     return response.data;
                 }
             })
@@ -53,7 +56,7 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
         },
         onSubmit: (values, { resetForm }) => {
             try {
-                const { email, password } = values;
+                const { email, password} = values;
                 handleLogin(values);
                 resetTogglesModalAction();
                 resetForm({});

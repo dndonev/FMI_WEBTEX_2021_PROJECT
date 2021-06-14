@@ -26,7 +26,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
         handleClose();
     }
 
-    const handleRegister = (newUser: any) => {
+    const handleRegister = (newUser: User) => {
         return axios
             .post('http://localhost:3001/api/auth/register', {
                 username: newUser.username,
@@ -36,10 +36,10 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
                 lastName: newUser.lastName
             }, { headers: headers })
             .then((response: any) => {
-                localStorage.setItem('refreshToken', response.data.refreshToken);
-                localStorage.setItem('accessToken', response.data.accessToken);
+                sessionStorage.setItem('refreshToken', response.data.refreshToken);
+                sessionStorage.setItem('accessToken', response.data.accessToken);
                 registerUserSuccess();
-                loginSuccessAction(newUser.email);
+                loginSuccessAction(newUser);
                 redirectToHome();
                 return response.data;
             })
