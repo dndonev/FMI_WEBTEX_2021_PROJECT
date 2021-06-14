@@ -28,7 +28,7 @@ const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
 	const headers = {
 		headers: {
 		  'Content-Type': 'application/json',
-		  'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+		  'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
 		}};
 
 	const getSharedDir = async () => {
@@ -63,9 +63,6 @@ const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
     return (
         <div className="main-files-container">
 			<h1>{directory.directoryName}</h1>
-            <div className="search-box-container">
-				<SearchBoxComponent />
-			</div>
 		    <div className="file-container">
 				{ renderSharedFiles }
 			</div>

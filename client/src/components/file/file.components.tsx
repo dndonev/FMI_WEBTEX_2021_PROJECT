@@ -37,7 +37,7 @@ const FileComponent: React.FC<FileComponentProps> = ({...props}) => {
 	
 
 	const downloadUrl = `http://localhost:3001/api/files/${file.fileName}/${file.id}`;
-	const token = localStorage.getItem('accessToken');
+	const token = sessionStorage.getItem('accessToken');
 
 	const headers = { 
 		headers: {

@@ -31,7 +31,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
 	const getRootDir = 'http://localhost:3001/api/directories/root';
 
-	const token = localStorage.getItem('accessToken');	
+	const token = sessionStorage.getItem('accessToken');	
 	
 	const headersDBUpload = { 
 		headers: {
