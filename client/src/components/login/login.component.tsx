@@ -26,7 +26,7 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
 
     const handleLogin = (user: User) => {
         return axios
-            .post('http://localhost:3001/api/auth/login', {
+            .post(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/login`, {
                 email: user.email,
                 password: user.password,
                 firstName: user.firstName,
@@ -56,7 +56,7 @@ const LoginComponent: React.FC<LoginModalProps> = ({ ...props }) => {
         },
         onSubmit: (values, { resetForm }) => {
             try {
-                const { email, password} = values;
+                const { email, password } = values;
                 handleLogin(values);
                 resetTogglesModalAction();
                 resetForm({});

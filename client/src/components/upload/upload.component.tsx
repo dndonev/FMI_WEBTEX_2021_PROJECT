@@ -24,28 +24,28 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
 		setFile(fileList[0]);
 		console.log(fileToUpload);
-		
+
 	}
 
-	const fileUploadURL = "http://localhost:3001/api/files/upload";
+	const fileUploadURL = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/files/upload`;
 
-	const getRootDir = 'http://localhost:3001/api/directories/root';
+	const getRootDir = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/directories/root`;
 
-	const token = sessionStorage.getItem('accessToken');	
-	
-	const headersDBUpload = { 
+	const token = sessionStorage.getItem('accessToken');
+
+	const headersDBUpload = {
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': `Bearer ${token}`
-		  }
-		};
+		}
+	};
 
-	const headersLocalUpload = { 
+	const headersLocalUpload = {
 		headers: {
 			'Content-Type': 'multipart/form-data',
 			'Authorization': `Bearer ${token}`
-		  }
-		};
+		}
+	};
 
 	const onSubmit = async () => {
 		const formData = new FormData();
@@ -55,51 +55,51 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 		let tempFile: File;
 		let uploadedFile: File;
 
-		try { 
+		try {
 			root = (await Axios.get<Directory>(getRootDir, headersDBUpload)).data;
-			
-			const nameSplit = filename.split('.');
-			const extention = nameSplit.splice(-1,1).pop();
 
-			tempFile = ( await Axios.post<File>(fileUploadURL, {
+			const nameSplit = filename.split('.');
+			const extention = nameSplit.splice(-1, 1).pop();
+
+			tempFile = (await Axios.post<File>(fileUploadURL, {
 				fileName: filename,
-				directoryId: root.id, 
+				directoryId: root.id,
 				extention: extention
 			}, headersDBUpload)).data;
 
 			let fileID = tempFile.id;
 
-			const fileUploadLocalURL = `http://localhost:3001/api/files/upload/${tempFile.id}`;
+			const fileUploadLocalURL = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/files/upload/${tempFile.id}`;
 
 			uploadedFile = await (await (Axios.post<File>(fileUploadLocalURL, formData, headersDBUpload))).data;
 		} catch (err) {
 			console.log(err);
-		}		
+		}
 	}
 
-    return (
-			<div className="upload-files-container">
-        		<div className="drop-files">
-					<div className="drop-logo">
-						<img src={logo} className='upload-image' />
-					</div>
-					<div className="file-status">
-						<label className="file-name-path">
-							{ filename }
+	return (
+		<div className="upload-files-container">
+			<div className="drop-files">
+				<div className="drop-logo">
+					<img src={logo} className='upload-image' />
+				</div>
+				<div className="file-status">
+					<label className="file-name-path">
+						{filename}
+					</label>
+				</div>
+				<div className="choose-file">
+					<input accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" type="file" id="file" onChange={onChange} hidden />
+					<label htmlFor='file' className="browse-button" id="file">
+						Choose file
 						</label>
-					</div>
-					<div className="choose-file">
-						<input accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" type="file" id="file" onChange={onChange} hidden/>
-						<label htmlFor='file' className="browse-button" id="file"> 
-							Choose file
-						</label>
-					</div>
-					<div className="file-upload">
-						<button className='upload-button' onClick={onSubmit}>Upload</button>
-					</div>
-               	</div>
+				</div>
+				<div className="file-upload">
+					<button className='upload-button' onClick={onSubmit}>Upload</button>
+				</div>
 			</div>
-    )
+		</div>
+	)
 }
 
 export default UploadComponent;

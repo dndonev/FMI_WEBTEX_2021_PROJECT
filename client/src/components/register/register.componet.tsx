@@ -28,7 +28,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ ...props }) => {
 
     const handleRegister = (newUser: User) => {
         return axios
-            .post('http://localhost:3001/api/auth/register', {
+            .post(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/register`, {
                 username: newUser.username,
                 email: newUser.email,
                 password: newUser.password,
