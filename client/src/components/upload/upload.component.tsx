@@ -6,52 +6,75 @@ import { File } from '../../interfaces/file';
 
 import './upload.styles.scss';
 import logo from '../../assets/upload-logo.png';
+import { Directory } from '../../interfaces/directory';
+import { headers } from '../login/login.types';
 
 const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
 	const { file } = props;
 
-	const [fileToBeUpload, setFile] = React.useState<any>({});
+	const [fileToUpload, setFile] = React.useState<any>({});
 	const [filename, setFileName] = useState('No file selected');
-	const [uploadedFile, setUploadedFile] = React.useState<any>({});
-	const [fileID, setFileID] = React.useState<any>({});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const fileList = e.target.files!;
 
-		setFile(fileList[0]);
-		console.log(file);
-		
 		setFileName(fileList[0].name);
 		console.log(filename);
+
+		setFile(fileList[0]);
+		console.log(fileToUpload);
+		
 	}
 
 	const fileUploadURL = "http://localhost:3001/api/files/upload";
 
-	const token = localStorage.getItem('accessToken');	
+	const getRootDir = 'http://localhost:3001/api/directories/root';
 
+	const token = localStorage.getItem('accessToken');	
+	
+	const headersDBUpload = { 
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		  }
+		};
+
+	const headersLocalUpload = { 
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			'Authorization': `Bearer ${token}`
+		  }
+		};
 
 	const onSubmit = async () => {
 		const formData = new FormData();
-		formData.append('file', fileToBeUpload);
+		formData.append('file', fileToUpload);
 
+		let root: Directory;
+		let tempFile: File;
+		let uploadedFile: File;
 
-		//const file = await Axios.post(fileUploadURL)
-		// Axios.post<File>(fileUploadURL, formData, {
-		// 		headers: {
-		// 			"Authorization": `Bearer ${token}`,
-		// 			"Content-Type": "multipart/form-data"
-		// 		}})
-		//     	.then(res => {
-		// 			const { fileName, directory, type} = res.data;
-		// 			setUploadedFile({ fileName, directory, type });
-		// 			console.log(res.data);
-		//     	})
-		//     	.catch(err => {
-		// 			if (err.status === 500) {
-		// 				console.log("Server error");
-		// 			}
-		//     	});
+		try { 
+			root = (await Axios.get<Directory>(getRootDir, headersDBUpload)).data;
+			
+			const nameSplit = filename.split('.');
+			const extention = nameSplit.splice(-1,1).pop();
+
+			tempFile = ( await Axios.post<File>(fileUploadURL, {
+				fileName: filename,
+				directoryId: root.id, 
+				extention: extention
+			}, headersDBUpload)).data;
+
+			let fileID = tempFile.id;
+
+			const fileUploadLocalURL = `http://localhost:3001/api/files/upload/${tempFile.id}`;
+
+			uploadedFile = await (await (Axios.post<File>(fileUploadLocalURL, formData, headersDBUpload))).data;
+		} catch (err) {
+			console.log(err);
+		}		
 	}
 
     return (
