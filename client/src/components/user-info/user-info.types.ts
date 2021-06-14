@@ -4,4 +4,5 @@ export interface UserInfoProps {
     currentUser: User;
     show: boolean;
     handleClose: () => void;
+    resetTogglesModalAction: () => void;
 }

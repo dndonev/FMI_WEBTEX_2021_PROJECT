@@ -9,12 +9,13 @@ import { User } from '../../redux/user/user.types';
 import { connect } from 'react-redux';
 import { UserInfoProps } from './user-info.types';
 import clsx from 'clsx';
-import { headers } from '../login/login.types';
-import { useFormik } from 'formik';
+import { Dispatch } from 'redux';
+import { IResetToggles, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
+import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
 
 
 const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
-    const { currentUser, show, handleClose } = props;
+    const { currentUser, show, handleClose, resetTogglesModalAction } = props;
     const token = sessionStorage.getItem('accessToken');
     const modalVisibilityClassName = show ? "modal display-none" : " modal display-block";
     const [userInfo, setUserInfo] = useState({
@@ -62,8 +63,7 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
                 firstName: userInfo.firstName
             }, { headers: { Authorization: 'Bearer ' + token } })
             .then((response: any) => {
-                handleClose();
-                setEditMode(true);
+                handleCloseModal();
             })
             .catch((error: any) => {
                 console.log(error)
@@ -101,6 +101,7 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
 
     const handleCloseModal = () => {
         handleClose();
+        resetTogglesModalAction();
         setEditMode(true);
     }
 
@@ -180,4 +181,10 @@ const mapStateToProps = (state: StoreState): { currentUser: User } => {
     }
 }
 
-export default connect(mapStateToProps, null)(UserInfoComponent);
+const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions>) => {
+    return {
+        resetTogglesModalAction: () => dispatch<IResetToggles>({ type: ModalActionTypes.ResetTogglesModal }),
+    };
+}; 
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserInfoComponent);

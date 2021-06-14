@@ -1,4 +1,4 @@
-@import '../../assets/variables';
+@import "../../assets/variables";
 
 .file-box {
 	min-height: 11em;
@@ -21,6 +21,17 @@
 	// border-right: $container-border-right;
 	// border-color: $button-hover-color;
 	cursor: pointer;
+
+	.icons {
+		display: none;
+	}
+
+	&:hover .icons {
+		display: block;
+		position: relative;
+		right: 45%;
+		font-size: 1.25rem;
+	}
 
 	&:hover {
 		background-color: lightblue;

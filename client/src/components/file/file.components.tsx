@@ -10,10 +10,26 @@ import imageLogo from '../../assets/image-file-logo.png'
 import pdfLogo from '../../assets/pdf-file-logo.png';
 import excelLogo from '../../assets/excel-file-logo.png';
 import presentationLogo from '../../assets/presentation-file-logo.png';
+import { FaShareAlt } from 'react-icons/fa';
 
 import { FileComponentProps } from './file.types';
+import { Dispatch } from 'redux';
+import { IToggleShareWithModal, TModalReducerActions } from '../../redux/modal-visibility/modal.action';
+import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
+import ShareWithModal from '../share-with/share-with.component'
+import { connect } from 'react-redux';
 
-const FileComponent: React.FC<FileComponentProps> = ({ ...props }) => {
+const FileComponent: React.FC<FileComponentProps> = ({ ...props}) => {
+
+	const [shareWithVisibility, setShareWithVisibility] = useState(true);
+
+	const handleOpenShareWithModal = () => {
+		setShareWithVisibility(false);
+	}
+
+	const handleClose = () => {
+		setShareWithVisibility(true);
+	}
 
 	const file = props;
 
@@ -63,6 +79,10 @@ const FileComponent: React.FC<FileComponentProps> = ({ ...props }) => {
 
 	return (
 		<div className="file-box" onClick={handleDownload}>
+			<ShareWithModal show={shareWithVisibility} handleClose={handleClose} fileId={file.id}/>
+			<div className='icons'>
+				<FaShareAlt onClick={handleOpenShareWithModal}/>
+			</div>
 			<img src={logo} className="file-image" />
 			<span className="file-name"><strong>{file.fileName.length > 10 ? file.fileName.substring(0, 10) + "..." : file.fileName}</strong></span>
 			{/* <span>{file.ownerId}</span> */}
@@ -70,4 +90,10 @@ const FileComponent: React.FC<FileComponentProps> = ({ ...props }) => {
 	);
 };
 
-export default FileComponent;
+const mapDispatchToProps = (dispatch: Dispatch<TModalReducerActions>) => {
+    return {
+        toggleShareWithModalAction: () => dispatch<IToggleShareWithModal>({ type: ModalActionTypes.ToggleShareWithModal }),
+    };
+}; 
+
+export default connect(null, mapDispatchToProps)(FileComponent);

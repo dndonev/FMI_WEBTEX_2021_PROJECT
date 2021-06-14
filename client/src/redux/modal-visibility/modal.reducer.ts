@@ -5,7 +5,8 @@ const InitialState: ModalState = {
     toggleLoginModal: false,
     toggleRegisterModal: false,
     toggleForgotPasswordModal: false,
-    toggleUserInfoModal: false
+    toggleUserInfoModal: false,
+    toggleShareWithModal: false
 };
 
 export const modalReducer = (state = InitialState, action: TModalReducerActions): ModalState => {
@@ -15,28 +16,40 @@ export const modalReducer = (state = InitialState, action: TModalReducerActions)
                 toggleRegisterModal: true,
                 toggleLoginModal: false,
                 toggleForgotPasswordModal: false,
-                toggleUserInfoModal: false
+                toggleUserInfoModal: false,
+                toggleShareWithModal: false
             };
         case ModalActionTypes.ToggleLoginModal:
             return {
                 toggleRegisterModal: false,
                 toggleLoginModal: true,
                 toggleForgotPasswordModal: false,
-                toggleUserInfoModal: false
+                toggleUserInfoModal: false,
+                toggleShareWithModal: false
             };
         case ModalActionTypes.ToggleForgotPasswordModal:
             return {
                 toggleRegisterModal: false,
                 toggleLoginModal: false,
                 toggleForgotPasswordModal: true,
-                toggleUserInfoModal: false
+                toggleUserInfoModal: false,
+                toggleShareWithModal: false
             }
         case ModalActionTypes.ToggleUserInfoModal:
             return {
                 toggleRegisterModal: false,
                 toggleLoginModal: false,
                 toggleForgotPasswordModal: false,
-                toggleUserInfoModal: true
+                toggleUserInfoModal: true,
+                toggleShareWithModal: false
+            }
+        case ModalActionTypes.ToggleShareWithModal:
+            return {
+                toggleRegisterModal: false,
+                toggleLoginModal: false,
+                toggleForgotPasswordModal: false,
+                toggleUserInfoModal: false,
+                toggleShareWithModal: true
             }
         case ModalActionTypes.ResetTogglesModal:
             return InitialState;

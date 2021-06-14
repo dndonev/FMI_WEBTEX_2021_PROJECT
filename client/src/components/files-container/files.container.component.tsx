@@ -3,8 +3,6 @@ import Axios from 'axios';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { StoreState } from './../../redux/root-reducer';
-
-import SearchBoxComponent from './../search-box/search-box.component';
 import FileComponent from './../file/file.components';
 
 import { FileContainerProps } from './files.types';
@@ -53,7 +51,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 			<FileComponent clicked={null}
 				fileName={file.fileName}
 				ownerId={file.ownerId}
-				extention={file.extention}
+				extention={file.extention!}
 				id={file.id}
 				directory={file.directory}
 				type={file.type}
