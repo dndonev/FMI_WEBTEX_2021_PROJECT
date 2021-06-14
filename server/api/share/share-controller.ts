@@ -42,9 +42,17 @@ shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest
 
     try {
         const userToShareTo = (await UserModel.findOne({email: emailToShareTo})).toJSON() as User;
+        if (!userToShareTo) {
+            return res.status(404).json({message: 'No such user'});
+        }
+
         const fileToShare = (await FileModel.findOne({id: fileId}));
+        if (!fileToShare) {
+            return res.status(404).json({message: 'No such file'});
+        }
+
         const shared = await DirectoryModel.findOneAndUpdate({ownerId: userToShareTo.id, isShared: true}, {$push: {files: fileToShare}});
- 
+
         return res.status(204).json(shared);
 
     } catch {
