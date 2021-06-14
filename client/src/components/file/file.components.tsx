@@ -25,7 +25,6 @@ const FileComponent: React.FC<FileComponentProps> = ({ ...props}) => {
 
 	const handleOpenShareWithModal = () => {
 		setShareWithVisibility(false);
-		//toggleShareWithModalAction();
 	}
 
 	const handleClose = () => {
@@ -80,7 +79,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ ...props}) => {
 
 	return (
 		<div className="file-box" onClick={handleDownload}>
-			<ShareWithModal show={shareWithVisibility} handleClose={handleClose}/>
+			<ShareWithModal show={shareWithVisibility} handleClose={handleClose} fileId={file.id}/>
 			<div className='icons'>
 				<FaShareAlt onClick={handleOpenShareWithModal}/>
 			</div>

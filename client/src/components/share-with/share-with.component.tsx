@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaCheck } from 'react-icons/fa';
 import { connect } from 'react-redux';
@@ -9,37 +9,53 @@ import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
 import { ShareWithProps } from './share-with.types';
 import './share-with.styles.scss'
 import axios from 'axios';
-import { headers } from '../login/login.types';
 
 const ShareWithModal: React.FC<ShareWithProps> = ({ ...props }) => {
 
-    const { handleClose, resetTogglesModalAction, show } = props;
+    const { handleClose, resetTogglesModalAction, show, fileId } = props;
     const modalVisibilityClassName = show ? "modal display-none" : " modal display-block";
 
     const [search, setSearch] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([])
+    const token = sessionStorage.getItem('accessToken')
 
     const handleCloseModal = () => {
         handleClose();
+        setSearch('')
         resetTogglesModalAction();
     }
 
-    const fetchUsers = (query: any)=>{
-        setSearch(query)
-        fetch('http://localhost:3001/api/share/:email',{
-          method:"post",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            query
-          })
-        }).then(res=>res.json())
-        .then(results=>{
-            setSelectedUsers(results.mapped)
-        })
-     }
+    const fetchUsers = (query: any) => {
+        return axios
+            .get(`http://localhost:3001/api/share/${query}`, { headers: { "Content-Type": "application/json", Authorization: 'Bearer ' + token } })
+            .then(results => {
+                setSelectedUsers(results.data)
+            })
+            .catch((error: any) => {
+                console.log(error);
+            })
+    }
 
+    const handleSelect = (event: any) => {
+        setSearch(event.target.value);
+    }
+
+
+    const handleShare = () => {
+        return axios
+        .post('http://localhost:3001/api/share/share', {
+            fileId: fileId,
+            email: search
+        }, {headers: { "Content-Type": "application/json", Authorization: 'Bearer ' + token }})
+        .then((response: any) => {
+            handleCloseModal();
+            return response.data;
+        })
+        .catch((error: any) => {
+            console.log(error);
+        })
+        
+    }
 
     return (
         <div className={clsx("login-container", modalVisibilityClassName)}>
@@ -55,15 +71,13 @@ const ShareWithModal: React.FC<ShareWithProps> = ({ ...props }) => {
                         value={search}
                         onChange={(e: any) => fetchUsers(e.target.value)}
                     />
-                    <ul className="collection">
+                    <div className="collection">
                         {selectedUsers.map((item: any) => {
-                            return <p><li >{item.mapped}</li></p>
+                            return <option onClick={handleSelect}>{item.email}</option>
                         })}
-
-                    </ul>
-                    <FaCheck className='done-icon' />
+                    </div>
                 </div>
-
+                <FaCheck className='done-icon' onClick={handleShare}/>
             </div>
         </div>
     )
