@@ -1,0 +1,4 @@
+{
+	"appService.defaultWebAppToDeploy": "/subscriptions/8e9584d6-41a7-4f88-bca6-1eb8901b82c9/resourceGroups/Team7/providers/Microsoft.Web/sites/PersonalCloud7",
+	"appService.deploySubpath": "."
+}
