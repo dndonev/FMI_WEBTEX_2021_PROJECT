@@ -99,11 +99,16 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
         }
     }
 
+    const handleCloseModal = () => {
+        handleClose();
+        setEditMode(true);
+    }
+
     return (
         <div className={clsx("login-container", modalVisibilityClassName)}>
 
             <div className="modal-body">
-                <AiFillCloseCircle className='close-button-user-info' onClick={handleClose} />
+                <AiFillCloseCircle className='close-button-user-info' onClick={handleCloseModal} />
                 <h2>User information</h2>
                 <div className="form">
                     <form onSubmit={() => handleSaveChanges}>
