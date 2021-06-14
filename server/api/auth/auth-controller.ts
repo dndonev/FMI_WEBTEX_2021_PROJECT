@@ -13,6 +13,8 @@ import { verifyToken } from '../../middleware/auth';
 
 const authController = Router();
 
+mongoose.set('useFindAndModify', false);
+
 authController.post('/token', async (req, res) => {
 	const token: string = req.body.token;
 
@@ -127,6 +129,12 @@ authController.get('/user-info', verifyToken, async (req: AuthenticatedUserReque
 		user
 	);
 });
+
+authController.post('/edit-user', verifyToken, async (req: AuthenticatedUserRequest, res) => {
+	 const editUser =  await (await UserModel.findOneAndUpdate({ email: req.user.email}, {email: req.body.email, username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName})).toJSON() as User;
+
+	 return res.status(200).json(editUser);
+})
 
 authController.get('/', async (req, res) => {
 	try {

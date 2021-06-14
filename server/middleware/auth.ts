@@ -6,7 +6,7 @@ export const verifyToken = (req: AuthenticatedUserRequest, res: Response, next: 
 	const authHeader = req.headers.authorization;
 	const token = authHeader && authHeader.split(' ').pop();
 	if (!token) {
-		return res.sendStatus(401);
+		return res.status(401).send('Invalid token format');
 	}
 
 	let user: User;

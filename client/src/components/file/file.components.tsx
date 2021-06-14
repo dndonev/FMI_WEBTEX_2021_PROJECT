@@ -59,6 +59,8 @@ const FileComponent: React.FC<FileComponentProps> = ({...props}) => {
 		}	
 	}
 
+	const onClick = file.clicked;
+
     return (
 		<div className="file-box" onClick={handleDownload}>
 			<img src={ logo } className="file-image" />

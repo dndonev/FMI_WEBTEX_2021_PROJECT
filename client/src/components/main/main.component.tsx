@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import Axios from 'axios';
-import {File} from'../../../../server/interfaces/file';
+import React from 'react';
 import './main.styles.scss';
 
 import SideBarComponent from './../sidebar/sidebar.component';
 import HeaderComponent from './../header/header.component';
 import FileContainerComponent from '../files-container/files.container.component';
 import UploadComponent from '../upload/upload.component';
-// import SharedComponent from '../shared/shared.component';
+import SharedComponent from '../shared/shared.component';
 
 import { IToggleUpload, IToggleMyFiles, TComponentReducerActions, IToggleShared } from './../../redux/component-visibility/component.action';
 import { ComponentActionTypes } from './../../redux/component-visibility/component.types';
@@ -41,16 +39,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 	}
 
 	if (toggleSharedComponent) {
-		// showSelectedComponent = 
-		// <SharedComponent
-		// 	fileName={ file.fileName }
-		// 	ownerId={ file.ownerId }
-		// 	directory={ file.directory }
-		// 	created={ file.created }
-		// 	extention={ file.extention }
-		// 	type={ file.type }
-		// 	id={ file.id }
-		// />
+		showSelectedComponent = <SharedComponent />
 	}
 
 	return (
