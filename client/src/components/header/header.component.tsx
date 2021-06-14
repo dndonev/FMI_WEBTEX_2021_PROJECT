@@ -26,6 +26,7 @@ const HeaderComponent: React.FC<HeaderTypes> = ({ ...props }) => {
 			}, { headers: headers })
 			.then((response: any) => {
 				logoutUserSuccessAction();
+				sessionStorage.clear();
 				redirectToHome();
 			})
 			.catch((error: any) => {
@@ -45,7 +46,7 @@ const HeaderComponent: React.FC<HeaderTypes> = ({ ...props }) => {
 	return (
 		<React.Fragment>
 			<div className="header">
-				<UserInfoComponent currentUser={currentUser} show={modalVisibillity} handleClose={handleClose} />
+				<UserInfoComponent  show={modalVisibillity} handleClose={handleClose} />
 				<button className="user-information" type="button" onClick={handleOpenUserInfo}>User information</button>
 				<button className="logout-button" type="button" onClick={handleLogout}> log out </button>
 			</div>

@@ -8,7 +8,7 @@ import { UserModel } from '../../models/user.model';
 
 const shareController = Router();
 
-shareController.get('/:email', verifyToken, async (req: AuthenticatedUserRequest, res) => {
+shareController.post('/:email', verifyToken, async (req: AuthenticatedUserRequest, res) => {
     const email: string = req.params.email;
 
     if (!email && email === '') {
