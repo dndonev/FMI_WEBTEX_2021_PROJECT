@@ -9,6 +9,8 @@ export interface Directory extends NewDirectory {
 	parent: Directory;
 	children: Directory[];
 	files: File[];
-	owner: string;
+	ownerId: string;
 	isRoot: boolean;
+	created: Date;
+	type: string;
 }

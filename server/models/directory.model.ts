@@ -22,6 +22,11 @@ const directorySchema = new Schema({
         required: true,
         default: false
     },
+    isShared: {
+        type: Schema.Types.Boolean,
+        required: true,
+        default: false
+    },
     type: {
         type: Schema.Types.String,
         required: true,

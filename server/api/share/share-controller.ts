@@ -41,11 +41,11 @@ shareController.post('/share', verifyToken, async (req: AuthenticatedUserRequest
     }
 
     try {
-        const user = (await UserModel.findOne({email: emailToShareTo})).toJSON() as User;
-
-        await FileModel.findOneAndUpdate({id: fileId}, {$push: { sharedToIds: user.id }});
-
-        return res.sendStatus(204);
+        const userToShareTo = (await UserModel.findOne({email: emailToShareTo})).toJSON() as User;
+        const fileToShare = (await FileModel.findOne({id: fileId}));
+        const shared = await DirectoryModel.findOneAndUpdate({ownerId: userToShareTo.id, isShared: true}, {$push: {files: fileToShare}});
+ 
+        return res.status(204).json(shared);
 
     } catch {
         return res.status(500).json({error: 'There was an error sharing your file'});
