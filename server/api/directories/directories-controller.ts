@@ -57,7 +57,7 @@ directoriesController.post('/root', verifyToken, async (req: AuthenticatedUserRe
         parent: null,
         children: [],
         isRoot: true,
-        directoryName: 'root',
+        directoryName: 'Root',
         files: [],
         filesCount: 0
     });
