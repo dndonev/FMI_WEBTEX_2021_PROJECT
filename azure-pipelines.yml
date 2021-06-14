@@ -36,9 +36,13 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        npm install
         cd client
+        npm install
         npm run build
+        cd ..
+        cd server
+        npm install
+        npm run startprod
       displayName: 'npm install, build '
 
     - task: ArchiveFiles@2
