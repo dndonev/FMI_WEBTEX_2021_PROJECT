@@ -39,9 +39,6 @@ stages:
         npm install
         cd client
         npm run build
-        cd ..
-        cd server
-        npm run startprod
       displayName: 'npm install, build '
 
     - task: ArchiveFiles@2
@@ -78,4 +75,4 @@ stages:
               appName: $(webAppName)
               runtimeStack: 'NODE|10.10'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'npm run start'
+              startUpCommand: 'npm run startprod'
