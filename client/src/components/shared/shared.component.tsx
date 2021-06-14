@@ -1,4 +1,4 @@
-import React, { useState, useEffect}from 'react';
+import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import SearchBoxComponent from './../search-box/search-box.component';
 import FileComponent from './../file/file.components';
@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
-	
-	const { 
+
+	const {
 		getSharedDirectoryAction,
 		getSharedDirectoryActionSuccess,
 		getSharedDirectoryActionError,
@@ -24,12 +24,13 @@ const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
 		files
 	} = props;
 
-	const getSharedDirUrl = 'http://localhost:3001/api/directories/shared-with-me';
+	const getSharedDirUrl = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/directories/shared-with-me`;
 	const headers = {
 		headers: {
-		  'Content-Type': 'application/json',
-		  'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
-		}};
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+		}
+	};
 
 	const getSharedDir = async () => {
 		let root: Directory;
@@ -49,25 +50,25 @@ const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
 	const renderSharedFiles = files && files.length && files.map((file: File) => {
 		return (
 			<FileComponent clicked={null}
-				fileName={ file.fileName }
-				ownerId={ file.ownerId}
-				extention={ file.extention }
-				id={ file.id}
-				directory={ file.directory }
-				type={ file.type }
-				created={ file.created}
+				fileName={file.fileName}
+				ownerId={file.ownerId}
+				extention={file.extention}
+				id={file.id}
+				directory={file.directory}
+				type={file.type}
+				created={file.created}
 			/>
 		)
 	});
 
-    return (
-        <div className="main-files-container">
+	return (
+		<div className="main-files-container">
 			<h1>{directory.directoryName}</h1>
-		    <div className="file-container">
-				{ renderSharedFiles }
+			<div className="file-container">
+				{renderSharedFiles}
 			</div>
-        </div>
-    )
+		</div>
+	)
 }
 
 const mapStateToProps = (state: StoreState): SharedDirectoryState => {
@@ -83,7 +84,7 @@ const mapDispatchToComponentProps = (dispatch: Dispatch<TSharedDirectoryReducerA
 	return {
 		getSharedDirectoryAction: () => dispatch<ISharedDirectory>({ type: SharedDirectoryActionTypes.GetSharedDirectory }),
 		getSharedDirectoryActionSuccess: (data: Directory) => dispatch<ISharedDirectorySuccess>({ type: SharedDirectoryActionTypes.GetSharedDirectorySuccess, data: data }),
-		getSharedDirectoryActionError: () => dispatch<ISharedDirectoryError>({ type: SharedDirectoryActionTypes.GetSharedDirectoryError})
+		getSharedDirectoryActionError: () => dispatch<ISharedDirectoryError>({ type: SharedDirectoryActionTypes.GetSharedDirectoryError })
 	}
 }
 
