@@ -1,5 +1,4 @@
-import { File } from '../../../../server/interfaces/file';
-
+import { File } from './../../interfaces/file';
 export interface MainComponentProps {
     toggleUploadComponent: boolean;
     toggleMyFilesComponent: boolean;
@@ -9,8 +8,5 @@ export interface MainComponentProps {
     toggleMyFilesAction: () => void;
     toggleSharedAction: () => void;
 
-    fileName: string;
-	location: string;
-	created: Date;
-	ownerId: string;
+    file: File;
 }

@@ -1,48 +1,68 @@
 import React, { useState, useEffect}from 'react';
 import Axios from 'axios';
-
 import SearchBoxComponent from './../search-box/search-box.component';
 import FileComponent from './../file/file.components';
 
-import { File } from'../../../../server/interfaces/file';
-import { FileContainerProps } from './../files-container/files.types';
+import { Directory } from '../../interfaces/directory';
+import { File } from '../../interfaces/file';
+import { SharedContainerProps } from './shared.types';
+import { StoreState } from '../../redux/root-reducer';
+import { SharedDirectoryActionTypes, SharedDirectoryState } from '../../redux/shared-directory/shared-directory.types';
+import { selectChildDirectories, selectCurrentDirectory, selectDirectoryFiles } from '../../redux/shared-directory/shared-directory.selectors';
+import { ISharedDirectory, ISharedDirectoryError, ISharedDirectorySuccess, TSharedDirectoryReducerActions } from '../../redux/shared-directory/shared-directory.actions';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-const SharedComponent: React.FC<FileContainerProps> = ({ ...props }) => {
+const SharedComponent: React.FC<SharedContainerProps> = ({ ...props }) => {
 	
-	const [files, setFiles]: [FileContainerProps[], (files: FileContainerProps[]) => void] = React.useState<FileContainerProps[]>([]);
+	const { 
+		getSharedDirectoryAction,
+		getSharedDirectoryActionSuccess,
+		getSharedDirectoryActionError,
+		directory,
+		childDirectories,
+		files
+	} = props;
 
-	const [error, setError]: [string, (error: string) => void] = React.useState("");
+	const getSharedDirUrl = 'http://localhost:3001/api/directories/shared-with-me';
+	const headers = {
+		headers: {
+		  'Content-Type': 'application/json',
+		  'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+		}};
 
-	const sharedFilesUrl = "http://localhost:3001/api/files/";
-
-	const getSharedFiles = () => {
-		Axios.get<FileContainerProps[]>(sharedFilesUrl, {
-			headers: {
-			  "Content-Type": "application/json"
-			}})
-			.then((res) => {
-				console.log(res.data);
-                setFiles(res.data);
-			})
-			.catch(err => {
-				const error = err.response.status === 404 ? "Source not found" : "Unexpected error";
-				setError(error);
-			})
+	const getSharedDir = async () => {
+		let root: Directory;
+		try {
+			getSharedDirectoryAction();
+			root = (await Axios.post<Directory>(getSharedDirUrl, {}, headers)).data;
+			getSharedDirectoryActionSuccess(root);
+		} catch (e) {
+			getSharedDirectoryActionError();
+		}
 	}
 
-	React.useEffect(() => {
-		getSharedFiles();
+	useEffect(() => {
+		getSharedDir();
 	}, []);
 
-
-	const renderSharedFiles = files.length && files.map(file => {
+	const renderSharedFiles = files && files.length && files.map((file: File) => {
 		return (
-		    <FileComponent file={file}/>
+			<FileComponent clicked={null}
+				fileName={ file.fileName }
+				ownerId={ file.ownerId}
+				extention={ file.extention }
+				id={ file.id}
+				directory={ file.directory }
+				type={ file.type }
+				created={ file.created}
+			/>
 		)
-	})
+	});
 
     return (
         <div className="main-files-container">
+			<h1>{directory.directoryName}</h1>
             <div className="search-box-container">
 				<SearchBoxComponent />
 			</div>
@@ -53,4 +73,21 @@ const SharedComponent: React.FC<FileContainerProps> = ({ ...props }) => {
     )
 }
 
-export default SharedComponent;
+const mapStateToProps = (state: StoreState): SharedDirectoryState => {
+	return {
+		files: selectDirectoryFiles(state),
+		childDirectories: selectChildDirectories(state),
+		directory: selectCurrentDirectory(state)
+	};
+};
+
+
+const mapDispatchToComponentProps = (dispatch: Dispatch<TSharedDirectoryReducerActions>) => {
+	return {
+		getSharedDirectoryAction: () => dispatch<ISharedDirectory>({ type: SharedDirectoryActionTypes.GetSharedDirectory }),
+		getSharedDirectoryActionSuccess: (data: Directory) => dispatch<ISharedDirectorySuccess>({ type: SharedDirectoryActionTypes.GetSharedDirectorySuccess, data: data }),
+		getSharedDirectoryActionError: () => dispatch<ISharedDirectoryError>({ type: SharedDirectoryActionTypes.GetSharedDirectoryError})
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToComponentProps)(SharedComponent);

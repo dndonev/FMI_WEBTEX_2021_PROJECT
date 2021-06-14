@@ -136,4 +136,13 @@ authController.post('/edit-user', verifyToken, async (req: AuthenticatedUserRequ
 	 return res.status(200).json(editUser);
 })
 
+authController.get('/', async (req, res) => {
+	try {
+		const allFiles = await UserModel.find();
+		res.status(200).json(allFiles);
+	} catch (err) { 
+		res.status(404).json({ message: err });
+	}
+})
+
 export default authController;

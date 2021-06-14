@@ -1,17 +1,59 @@
-
 import { Router } from 'express'
+import fileUpload, {UploadedFile} from 'express-fileupload'
+
 import mongoose from 'mongoose'
+
 import { AuthenticatedUserRequest } from '../../interfaces/user';
 import { verifyToken } from '../../middleware/auth';
+
 import { DirectoryModel } from '../../models/directory.model';
 import { FileModel } from '../../models/file.model';
 
+import { join, resolve } from 'path';
+
 const filesController = Router();
+
+filesController.post('/upload/:fileId', verifyToken, fileUpload(), async (req: AuthenticatedUserRequest, res) => {
+	const uploadedFile = req.files.file as UploadedFile;
+	const fileId = req.params.fileId;
+	const nameSplit = uploadedFile.name.split('.');
+
+	const extention = nameSplit.splice(-1,1).pop();
+	const fileName = nameSplit.join('.');
+
+	const downloadPath = join(resolve(), 'upload-files', `${fileName}-${fileId}.${extention}`);
+
+	try {
+		uploadedFile.mv(downloadPath, (err) => {
+			if (err) {
+				return res.status(500).json(err);
+			}
+			return res.status(204).json({ 
+				fileName: uploadedFile.name
+			});
+		})
+	} catch (e) {
+		return res.status(500).json({message: 'There was an error uploading your file'})
+	}
+});
+
+filesController.get('/:fileName/:fileId', verifyToken, (req: AuthenticatedUserRequest, res) => {
+
+	const {fileName, fileId}= req.params;
+	const nameSplit = fileName.split('.');
+
+	const extention = nameSplit.splice(-1,1).pop();
+	const fileNameWithoutExtention = nameSplit.join('.');
+
+	const filePath = join(resolve(), 'upload-files', `${fileNameWithoutExtention}-${fileId}.${extention}`);
+	res.download(filePath);
+});
 
 // Upload new file
 filesController.post('/upload', verifyToken, async (req: AuthenticatedUserRequest, res) => {
 	const ownerId = req.user.id;
 	const directoryId = req.body.directoryId;
+	const extention = req.body.extention;
 	const directory = await DirectoryModel.findOne({ id: directoryId });
 	if (!directory) {
 		return res.status(404).json({error: 'No such directory'});
@@ -21,14 +63,15 @@ filesController.post('/upload', verifyToken, async (req: AuthenticatedUserReques
 		id: new mongoose.Types.ObjectId(),
 		fileName: req.body.fileName,
 		directory: directoryId,
-		ownerId
+		ownerId,
+		extention 
 	});
 
 	const validation = file.validateSync();
 	if (validation) {
 		return res.status(400).json(validation);
-	}
-	
+	} 
+
 	try {
 		const savedFile = await file.save();
 		await directory.updateOne({$push: { files: savedFile } });

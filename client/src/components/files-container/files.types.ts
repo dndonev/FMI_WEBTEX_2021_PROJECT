@@ -1,8 +1,7 @@
-import { File } from '../../../../server/interfaces/file';
-
-export interface FileContainerProps {
-    fileName: string;
-	location: string;
-	created: Date;
-	ownerId: string;
+import { Directory } from '../../interfaces/directory';
+import { DirectoryState } from '../../redux/directory/directory.types';
+export interface FileContainerProps extends DirectoryState {
+    getCurrentDirectoryAction: () => void;
+    getCurrentDirectoryActionSuccess: (directory: Directory) => void;
+    getCurrentDirectoryActionError: () => void;
 }

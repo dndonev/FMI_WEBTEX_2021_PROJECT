@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import Axios from 'axios';
-import {File} from'../../../../server/interfaces/file';
+import React from 'react';
 import './main.styles.scss';
 
 import SideBarComponent from './../sidebar/sidebar.component';
@@ -21,20 +19,27 @@ import { StoreState } from '../../redux/root-reducer';
 
 const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 
-	const { toggleUploadComponent, toggleMyFilesComponent, toggleSharedComponent, fileName, location, created, ownerId} = props;
+	const {
+		toggleUploadComponent,
+		toggleMyFilesComponent,
+		toggleSharedComponent,
+		file,
+	} = props;
 
 	let showSelectedComponent;
 
 	if (toggleMyFilesComponent) {
-		showSelectedComponent = <FileContainerComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />;
+		showSelectedComponent = 
+			<FileContainerComponent />;
 	}
 
 	if (toggleUploadComponent) {
-		showSelectedComponent = <UploadComponent />;
+		showSelectedComponent = 
+			<UploadComponent file={ file }/>;
 	}
 
 	if (toggleSharedComponent) {
-		showSelectedComponent = <SharedComponent fileName={ fileName } ownerId={ ownerId } location={ location } created={ created } />
+		showSelectedComponent = <SharedComponent />
 	}
 
 	return (
@@ -45,7 +50,7 @@ const MainComponent: React.FC<MainComponentProps> = ({ ...props }) => {
 					<SideBarComponent/>
 				</div>
 				<div className="files-container">
-					{showSelectedComponent}
+					{ showSelectedComponent }
 				</div>
 
 			</div>
