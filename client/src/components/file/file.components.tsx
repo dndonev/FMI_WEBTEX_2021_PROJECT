@@ -53,7 +53,7 @@ const FileComponent: React.FC<FileComponentProps> = ({ ...props}) => {
 	}
 
 
-	const downloadUrl = `http://localhost:3001/api/files/${file.fileName}/${file.id}`;
+	const downloadUrl = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/files/${file.fileName}/${file.id}`;
 	const token = sessionStorage.getItem('accessToken');
 
 	const headers = {

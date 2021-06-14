@@ -9,13 +9,13 @@ trigger:
 variables:
 
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'e07a0423-144b-4f89-b2a1-5d1042f95531'
+  azureSubscription: '15ef018a-27b8-4780-9f76-4207a92d4a55'
 
   # Web app name
-  webAppName: 'PersonalCloud7'
+  webAppName: 'PersonalCloud'
 
   # Environment name
-  environmentName: 'PersonalCloud7'
+  environmentName: 'production'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -37,14 +37,14 @@ stages:
 
     - script: |
         npm install
-        npm run build --if-present
-        npm run test --if-present
-      displayName: 'npm install, build and test'
+        cd client
+        npm run build
+      displayName: 'npm install, build '
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/server'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
         includeRootFolder: false
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -68,11 +68,11 @@ stages:
         deploy:
           steps:
           - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: PersonalCloud7'
+            displayName: 'Azure Web App Deploy: '
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
               appName: $(webAppName)
               runtimeStack: 'NODE|10.10'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'npm run start'
+              startUpCommand: 'npm run startprod'

@@ -21,7 +21,7 @@ const HeaderComponent: React.FC<HeaderTypes> = ({ ...props }) => {
 	const handleLogout = () => {
 		const refreshToken = sessionStorage.getItem('refreshToken')
 		return axios
-			.post('http://localhost:3001/api/auth/logout', {
+			.post(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/logout`, {
 				token: refreshToken
 			}, { headers: headers })
 			.then((response: any) => {

@@ -30,7 +30,7 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
 
     useEffect(() => {
         if (currentUser.email !== undefined) {
-            axios.get('http://localhost:3001/api/auth/user-info', { headers: { Authorization: 'Bearer ' + token } })
+            axios.get(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/user-info`, { headers: { Authorization: 'Bearer ' + token } })
                 .then((res) => {
                     const { username, firstName, lastName, email } = res.data;
                     const user = { username, firstName, lastName, email };
@@ -44,7 +44,7 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
 
     useEffect(() => {
         if (currentUser.email !== undefined) {
-            axios.get('http://localhost:3001/api/statistics/files', { headers: { Authorization: 'Bearer ' + token } })
+            axios.get(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/statistics/files`, { headers: { Authorization: 'Bearer ' + token } })
                 .then((res) => {
                     setUploadedFiles(res.data.filesCount)
                 })
@@ -56,12 +56,12 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
 
     const handleSaveChanges = () => {
         return axios
-            .post('http://localhost:3001/api/auth/edit-user', {
+            .post(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/edit-user`, {
                 email: userInfo.email,
                 username: userInfo.username,
                 lastName: userInfo.lastName,
                 firstName: userInfo.firstName
-            }, { headers: { Authorization: 'Bearer ' + token} })
+            }, { headers: { Authorization: 'Bearer ' + token } })
             .then((response: any) => {
                 handleCloseModal();
             })
@@ -73,25 +73,25 @@ const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
     const handleChange = (event: any, valueCorrectType: any, fieldName: string) => {
         event.preventDefault();
 
-        if(fieldName === 'email') {
+        if (fieldName === 'email') {
             setUserInfo({
                 ...userInfo,
                 email: valueCorrectType
             })
         }
-        else if(fieldName === 'username') {
+        else if (fieldName === 'username') {
             setUserInfo({
                 ...userInfo,
                 username: valueCorrectType
             })
         }
-        else if(fieldName === 'firstName') {
+        else if (fieldName === 'firstName') {
             setUserInfo({
                 ...userInfo,
                 firstName: valueCorrectType
             })
         }
-        else if(fieldName === 'lastName') {
+        else if (fieldName === 'lastName') {
             setUserInfo({
                 ...userInfo,
                 lastName: valueCorrectType

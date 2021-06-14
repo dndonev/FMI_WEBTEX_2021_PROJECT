@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon",
-    "startdev": "tsc && node dist/index.js",
+    "startprod": "tsc && node dist/index.js",
+    "sheeeeesh": "test-deploy",
     "build": "tsc --build"
   },
   "author": "TEAM7",

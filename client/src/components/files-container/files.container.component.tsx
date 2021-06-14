@@ -23,7 +23,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 		files
 	} = props;
 
-	const getRootDir = 'http://localhost:3001/api/directories/root';
+	const getRootDir = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/directories/root`;
 	const headers = {
 		headers: {
 			'Content-Type': 'application/json',
