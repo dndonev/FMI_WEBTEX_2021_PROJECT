@@ -31,7 +31,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
 	const getRootDir = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/directories/root`;
 
-	const token = sessionStorage.getItem('accessToken');
+	const token = localStorage.getItem('accessToken');
 
 	const headersDBUpload = {
 		headers: {
@@ -56,7 +56,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 		let uploadedFile: File;
 
 		try {
-			root = (await Axios.get<Directory>(getRootDir, headersDBUpload)).data;
+			root = (await Axios.post<Directory>(getRootDir,{}, headersDBUpload)).data;
 
 			const nameSplit = filename.split('.');
 			const extention = nameSplit.splice(-1, 1).pop();
@@ -71,7 +71,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 
 			const fileUploadLocalURL = `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/files/upload/${tempFile.id}`;
 
-			uploadedFile = await (await (Axios.post<File>(fileUploadLocalURL, formData, headersDBUpload))).data;
+			uploadedFile = await (await (Axios.post<File>(fileUploadLocalURL, formData, headersLocalUpload))).data;
 		} catch (err) {
 			console.log(err);
 		}

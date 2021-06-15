@@ -17,7 +17,7 @@ const ShareWithModal: React.FC<ShareWithProps> = ({ ...props }) => {
 
     const [search, setSearch] = useState('');
     const [selectedUsers, setSelectedUsers] = useState([])
-    const token = sessionStorage.getItem('accessToken')
+    const token = localStorage.getItem('accessToken')
 
     const handleCloseModal = () => {
         handleClose();

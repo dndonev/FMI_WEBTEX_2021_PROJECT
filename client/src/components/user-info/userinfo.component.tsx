@@ -16,7 +16,7 @@ import { ModalActionTypes } from '../../redux/modal-visibility/modal.types';
 
 const UserInfoComponent: React.FC<UserInfoProps> = ({ ...props }) => {
     const { currentUser, show, handleClose, resetTogglesModalAction } = props;
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     const modalVisibilityClassName = show ? "modal display-none" : " modal display-block";
     const [userInfo, setUserInfo] = useState({
         username: '',

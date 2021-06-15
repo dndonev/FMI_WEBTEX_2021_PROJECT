@@ -19,14 +19,14 @@ const HeaderComponent: React.FC<HeaderTypes> = ({ ...props }) => {
 	const { currentUser, logoutUserSuccessAction, logoutUserErrorAction, redirectToHome, toggleUserInfoModalAction, resetTogglesModalAction, registeredUser } = props;
 	const [modalVisibillity, setModalVisibillity] = useState(true);
 	const handleLogout = () => {
-		const refreshToken = sessionStorage.getItem('refreshToken')
+		const refreshToken = localStorage.getItem('refreshToken')
 		return axios
 			.post(`${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : 'http://localhost:3001'}/api/auth/logout`, {
 				token: refreshToken
 			}, { headers: headers })
 			.then((response: any) => {
 				logoutUserSuccessAction();
-				sessionStorage.clear();
+				localStorage.clear();
 				redirectToHome();
 			})
 			.catch((error: any) => {

@@ -27,7 +27,7 @@ const FilesContainerComponent: React.FC<FileContainerProps> = ({ ...props }) => 
 	const headers = {
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+			'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
 		}
 	};
 
