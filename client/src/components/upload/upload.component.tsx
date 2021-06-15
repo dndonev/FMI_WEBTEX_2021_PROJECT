@@ -56,7 +56,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ ...props }) => {
 		let uploadedFile: File;
 
 		try {
-			root = (await Axios.get<Directory>(getRootDir, headersDBUpload)).data;
+			root = (await Axios.post<Directory>(getRootDir, {}, headersDBUpload)).data;
 
 			const nameSplit = filename.split('.');
 			const extention = nameSplit.splice(-1, 1).pop();
